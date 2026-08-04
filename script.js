@@ -5,13 +5,13 @@ const video2 = document.getElementById("scroll-video2");
 
 function initTimeline() {
     // Esconde a Seção 5 no estado inicial para não sobrepor nada
-    gsap.set(".secao5", { opacity: 0, yPercent: 100 });
+    gsap.set(".secao5", { opacity: 0, yPercent: 30 });
 
     const tl = gsap.timeline({
         scrollTrigger: {
             trigger: ".containerPai",
             start: "top top",
-            end: "+=26000",
+            end: "+=20000",
             scrub: 1,
             markers: true,
             pin: true,
@@ -62,7 +62,7 @@ function initTimeline() {
     tl.to(
         ".secao4",
         {
-            backgroundColor: "rgba(0, 0, 0, 0.95)",
+            backgroundColor: "rgba(0, 0, 0, 0)",
             duration: 1,
             ease: "power1.in",
         },
@@ -87,12 +87,12 @@ function initTimeline() {
     // Movimento continuo de parallax na Seção 4
     tl.to(".coluna-parallax", {
         yPercent: -130,
-        duration: 2,
+        duration: 3,
         ease: "none",
     });
     tl.to(
         ".jason-content",
-        { yPercent: -100, duration: 2, ease: "power1.inOut" },
+        { yPercent: -100, duration: 3, ease: "power1.inOut" },
         "<",
     );
 
@@ -105,31 +105,62 @@ function initTimeline() {
 
     // B) Entrada da Seção 5 (Aparece subindo e com opacity gradual)
     tl.to(
-        ".secao5",
+        ".secao5 ",
         {
             yPercent: 0,
             opacity: 1,
             duration: 2,
-            ease: "none",
+            ease: "power2.InOut",
         },
-        "<",
+
+        "<+=0.5",
     ); // Executa junto com a saída da Seção 4
 
     // C) Execução do Vídeo 2 no Scroll
-    tl.to(video2, {
-        currentTime: video2.duration || 1,
-        duration: 5,
-        ease: "none",
-    });
+    tl.to(
+        video2,
+        {
+            currentTime: video2.duration || 1,
+            duration: 5,
+            ease: "power2.InOut",
+        },
+        "<+=1",
+    );
 
     // D) Saída Final do Vídeo 2
     tl.to("#scroll-video2", {
-        scale: 1.05,
-        filter: "blur(10px)",
         opacity: 0,
+        duration: 1,
+        ease: "power2.Inout",
+    }, "<+=2");
+    
+    // Entrada das colunas da Seção 4
+    tl.fromTo(
+        ".lucia-content",
+        { yPercent: 180, opacity: 0 },
+        { yPercent: 0, opacity: 1, duration: 2, ease: "power1.out" },
+        "<-=0.5",
+    );
+
+    tl.fromTo(
+        ".coluna-parallax2",
+        { yPercent: 350, opacity: 1 },
+        { yPercent: 0, opacity: 1, duration: 2, ease: "power1.out" },
+        "<+=-0.5",
+    );
+
+    // Movimento continuo de parallax na Seção 4
+    tl.to(".coluna-parallax2", {
+        yPercent: -100,
         duration: 2,
-        ease: "power1.in",
-    });
+        ease: "none",
+    }, "-=1.5");
+    tl.to(
+        ".lucia-content",
+        { yPercent: -100, duration: 2, ease: "none" },
+        "<",
+    );
+
 }
 
 // Garantir carregamento dos metadados dos vídeos
