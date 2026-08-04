@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>GTA VI</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <main class="containerPai">
+            <section id="hero" class="secao1">
+                <img class="bg1" src="img/hero-bg.webp" alt="" />
+                <img class="LogoBg" src="img/hero-text.webp" alt="" />
+                <div class="secBrac"></div>
+            </section>
+            <section class="secao2">
+                <img class="bg2" src="img/logo.webp" alt="" />
+            </section>
+            <section class="secao3">
+                <video
+                    id="scroll-video"
+                    src="video/output1.mp4"
+                    playsinline
+                    muted
+                    preload="auto"
+                ></video>
+            </section>
+            <section id="JasonDuval" class="secao4 parallax-section">
+                <!-- Coluna 1: Conteúdo Estático (Texto + Imagem de Portal) -->
+                <div class="coluna jason-content card-texto">
+                    <h1>Jason Duval</h1>
+                    <h2>
+                        Jason wants an easy life, but things just keep getting
+                        harder.
+                    </h2>
+                    <p>
+                        Jason grew up around grifters and crooks. After a stint
+                        in the Army trying to shake off his troubled teens, he
+                        found himself in the Keys doing what he knows best,
+                        working for local drug runners. It might be time to try
+                        something new.
+                    </p>
+
+                    <!-- Imagem 2 (Formato de Portal / Retângulo Alto com topo arredondado) -->
+                    <div class="jason-2 img-portal">
+                        <img src="img/jason-2.webp" alt="Jason Duval" />
+                    </div>
+                </div>
+
+                <!-- Coluna 2: Coluna com Parallax (Quadrado + Retângulo) -->
+                <div class="coluna coluna-parallax">
+                    <!-- Imagem 1 (Formato Quadrado) -->
+                    <div class="jason-1 img-quadrada">
+                        <img src="img/jason-1.webp" alt="Jason Duval" />
+                    </div>
+
+                    <!-- Imagem 3 (Formato Retangular Lado Aberto) -->
+                    <div class="jason-3 img-retangular">
+                        <img src="img/jason-3.webp" alt="Jason Duval" />
+                    </div>
+                </div>
+            </section>
+            <section class="secao5">
+                 <video
+                    id="scroll-video2"
+                    src="video/output2.mp4"
+                    playsinline
+                    muted
+                    preload="auto"
+                ></video>
+            </section>
+        </main>
+
+        <!-- Scripts do GSAP antes do seu script principal -->
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+        <script src="script.js"></script>
+    </body>
+</html>

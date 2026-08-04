@@ -1,0 +1,209 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    list-style: none;
+    text-decoration: none;
+}
+
+body {
+    overflow-x: hidden;
+    background-color: #000;
+}
+
+.containerPai {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+section {
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #000;
+    overflow: hidden;
+}
+
+.secao1 { z-index: 3; }
+.secao2 { z-index: 2; }
+.secao3 { z-index: 1; }
+
+.secao1 {
+    mask-image: url("img/hero-text-lmp.svg");
+    mask-repeat: no-repeat;
+    mask-size: 2800vw;
+    mask-position: center;
+}
+
+
+.secao1 .bg1 {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.secao1 .LogoBg {
+    position: absolute;
+    top: 12px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.secao1 .secBrac {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    z-index: 99;
+}
+
+.secao2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.secao2 img {
+    width: 20%;
+}
+
+.secao3 {
+    overflow: hidden;
+    will-change: transform, filter, opacity;
+}
+
+video {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+}
+/* Correção da Seção 4 para sobreposição */
+/* Atualize a regra da .secao4 no seu CSS */
+.secao4 {
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    position: absolute;
+    flex-direction: row;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    padding-left: 16rem;
+    background-color: rgba(13, 13, 15, 0); 
+    pointer-events: auto;
+    
+}
+/* Colunas do Grid */
+.coluna {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+.jason-content {
+  background: radial-gradient(ellipse, #111117 20%, transparent 70%);
+}
+
+
+
+.coluna-parallax {
+    margin-top: 0; /* Removido margin fixo para a timeline controlar totalmente o movimento */
+}
+/* Estilização dos Textos */
+.card-texto {
+    max-width: 38rem;
+    color: #fff;
+}
+
+.card-texto h1 {
+    font-size: 6rem;
+    line-height: 1;
+    color: #ff0055; /* Cor temática GTA */
+    margin-bottom: 0.5rem;
+}
+
+.card-texto h2 {
+    font-size: 3rem;
+    line-height: 1;
+    margin-bottom: 1rem;
+    color: #e0e0e0;
+    padding-inline-end: 8rem;
+}
+
+.card-texto p {
+    color: #a0a0ab;
+    font-size: 1.5rem;
+    line-height: calc(2 / 1.5);
+    margin-bottom: 1.5rem;
+}
+
+/* Estilos de Formatos de Imagem (Galeria em Grid) */
+.jason-1, .jason-3 {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.jason-1 img, .jason-3 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.jason-2 {
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    height: 90vh;
+    width: 100%;
+    
+}
+
+
+/* 1. Formato Porta / Portal (Topo totalmente arredondado) */
+.jason-2 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 80% center;
+    display: block;
+}
+
+/* 2. Formato Quadrado */
+.img-quadrada {
+    width: 100%;
+    height: 100%;
+}
+
+/* 3. Formato Retangular Panorâmico com Corte Diagonal */
+.img-retangular {
+    height: 100%;
+    width: 60%;
+    /* Efeito de corte assimétrico / diagonal estilo porta/geométrico */
+}
+
+.secao5 {
+    z-index: 5; /* Fica acima da seção 4 quando entrar */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    will-change: transform, filter, opacity;
+}
