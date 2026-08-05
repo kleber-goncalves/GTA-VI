@@ -2,16 +2,18 @@ gsap.registerPlugin(ScrollTrigger);
 
 const video = document.getElementById("scroll-video");
 const video2 = document.getElementById("scroll-video2");
+const video3 = document.getElementById("scroll-video3");
 
 function initTimeline() {
     // Esconde a Seção 5 no estado inicial para não sobrepor nada
     gsap.set(".secao5", { opacity: 0, yPercent: 30 });
+    gsap.set(".secao7", { opacity: 1, yPercent: 100 });
 
     const tl = gsap.timeline({
         scrollTrigger: {
             trigger: ".containerPai",
             start: "top top",
-            end: "+=20000",
+            end: "+=22000",
             scrub: 1,
             markers: true,
             pin: true,
@@ -102,7 +104,6 @@ function initTimeline() {
 
     // A) Saída dos elementos da Seção 4
 
-
     // B) Entrada da Seção 5 (Aparece subindo e com opacity gradual)
     tl.to(
         ".secao5 ",
@@ -128,13 +129,17 @@ function initTimeline() {
     );
 
     // D) Saída Final do Vídeo 2
-    tl.to("#scroll-video2", {
-        opacity: 0,
-        duration: 1,
-        ease: "power2.Inout",
-    }, "<+=2");
-    
-    // Entrada das colunas da Seção 4
+    tl.to(
+        "#scroll-video2",
+        {
+            opacity: 0,
+            duration: 1,
+            ease: "power2.Inout",
+        },
+        "<+=2",
+    );
+
+    // Entrada das colunas da Seção 6
     tl.fromTo(
         ".lucia-content",
         { yPercent: 180, opacity: 0 },
@@ -149,18 +154,43 @@ function initTimeline() {
         "<+=-0.5",
     );
 
-    // Movimento continuo de parallax na Seção 4
-    tl.to(".coluna-parallax2", {
-        yPercent: -100,
-        duration: 2,
-        ease: "none",
-    }, "-=1.5");
+    // Movimento continuo de parallax na Seção 6
     tl.to(
-        ".lucia-content",
-        { yPercent: -100, duration: 2, ease: "none" },
-        "<",
+        ".coluna-parallax2",
+        {
+            yPercent: -100,
+            duration: 2,
+            ease: "none",
+        },
+        "-=1.5",
+    );
+    tl.to(".lucia-content", { yPercent: -100, duration: 2, ease: "none" }, "<");
+    
+
+    // =========================================================================
+    // 7. TRANSIÇÃO: SAÍDA DA SEÇÃO 6 & ENTRADA DA SEÇÃO 7
+    // =========================================================================
+
+
+    // B) Entrada suave da Seção 7 (subindo e ativando ponteiro)
+    tl.to(
+        ".secao7",
+        {
+            yPercent: -70,
+            opacity: 1,
+            duration: 2,
+            ease: "none",
+        },
+        "<+=0.5",
     );
 
+    // C) Execução do Vídeo 3 no Scroll (se necessário)
+    tl.to(video3, {
+        currentTime: video3.duration || 1,
+        duration: 2,
+        ease: "none",
+    },
+        "<+=0.5",);
 }
 
 // Garantir carregamento dos metadados dos vídeos
@@ -177,3 +207,6 @@ else video.addEventListener("loadedmetadata", checkVideosReady);
 
 if (video2.readyState >= 1) checkVideosReady();
 else video2.addEventListener("loadedmetadata", checkVideosReady);
+
+if (video3.readyState >= 1) checkVideosReady();
+else video3.addEventListener("loadedmetadata", checkVideosReady);
