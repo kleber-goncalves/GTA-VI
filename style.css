@@ -19,20 +19,32 @@ body {
     overflow: hidden;
 }
 
+/* Base para todas as seções */
 section {
     width: 100%;
     height: 100vh;
     position: absolute;
     top: 0;
     left: 0;
-    background-color: #000;
     overflow: hidden;
 }
 
-.secao1 { z-index: 3; }
-.secao2 { z-index: 2; }
-.secao3 { z-index: 1; }
+/* =========================================================================
+   SISTEMA DE Z-INDEX
+   Garante que as novas seções sobreponham as anteriores ao "subirem" na tela
+========================================================================= */
+.secao1 { z-index: 10; background-color: #000; } /* Hero */
+.secao2 { z-index: 9;  background-color: #000; } /* Transição inicial */
+.secao3 { z-index: 8;  background-color: #000; } /* Vídeo 1 */
+.secao4 { z-index: 11; background-color: transparent; } /* Textos Jason (entra sobre o vídeo 1) */
+.secao5 { z-index: 12; background-color: #000; } /* Vídeo 2 (cobre a seção 4) */
+.secao6 { z-index: 13; background-color: transparent; } /* Textos Lucia (entra sobre vídeo 2) */
+.secao7 { z-index: 14; background-color: #000; } /* Nova tela */
+.secao8 { z-index: 15; } /* Tela Final (Gradiente) */
 
+/* =========================================================================
+   SEÇÃO 1 (HERO)
+========================================================================= */
 .secao1 {
     mask-image: url("img/hero-text-lmp.svg");
     mask-repeat: no-repeat;
@@ -40,20 +52,18 @@ section {
     mask-position: center;
 }
 
-
-.secao1 .bg1 {
+.secao1 .bg1,
+.secao1 .LogoBg {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .secao1 .LogoBg {
-    position: absolute;
     top: 12px;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
 }
 
 .secao1 .secBrac {
@@ -66,6 +76,9 @@ section {
     z-index: 99;
 }
 
+/* =========================================================================
+   SEÇÃO 2 E VÍDEOS GERAIS
+========================================================================= */
 .secao2 {
     display: flex;
     justify-content: center;
@@ -76,8 +89,7 @@ section {
     width: 20%;
 }
 
-.secao3 {
-    overflow: hidden;
+.secao3, .secao5 {
     will-change: transform, filter, opacity;
 }
 
@@ -86,28 +98,26 @@ video {
     height: 100vh;
     object-fit: cover;
 }
-/* Correção da Seção 4 para sobreposição */
-/* Atualize a regra da .secao4 no seu CSS */
-.secao4 {
-    z-index: 4;
+
+/* =========================================================================
+   ESTRUTURAS COMPARTILHADAS (Seção 4 e Seção 6)
+========================================================================= */
+.secao4, .secao6 {
     display: flex;
     align-items: center;
-    gap: 2rem;
-    position: absolute;
     flex-direction: row;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    padding-left: 16rem;
-    background-color: transparent; 
     pointer-events: auto;
-    
 }
 
-.jason-content, .card-texto, .coluna-parallax {
-    position: relative;
-    z-index: 2;
+.secao4 {
+    gap: 2rem;
+    padding-left: 16rem;
+}
+
+.secao6 {
+    gap: 1.4rem;
+    padding-left: 1rem;
+    padding-right: 8rem;
 }
 
 /* Colunas do Grid */
@@ -117,25 +127,38 @@ video {
     flex-direction: column;
     gap: 2rem;
 }
-.jason-content {
-  background: radial-gradient(ellipse, #111117 20%, transparent 70%);
+
+/* Fundos radiantes e containers */
+.jason-content, .lucia-content, .card-texto, .coluna-parallax, .coluna-parallax2 {
+    position: relative;
+    z-index: 2;
 }
 
-
-
-.coluna-parallax {
-    margin-top: 0; /* Removido margin fixo para a timeline controlar totalmente o movimento */
+.jason-content, .lucia-content {
+    background: radial-gradient(ellipse, #111117 20%, transparent 70%);
 }
-/* Estilização dos Textos */
+
+.coluna-parallax, .coluna-parallax2 {
+    margin-top: 0; 
+    will-change: transform; /* Otimização de performance para o Parallax */
+}
+
+/* =========================================================================
+   TEXTOS GERAIS (Cards)
+========================================================================= */
 .card-texto {
     max-width: 38rem;
     color: #fff;
 }
 
+.lucia-content .card-texto {
+    padding-left: 11rem;
+}
+
 .card-texto h1 {
     font-size: 6rem;
     line-height: 1;
-    color: #ff0055; /* Cor temática GTA */
+    color: #ff0055; 
     margin-bottom: 0.5rem;
 }
 
@@ -147,6 +170,10 @@ video {
     padding-inline-end: 8rem;
 }
 
+.lucia-content .card-texto h2 {
+    padding: 0; /* Override para a Seção 6 */
+}
+
 .card-texto p {
     color: #a0a0ab;
     font-size: 1.5rem;
@@ -154,7 +181,9 @@ video {
     margin-bottom: 1.5rem;
 }
 
-/* Estilos de Formatos de Imagem (Galeria em Grid) */
+/* =========================================================================
+   GALERIA DE IMAGENS JASON (Seção 4)
+========================================================================= */
 .jason-1, .jason-3 {
     width: 100%;
     overflow: hidden;
@@ -177,11 +206,8 @@ video {
     border: 1px solid rgba(255, 255, 255, 0.1);
     height: 90vh;
     width: 100%;
-    
 }
 
-
-/* 1. Formato Porta / Portal (Topo totalmente arredondado) */
 .jason-2 img {
     width: 100%;
     height: 100%;
@@ -190,109 +216,14 @@ video {
     display: block;
 }
 
-/* 2. Formato Quadrado */
-.img-quadrada {
-    width: 100%;
-    height: 100%;
-}
-
-/* 3. Formato Retangular Panorâmico com Corte Diagonal */
-.img-retangular {
-    height: 100%;
-    width: 60%;
-    /* Efeito de corte assimétrico / diagonal estilo porta/geométrico */
-}
-
-.secao5 {
-    z-index: 3; /* Fica acima da seção 4 quando entrar */
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-    will-change: transform, filter, opacity;
-}
-
-
-.secao6 {
-    z-index: 4;
-    display: flex;
-    align-items: center;
-    gap: 1.4rem;
-    position: absolute;
-    flex-direction: row;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    padding-left: 1rem;
-    padding-right: 8rem;
-    background-color: transparent; 
-    pointer-events: auto;
-    
-}
-
-.lucia-content, .card-texto, .coluna-parallax2 {
-    position: relative;
-    z-index: 2;
-}
-
-/* Colunas do Grid */
-.coluna {
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-.lucia-content {
-  background: radial-gradient(ellipse, #111117 20%, transparent 70%);
-}
-
-
-
-.coluna-parallax2 {
-    margin-top: 0; /* Removido margin fixo para a timeline controlar totalmente o movimento */
-}
-/* Estilização dos Textos */
-.lucia-content .card-texto {
-    max-width: 38rem;
-    padding-left: 11rem;
-    color: #fff;
-}
-
-.card-texto h1 {
-    font-size: 6rem;
-    line-height: 1;
-    color: #ff0055; /* Cor temática GTA */
-    margin-bottom: 0.5rem;
-}
-
-.card-texto h2 {
-    font-size: 3rem;
-    line-height: 1;
-    margin-bottom: 1rem;
-    color: #e0e0e0;
-    padding-inline-end: 8rem;
-    padding: 0;
-    
-}
-
-.card-texto p {
-    color: #a0a0ab;
-    font-size: 1.5rem;
-    line-height: calc(2 / 1.5);
-    margin-bottom: 1.5rem;
-}
-
-/* Estilos de Formatos de Imagem (Galeria em Grid) */
+/* =========================================================================
+   GALERIA DE IMAGENS LUCIA (Seção 6)
+========================================================================= */
 .lucia-1 {
     width: 100%;
     overflow: hidden;
     position: relative;
-
 }
-
 
 .lucia-1 img {
     width: 100%;
@@ -305,7 +236,7 @@ video {
     display: flex;
     position: relative;
     overflow: hidden;
-    height: 60vh;
+    height: 45vh;
     width: 100%;
 }
 
@@ -323,12 +254,10 @@ video {
     justify-content: right;
     position: relative;
     overflow: hidden;
-    height: 90vh;
+    height: 65vh;
     width: 100%;
 }
 
-
-/* 1. Formato Porta / Portal (Topo totalmente arredondado) */
 .lucia-3 img {
     width: 60%;
     height: 100%;
@@ -337,27 +266,27 @@ video {
     object-position: 62% center;
 }
 
-/* 2. Formato Quadrado */
+/* Classes utilitárias de formato */
 .img-quadrada {
     width: 100%;
     height: 100%;
 }
 
-
-.secao7 {
-    z-index: 7;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    padding: 8rem;
-        pointer-events: auto;
-
+.img-retangular {
+    height: 100%;
+    width: 60%;
 }
+
+/* =========================================================================
+   SEÇÃO 7
+========================================================================= */
+.secao7 {
+    display: flex;
+    justify-content: center;
+    padding: 3rem 8rem;
+    pointer-events: auto;
+}
+
 .post-card-wrapper {
     width: 100%;
     height: 85vh;
@@ -368,13 +297,30 @@ video {
     flex-direction: column;
     justify-content: center;
     margin: 2rem;
-    
 }
-.post-card-wrapper img{
+
+.post-card-wrapper img {
     width: 100%;
     height: 100%;
     position: absolute;
     z-index: 10;
+}
+
+/* =========================================================================
+   SEÇÃO 8 (GRADIENTE ANIMADO)
+========================================================================= */
+
+
+.secao8 {
+    
+    will-change: transform, opacity, background-color;
+   
+}
+
+
+.content-secao8 {
+    opacity: 0;
+    overflow: hidden;
 }
 
 
