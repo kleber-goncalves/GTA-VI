@@ -37,7 +37,7 @@ section {
 .secao2 { z-index: 9;  background-color: #000; } /* Transição inicial */
 .secao3 { z-index: 8;  background-color: #000; } /* Vídeo 1 */
 .secao4 { z-index: 11; background-color: transparent; } /* Textos Jason (entra sobre o vídeo 1) */
-.secao5 { z-index: 12; background-color: #000; } /* Vídeo 2 (cobre a seção 4) */
+.secao5 { z-index: 10; background-color: #000; } /* Vídeo 2 (cobre a seção 4) */
 .secao6 { z-index: 13; background-color: transparent; } /* Textos Lucia (entra sobre vídeo 2) */
 .secao7 { z-index: 14; background-color: #000; } /* Nova tela */
 .secao8 { z-index: 15; } /* Tela Final (Gradiente) */
@@ -326,4 +326,56 @@ video {
 
 .animated-gradient-bg {
   background: linear-gradient(135deg, #1e2a52 0%, #6e4b91 100%);
+}
+
+
+.secao9 {
+    position: absolute;
+    overflow: hidden;
+    z-index: 16;
+    height: 100vh;
+    width: 100%;
+}
+
+.footer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+}
+
+#logo-p{
+    width: 17rem;
+}
+
+#logo-ps{
+    width: 8rem;
+}
+
+#logo-xbox{
+    width: 13rem;
+}
+
+.logos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.gradient-title {
+   font-size: 5rem;
+  font-weight: 800 !important;
+  text-transform: uppercase;
+  line-height: 4.5rem;
+  text-align: center;
+  background-image: linear-gradient(to right, #f472b6, #f87171, #fb923c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+   
 }

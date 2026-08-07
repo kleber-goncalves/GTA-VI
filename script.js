@@ -18,6 +18,10 @@ function initTimeline() {
         yPercent: 40,
         opacity: 0,
     });
+    gsap.set(".secao9", {
+        yPercent: 100,
+        opacity: 1,
+    });
 
     const tl = gsap.timeline({
         scrollTrigger: {
@@ -186,7 +190,7 @@ function initTimeline() {
     // A Seção 8 entra parando no ZERO, revelando escala e gradiente ao mesmo tempo
     // label para sincronizar tudo
     tl.addLabel("secao8");
-    
+
     tl.to(
         ".secao8",
         {
@@ -221,7 +225,16 @@ function initTimeline() {
         },
         "<",
     );
-    tl.to("#scroll-video4", { opacity: 0, duration: 1, ease: "power1.inOut" });
+    tl.to("#scroll-video4", { opacity: 0, duration: 1, ease: "power4.out" });
+
+    // Entrada
+    tl.to(".secao9", {
+        yPercent: 0,
+        duration: 0.5,
+        ease: "power4.out",
+    });
+
+    // Não faça a saída ainda.
 }
 
 // =========================================================================
