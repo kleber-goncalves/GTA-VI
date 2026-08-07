@@ -3,7 +3,7 @@ gsap.registerPlugin(ScrollTrigger);
 const mm = gsap.matchMedia();
 
 const reduceMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
+    "(prefers-reduced-motion: reduce)"
 ).matches;
 
 const video = document.getElementById("scroll-video");
@@ -36,7 +36,7 @@ function animateMobileElement(element, vars, scrollVars = {}) {
                 ...scrollVars,
             },
             ...vars,
-        },
+        }
     );
 }
 
@@ -45,6 +45,7 @@ function animateMobileElement(element, vars, scrollVars = {}) {
 // ============================================================================
 
 mm.add("(min-width: 1025px)", () => {
+
     if (reduceMotion) {
         gsap.set(
             [
@@ -56,10 +57,15 @@ mm.add("(min-width: 1025px)", () => {
                 ".secao7",
                 ".secao8",
                 ".secao9",
+                ".jason-content",
+                ".lucia-content",
+                ".coluna-parallax",
+                ".coluna-parallax2",
+                ".content-secao8",
             ],
             {
                 clearProps: "all",
-            },
+            }
         );
 
         return;
@@ -72,6 +78,13 @@ mm.add("(min-width: 1025px)", () => {
     gsap.set(".secao5", {
         opacity: 0,
         yPercent: 30,
+    });
+
+    // IMPORTANTE:
+    // Section 6 agora começa fora da tela.
+    gsap.set(".secao6", {
+        opacity: 1,
+        yPercent: 100,
     });
 
     gsap.set(".secao7", {
@@ -107,6 +120,7 @@ mm.add("(min-width: 1025px)", () => {
             scrub: 1,
             pin: true,
             anticipatePin: 1,
+            invalidateOnRefresh: true,
         },
     });
 
@@ -125,7 +139,7 @@ mm.add("(min-width: 1025px)", () => {
             opacity: 0,
             duration: 0.5,
         },
-        "-=1.8",
+        "-=1.8"
     );
 
     tl.to(
@@ -134,7 +148,7 @@ mm.add("(min-width: 1025px)", () => {
             backgroundColor: "white",
             duration: 1,
         },
-        "-=1",
+        "-=1"
     );
 
     tl.to(".secao1", {
@@ -153,7 +167,7 @@ mm.add("(min-width: 1025px)", () => {
             filter: "blur(20px)",
             duration: 1,
         },
-        "-=0.5",
+        "-=0.5"
     );
 
     tl.to(".secao2", {
@@ -172,14 +186,16 @@ mm.add("(min-width: 1025px)", () => {
             filter: "blur(20px)",
             duration: 1,
         },
-        "-=0.5",
+        "-=0.5"
     );
 
-    tl.to(video, {
-        currentTime: video?.duration || 1,
-        duration: 4,
-        ease: "power2.inOut",
-    });
+    if (video) {
+        tl.to(video, {
+            currentTime: () => video.duration || 1,
+            duration: 4,
+            ease: "power2.inOut",
+        });
+    }
 
     tl.to(
         "#scroll-video",
@@ -190,7 +206,7 @@ mm.add("(min-width: 1025px)", () => {
             duration: 1,
             ease: "power2.inOut",
         },
-        "-=0.5",
+        "-=0.5"
     );
 
     // ========================================================================
@@ -204,7 +220,7 @@ mm.add("(min-width: 1025px)", () => {
             duration: 1,
             ease: "power1.in",
         },
-        "<",
+        "<"
     );
 
     tl.fromTo(
@@ -219,7 +235,7 @@ mm.add("(min-width: 1025px)", () => {
             duration: 2,
             ease: "power1.out",
         },
-        "-=1.5",
+        "-=1.5"
     );
 
     tl.fromTo(
@@ -234,7 +250,7 @@ mm.add("(min-width: 1025px)", () => {
             duration: 2,
             ease: "power1.out",
         },
-        "-=2",
+        "-=2"
     );
 
     tl.to(".coluna-parallax", {
@@ -250,11 +266,11 @@ mm.add("(min-width: 1025px)", () => {
             duration: 3,
             ease: "power1.inOut",
         },
-        "<",
+        "<"
     );
 
     // ========================================================================
-    // SECTION 5
+    // SECTION 5 - VIDEO 2
     // ========================================================================
 
     tl.to(
@@ -265,18 +281,20 @@ mm.add("(min-width: 1025px)", () => {
             duration: 2,
             ease: "power2.inOut",
         },
-        "<+=0.5",
+        "<+=0.5"
     );
 
-    tl.to(
-        video2,
-        {
-            currentTime: video2?.duration || 1,
-            duration: 2,
-            ease: "power2.inOut",
-        },
-        "<+=1",
-    );
+    if (video2) {
+        tl.to(
+            video2,
+            {
+                currentTime: () => video2.duration || 1,
+                duration: 2,
+                ease: "power2.inOut",
+            },
+            "<+=1"
+        );
+    }
 
     tl.to(
         "#scroll-video2",
@@ -287,48 +305,75 @@ mm.add("(min-width: 1025px)", () => {
             duration: 0.5,
             ease: "power2.inOut",
         },
-        "<+=1",
+        "<+=1"
     );
 
     // ========================================================================
     // SECTION 6 - LUCIA
     // ========================================================================
 
+    // ============================================================
+    // CORREÇÃO PRINCIPAL
+    //
+    // A SECTION 6 estava em yPercent: 100 e nunca voltava para 0.
+    // Agora ela entra na tela antes do conteúdo da Lúcia.
+    // ============================================================
+
+    tl.to(
+        ".secao6",
+        {
+            yPercent: 0,
+            opacity: 1,
+            duration: 1.5,
+            ease: "power2.out",
+        },
+        "<"
+    );
+
+    // Conteúdo da Lúcia
+
     tl.fromTo(
         ".lucia-content",
         {
             yPercent: 100,
-            opacity: 1,
+            opacity: 0,
         },
         {
             yPercent: 0,
             opacity: 1,
             duration: 2,
-            ease: "none",
+            ease: "power1.out",
         },
-        "<-=0.6",
+        "<+=0.2"
     );
+
+    // Galeria da Lúcia
 
     tl.fromTo(
         ".coluna-parallax2",
         {
             yPercent: 150,
-            opacity: 1,
+            opacity: 0,
         },
         {
             yPercent: 0,
             opacity: 1,
             duration: 2,
-            ease: "none",
+            ease: "power1.out",
         },
-        "<",
+        "<"
     );
 
-    tl.to(".coluna-parallax2", {
-        yPercent: -100,
-        duration: 2,
-        ease: "none",
-    });
+    // Parallax
+
+    tl.to(
+        ".coluna-parallax2",
+        {
+            yPercent: -100,
+            duration: 2,
+            ease: "none",
+        }
+    );
 
     tl.to(
         ".lucia-content",
@@ -337,7 +382,7 @@ mm.add("(min-width: 1025px)", () => {
             duration: 2,
             ease: "none",
         },
-        "<",
+        "<"
     );
 
     // ========================================================================
@@ -351,18 +396,20 @@ mm.add("(min-width: 1025px)", () => {
             duration: 2,
             ease: "none",
         },
-        "<",
+        "<"
     );
 
-    tl.to(
-        video3,
-        {
-            currentTime: video3?.duration || 1,
-            duration: 2,
-            ease: "none",
-        },
-        "<",
-    );
+    if (video3) {
+        tl.to(
+            video3,
+            {
+                currentTime: () => video3.duration || 1,
+                duration: 2,
+                ease: "none",
+            },
+            "<"
+        );
+    }
 
     tl.to(".secao7", {
         yPercent: -100,
@@ -383,7 +430,7 @@ mm.add("(min-width: 1025px)", () => {
             duration: 1,
             ease: "none",
         },
-        "<",
+        "<"
     );
 
     tl.to(".content-secao8", {
@@ -393,15 +440,17 @@ mm.add("(min-width: 1025px)", () => {
         ease: "power2.out",
     });
 
-    tl.to(
-        video4,
-        {
-            currentTime: video4?.duration || 1,
-            duration: 2,
-            ease: "none",
-        },
-        "<",
-    );
+    if (video4) {
+        tl.to(
+            video4,
+            {
+                currentTime: () => video4.duration || 1,
+                duration: 2,
+                ease: "none",
+            },
+            "<"
+        );
+    }
 
     tl.to(
         ".secao8",
@@ -411,7 +460,7 @@ mm.add("(min-width: 1025px)", () => {
             duration: 2,
             ease: "none",
         },
-        "<",
+        "<"
     );
 
     tl.to("#scroll-video4", {
@@ -441,13 +490,23 @@ mm.add("(min-width: 1025px)", () => {
 // ============================================================================
 
 mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
+
     if (reduceMotion) {
         return;
     }
 
+    // ------------------------------------------------------------------------
+    // ESTADOS INICIAIS
+    // ------------------------------------------------------------------------
+
     gsap.set(".secao5", {
         opacity: 0,
         yPercent: 20,
+    });
+
+    gsap.set(".secao6", {
+        opacity: 1,
+        yPercent: 100,
     });
 
     gsap.set(".secao7", {
@@ -471,6 +530,10 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
         yPercent: 100,
     });
 
+    // ------------------------------------------------------------------------
+    // TIMELINE
+    // ------------------------------------------------------------------------
+
     const tlTablet = gsap.timeline({
         scrollTrigger: {
             trigger: ".containerPai",
@@ -479,6 +542,7 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
             scrub: 1,
             pin: true,
             anticipatePin: 1,
+            invalidateOnRefresh: true,
         },
     });
 
@@ -497,7 +561,7 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
             opacity: 0,
             duration: 0.5,
         },
-        "-=1.5",
+        "-=1.5"
     );
 
     tlTablet.to(".secao1", {
@@ -516,7 +580,7 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
             filter: "blur(12px)",
             duration: 1,
         },
-        "-=0.5",
+        "-=0.5"
     );
 
     tlTablet.to(".secao2", {
@@ -534,14 +598,16 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
             opacity: 0,
             duration: 1,
         },
-        "-=0.5",
+        "-=0.5"
     );
 
-    tlTablet.to(video, {
-        currentTime: video?.duration || 1,
-        duration: 3,
-        ease: "none",
-    });
+    if (video) {
+        tlTablet.to(video, {
+            currentTime: () => video.duration || 1,
+            duration: 3,
+            ease: "none",
+        });
+    }
 
     // ------------------------------------------------------------------------
     // JASON
@@ -558,20 +624,22 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
             opacity: 1,
             duration: 2,
             ease: "power2.out",
-        },
+        }
     );
 
     tlTablet.fromTo(
         ".coluna-parallax",
         {
             yPercent: 100,
+            opacity: 0,
         },
         {
             yPercent: 0,
+            opacity: 1,
             duration: 2,
             ease: "none",
         },
-        "<",
+        "<"
     );
 
     // ------------------------------------------------------------------------
@@ -584,19 +652,39 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
         duration: 1.5,
     });
 
-    tlTablet.to(
-        video2,
-        {
-            currentTime: video2?.duration || 1,
-            duration: 2,
-            ease: "none",
-        },
-        "<",
-    );
+    if (video2) {
+        tlTablet.to(
+            video2,
+            {
+                currentTime: () => video2.duration || 1,
+                duration: 2,
+                ease: "none",
+            },
+            "<"
+        );
+    }
+
+    tlTablet.to("#scroll-video2", {
+        opacity: 0,
+        duration: 0.7,
+    });
 
     // ------------------------------------------------------------------------
-    // LUCIA
+    // SECTION 6 - LUCIA
     // ------------------------------------------------------------------------
+
+    // CORREÇÃO:
+    // Faz a section6 realmente entrar na tela.
+
+    tlTablet.to(
+        ".secao6",
+        {
+            yPercent: 0,
+            opacity: 1,
+            duration: 1.5,
+            ease: "power2.out",
+        }
+    );
 
     tlTablet.fromTo(
         ".lucia-content",
@@ -608,19 +696,43 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
             yPercent: 0,
             opacity: 1,
             duration: 2,
+            ease: "power2.out",
         },
+        "<+=0.1"
     );
 
     tlTablet.fromTo(
         ".coluna-parallax2",
         {
             yPercent: 80,
+            opacity: 0,
         },
         {
             yPercent: 0,
+            opacity: 1,
             duration: 2,
+            ease: "none",
         },
-        "<",
+        "<"
+    );
+
+    tlTablet.to(
+        ".coluna-parallax2",
+        {
+            yPercent: -30,
+            duration: 1.5,
+            ease: "none",
+        }
+    );
+
+    tlTablet.to(
+        ".lucia-content",
+        {
+            yPercent: -30,
+            duration: 1.5,
+            ease: "none",
+        },
+        "<"
     );
 
     // ------------------------------------------------------------------------
@@ -630,16 +742,20 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
     tlTablet.to(".secao7", {
         yPercent: 0,
         duration: 1.5,
+        ease: "power2.out",
     });
 
-    tlTablet.to(
-        video3,
-        {
-            currentTime: video3?.duration || 1,
-            duration: 2,
-        },
-        "<",
-    );
+    if (video3) {
+        tlTablet.to(
+            video3,
+            {
+                currentTime: () => video3.duration || 1,
+                duration: 2,
+                ease: "none",
+            },
+            "<"
+        );
+    }
 
     // ------------------------------------------------------------------------
     // SECTION 8
@@ -656,14 +772,17 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
         duration: 1,
     });
 
-    tlTablet.to(
-        video4,
-        {
-            currentTime: video4?.duration || 1,
-            duration: 2,
-        },
-        "<",
-    );
+    if (video4) {
+        tlTablet.to(
+            video4,
+            {
+                currentTime: () => video4.duration || 1,
+                duration: 2,
+                ease: "none",
+            },
+            "<"
+        );
+    }
 
     tlTablet.to("#scroll-video4", {
         opacity: 0,
@@ -686,8 +805,7 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
 });
 
 // ============================================================================
-// CELULAR
-// EXPERIÊNCIA MOBILE COM TIMELINE
+// MOBILE
 // ============================================================================
 
 mm.add("(max-width: 768px)", () => {
@@ -713,16 +831,15 @@ mm.add("(max-width: 768px)", () => {
                 ".lucia-content",
                 ".coluna-parallax",
                 ".coluna-parallax2",
-                ".content-secao8"
+                ".content-secao8",
             ],
             {
-                clearProps: "all"
+                clearProps: "all",
             }
         );
 
         return;
     }
-
 
     // ------------------------------------------------------------------------
     // ESTADOS INICIAIS
@@ -730,50 +847,50 @@ mm.add("(max-width: 768px)", () => {
 
     gsap.set(".secao1", {
         opacity: 1,
-        yPercent: 0
+        yPercent: 0,
     });
 
     gsap.set(".secao2", {
         opacity: 1,
-        yPercent: 0
+        yPercent: 0,
     });
 
     gsap.set(".secao3", {
         opacity: 1,
-        yPercent: 0
+        yPercent: 0,
     });
 
     gsap.set(".secao4", {
         opacity: 1,
-        yPercent: 0
+        yPercent: 0,
     });
 
     gsap.set(".secao5", {
         opacity: 1,
-        yPercent: 100
+        yPercent: 100,
     });
 
+    // SECTION 6 começa fora da tela
     gsap.set(".secao6", {
         opacity: 1,
-        yPercent: 100
+        yPercent: 100,
     });
 
     gsap.set(".secao7", {
         opacity: 1,
-        yPercent: 100
+        yPercent: 100,
     });
 
     gsap.set(".secao8", {
         opacity: 1,
         yPercent: 100,
-        backgroundColor: "#4a3c75"
+        backgroundColor: "#4a3c75",
     });
 
     gsap.set(".secao9", {
         opacity: 1,
-        yPercent: 100
+        yPercent: 100,
     });
-
 
     // ------------------------------------------------------------------------
     // CONTEÚDOS
@@ -781,86 +898,65 @@ mm.add("(max-width: 768px)", () => {
 
     gsap.set(".jason-content", {
         opacity: 0,
-        yPercent: 60
+        yPercent: 60,
     });
 
     gsap.set(".coluna-parallax", {
         opacity: 0,
-        yPercent: 80
+        yPercent: 80,
     });
 
     gsap.set(".lucia-content", {
         opacity: 0,
-        yPercent: 60
+        yPercent: 60,
     });
 
     gsap.set(".coluna-parallax2", {
         opacity: 0,
-        yPercent: 80
+        yPercent: 80,
     });
 
     gsap.set(".content-secao8", {
         opacity: 0,
-        yPercent: 20
+        yPercent: 20,
     });
 
-
     // ------------------------------------------------------------------------
-    // HERO
+    // TIMELINE MOBILE
     // ------------------------------------------------------------------------
 
     const tlMobile = gsap.timeline({
-
         scrollTrigger: {
-
             trigger: ".containerPai",
-
             start: "top top",
-
             end: "+=9000",
-
             scrub: 1,
-
             pin: true,
-
             anticipatePin: 1,
-
-            invalidateOnRefresh: true
-        }
+            invalidateOnRefresh: true,
+        },
     });
-
 
     // ========================================================================
     // SECTION 1
     // ========================================================================
 
     tlMobile.to(".secao1", {
-
         opacity: 0,
-
         duration: 1.2,
-
-        ease: "power2.inOut"
-
+        ease: "power2.inOut",
     });
-
-
-    // Logo desaparece
 
     tlMobile.to(
         ".LogoBg",
         {
             opacity: 0,
-
             scale: 1.08,
-
             duration: 0.7,
-
-            ease: "power2.inOut"
+            ease: "power2.inOut",
         },
         "<"
     );
-
 
     // ========================================================================
     // SECTION 2
@@ -868,588 +964,380 @@ mm.add("(max-width: 768px)", () => {
 
     tlMobile.fromTo(
         ".secao2 img",
-
         {
             opacity: 0,
             scale: 0.8,
-            filter: "blur(12px)"
+            filter: "blur(12px)",
         },
-
         {
             opacity: 1,
             scale: 1,
             filter: "blur(0px)",
-
             duration: 1,
-
-            ease: "power2.out"
+            ease: "power2.out",
         }
     );
 
-
-    tlMobile.to(
-        ".secao2",
-        {
-            opacity: 0,
-
-            duration: 0.8,
-
-            ease: "power2.inOut"
-        }
-    );
-
+    tlMobile.to(".secao2", {
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.inOut",
+    });
 
     // ========================================================================
-    // VÍDEO 1
+    // VIDEO 1
     // ========================================================================
 
     tlMobile.fromTo(
         "#scroll-video",
-
         {
             opacity: 0,
-            scale: 1.08
+            scale: 1.08,
         },
-
         {
             opacity: 1,
             scale: 1,
-
             duration: 0.8,
-
-            ease: "power2.out"
+            ease: "power2.out",
         }
     );
-
 
     if (video) {
-
-        tlMobile.to(
-            video,
-            {
-                currentTime: () => video.duration || 1,
-
-                duration: 2.5,
-
-                ease: "none"
-            }
-        );
-
+        tlMobile.to(video, {
+            currentTime: () => video.duration || 1,
+            duration: 2.5,
+            ease: "none",
+        });
     }
 
-
-    // Saída do vídeo
-
-    tlMobile.to(
-        "#scroll-video",
-
-        {
-            scale: 1.08,
-
-            opacity: 0,
-
-            filter: "blur(8px)",
-
-            duration: 0.8,
-
-            ease: "power2.inOut"
-        }
-    );
-
+    tlMobile.to("#scroll-video", {
+        scale: 1.08,
+        opacity: 0,
+        filter: "blur(8px)",
+        duration: 0.8,
+        ease: "power2.inOut",
+    });
 
     // ========================================================================
     // JASON
     // ========================================================================
 
     tlMobile.fromTo(
-
         ".jason-content",
-
         {
             opacity: 0,
-            yPercent: 70
+            yPercent: 70,
         },
-
         {
             opacity: 1,
             yPercent: 0,
-
             duration: 1.2,
-
-            ease: "power2.out"
+            ease: "power2.out",
         },
-
         "-=0.4"
     );
 
-
     tlMobile.fromTo(
-
         ".coluna-parallax",
-
         {
             opacity: 0,
-            yPercent: 80
+            yPercent: 80,
         },
-
         {
             opacity: 1,
             yPercent: 0,
-
             duration: 1.4,
-
-            ease: "power2.out"
+            ease: "power2.out",
         },
-
         "-=1"
     );
 
-
-    // Pequeno parallax
-
-    tlMobile.to(
-        ".coluna-parallax",
-
-        {
-            yPercent: -25,
-
-            duration: 1.2,
-
-            ease: "none"
-        }
-    );
-
+    tlMobile.to(".coluna-parallax", {
+        yPercent: -25,
+        duration: 1.2,
+        ease: "none",
+    });
 
     tlMobile.to(
         ".jason-content",
-
         {
             yPercent: -25,
-
             duration: 1.2,
-
-            ease: "none"
+            ease: "none",
         },
-
         "<"
     );
 
-
     // ========================================================================
-    // VÍDEO 2
+    // SECTION 5 - VIDEO 2
     // ========================================================================
 
-    tlMobile.to(
-
-        ".secao5",
-
-        {
-            yPercent: 0,
-
-            duration: 1.2,
-
-            ease: "power2.inOut"
-        }
-
-    );
-
+    tlMobile.to(".secao5", {
+        yPercent: 0,
+        duration: 1.2,
+        ease: "power2.inOut",
+    });
 
     if (video2) {
-
         tlMobile.to(
-
             video2,
-
             {
                 currentTime: () => video2.duration || 1,
-
                 duration: 2,
-
-                ease: "none"
+                ease: "none",
             },
-
             "<+=0.2"
         );
-
     }
 
+    tlMobile.to("#scroll-video2", {
+        scale: 1.06,
+        opacity: 0,
+        filter: "blur(8px)",
+        duration: 0.7,
+        ease: "power2.inOut",
+    });
+
+    // ========================================================================
+    // SECTION 6 - LUCIA
+    // ========================================================================
+
+    // ============================================================
+    // CORREÇÃO PRINCIPAL
+    // ============================================================
 
     tlMobile.to(
-
-        "#scroll-video2",
-
+        ".secao6",
         {
-            scale: 1.06,
-
-            opacity: 0,
-
-            filter: "blur(8px)",
-
-            duration: 0.7,
-
-            ease: "power2.inOut"
-        }
-
-    );
-
-
-    // ========================================================================
-    // LUCIA
-    // ========================================================================
-
-    tlMobile.fromTo(
-
-        ".lucia-content",
-
-        {
-            opacity: 0,
-            yPercent: 70
-        },
-
-        {
-            opacity: 1,
             yPercent: 0,
-
+            opacity: 1,
             duration: 1.2,
-
-            ease: "power2.out"
-        },
-
-        "-=0.4"
+            ease: "power2.out",
+        }
     );
 
+    // Conteúdo Lucia
 
     tlMobile.fromTo(
-
-        ".coluna-parallax2",
-
+        ".lucia-content",
         {
             opacity: 0,
-            yPercent: 80
+            yPercent: 70,
         },
-
         {
             opacity: 1,
             yPercent: 0,
-
-            duration: 1.4,
-
-            ease: "power2.out"
+            duration: 1.2,
+            ease: "power2.out",
         },
-
-        "-=1"
+        "<+=0.1"
     );
 
+    // Galeria Lucia
+
+    tlMobile.fromTo(
+        ".coluna-parallax2",
+        {
+            opacity: 0,
+            yPercent: 80,
+        },
+        {
+            opacity: 1,
+            yPercent: 0,
+            duration: 1.4,
+            ease: "power2.out",
+        },
+        "<"
+    );
 
     // Parallax Lucia
 
-    tlMobile.to(
-
-        ".coluna-parallax2",
-
-        {
-            yPercent: -25,
-
-            duration: 1.2,
-
-            ease: "none"
-        }
-
-    );
-
+    tlMobile.to(".coluna-parallax2", {
+        yPercent: -25,
+        duration: 1.2,
+        ease: "none",
+    });
 
     tlMobile.to(
-
         ".lucia-content",
-
         {
             yPercent: -25,
-
             duration: 1.2,
-
-            ease: "none"
+            ease: "none",
         },
-
         "<"
     );
-
 
     // ========================================================================
     // SECTION 7
     // ========================================================================
 
-    tlMobile.to(
-
-        ".secao7",
-
-        {
-            yPercent: 0,
-
-            duration: 1.2,
-
-            ease: "power2.out"
-        }
-
-    );
-
+    tlMobile.to(".secao7", {
+        yPercent: 0,
+        duration: 1.2,
+        ease: "power2.out",
+    });
 
     tlMobile.fromTo(
-
         ".post-card-wrapper",
-
         {
             scale: 0.94,
-            opacity: 0
+            opacity: 0,
         },
-
         {
             scale: 1,
             opacity: 1,
-
             duration: 1,
-
-            ease: "power2.out"
+            ease: "power2.out",
         },
-
         "<"
     );
 
-
-    // Vídeo 3
-
     if (video3) {
-
         tlMobile.to(
-
             video3,
-
             {
                 currentTime: () => video3.duration || 1,
-
                 duration: 2,
-
-                ease: "none"
+                ease: "none",
             },
-
             "<"
         );
-
     }
 
-
-    // Saída
-
-    tlMobile.to(
-
-        ".secao7",
-
-        {
-            yPercent: -100,
-
-            duration: 1,
-
-            ease: "power2.inOut"
-        }
-
-    );
-
+    tlMobile.to(".secao7", {
+        yPercent: -100,
+        duration: 1,
+        ease: "power2.inOut",
+    });
 
     // ========================================================================
     // SECTION 8
     // ========================================================================
 
     tlMobile.to(
-
         ".secao8",
-
         {
             yPercent: 0,
-
             duration: 1,
-
-            ease: "power2.out"
+            ease: "power2.out",
         },
-
         "<"
     );
 
-
-    // Conteúdo
-
-    tlMobile.to(
-
-        ".content-secao8",
-
-        {
-            opacity: 1,
-
-            yPercent: 0,
-
-            duration: 1,
-
-            ease: "power2.out"
-        }
-
-    );
-
-
-    // Vídeo 4
+    tlMobile.to(".content-secao8", {
+        opacity: 1,
+        yPercent: 0,
+        duration: 1,
+        ease: "power2.out",
+    });
 
     if (video4) {
-
         tlMobile.to(
-
             video4,
-
             {
                 currentTime: () => video4.duration || 1,
-
                 duration: 2,
-
-                ease: "none"
+                ease: "none",
             },
-
             "<"
         );
-
     }
 
-
-    // Gradiente → preto
-
-    tlMobile.to(
-
-        ".secao8",
-
-        {
-            backgroundColor: "#000000",
-
-            duration: 1.5,
-
-            ease: "none"
-        }
-
-    );
-
+    tlMobile.to(".secao8", {
+        backgroundColor: "#000000",
+        duration: 1.5,
+        ease: "none",
+    });
 
     tlMobile.to(
-
         "#scroll-video4",
-
         {
             opacity: 0,
-
             duration: 0.8,
-
-            ease: "power2.out"
+            ease: "power2.out",
         },
-
         "<"
     );
-
 
     // ========================================================================
     // SECTION 9
     // ========================================================================
 
-    tlMobile.to(
-
-        ".secao9",
-
-        {
-            yPercent: 0,
-
-            duration: 1,
-
-            ease: "power3.out"
-        }
-
-    );
-
+    tlMobile.to(".secao9", {
+        yPercent: 0,
+        duration: 1,
+        ease: "power3.out",
+    });
 
     // Logos
 
     tlMobile.fromTo(
-
         ".footer img",
-
         {
             opacity: 0,
-            scale: 0.85
+            scale: 0.85,
         },
-
         {
             opacity: 1,
             scale: 1,
-
             duration: 0.7,
-
             stagger: 0.08,
-
-            ease: "power2.out"
+            ease: "power2.out",
         },
-
         "-=0.5"
     );
-
 
     // Título
 
     tlMobile.fromTo(
-
         ".gradient-title",
-
         {
             opacity: 0,
-            y: 25
+            y: 25,
         },
-
         {
             opacity: 1,
             y: 0,
-
             duration: 0.8,
-
-            ease: "power2.out"
+            ease: "power2.out",
         },
-
         "-=0.5"
     );
-
 
     // ------------------------------------------------------------------------
     // REFRESH
     // ------------------------------------------------------------------------
 
     requestAnimationFrame(() => {
-
         ScrollTrigger.refresh();
-
     });
-
 
     // ------------------------------------------------------------------------
     // CLEANUP
     // ------------------------------------------------------------------------
 
     return () => {
-
         tlMobile.kill();
-
     };
-
 });
 
 // ============================================================================
 // SISTEMA DE CARREGAMENTO DOS VÍDEOS
 // ============================================================================
 
-const videos = [video, video2, video3, video4].filter(Boolean);
+const videos = [
+    video,
+    video2,
+    video3,
+    video4,
+].filter(Boolean);
 
 let videosLoaded = 0;
 let timelineIniciada = false;
 
 function checkVideosReady() {
+
     if (timelineIniciada) {
         return;
     }
@@ -1457,6 +1345,7 @@ function checkVideosReady() {
     videosLoaded++;
 
     if (videosLoaded >= videos.length) {
+
         timelineIniciada = true;
 
         ScrollTrigger.refresh();
@@ -1467,30 +1356,47 @@ function checkVideosReady() {
 // REDUCED MOTION / MOBILE
 // ============================================================================
 
-// No celular não precisamos esperar os vídeos.
-// As animações das seções podem começar imediatamente.
-
 if (window.innerWidth <= 768) {
+
     timelineIniciada = true;
 
     requestAnimationFrame(() => {
         ScrollTrigger.refresh();
     });
+
 } else {
+
     if (videos.length === 0) {
+
         timelineIniciada = true;
 
         ScrollTrigger.refresh();
-    } else {
-        videos.forEach((vid) => {
-            if (vid.readyState >= 1) {
-                checkVideosReady();
-            } else {
-                vid.addEventListener("loadedmetadata", checkVideosReady, {
-                    once: true,
-                });
 
-                vid.addEventListener("error", checkVideosReady, { once: true });
+    } else {
+
+        videos.forEach((vid) => {
+
+            if (vid.readyState >= 1) {
+
+                checkVideosReady();
+
+            } else {
+
+                vid.addEventListener(
+                    "loadedmetadata",
+                    checkVideosReady,
+                    {
+                        once: true,
+                    }
+                );
+
+                vid.addEventListener(
+                    "error",
+                    checkVideosReady,
+                    {
+                        once: true,
+                    }
+                );
             }
         });
     }
@@ -1500,12 +1406,17 @@ if (window.innerWidth <= 768) {
     // =========================================================================
 
     setTimeout(() => {
+
         if (!timelineIniciada) {
-            console.warn("Forçando inicialização: vídeos demoraram muito.");
+
+            console.warn(
+                "Forçando inicialização: vídeos demoraram muito."
+            );
 
             timelineIniciada = true;
 
             ScrollTrigger.refresh();
         }
+
     }, 2000);
-}
+};
