@@ -687,19 +687,22 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
 
 // ============================================================================
 // CELULAR
-// <= 768px
+// EXPERIÊNCIA MOBILE COM TIMELINE
 // ============================================================================
 
 mm.add("(max-width: 768px)", () => {
+
     // ------------------------------------------------------------------------
-    // ACESSIBILIDADE
+    // REDUCED MOTION
     // ------------------------------------------------------------------------
 
     if (reduceMotion) {
+
         gsap.set(
             [
                 ".secao1",
                 ".secao2",
+                ".secao3",
                 ".secao4",
                 ".secao5",
                 ".secao6",
@@ -710,398 +713,731 @@ mm.add("(max-width: 768px)", () => {
                 ".lucia-content",
                 ".coluna-parallax",
                 ".coluna-parallax2",
-                ".content-secao8",
+                ".content-secao8"
             ],
             {
-                clearProps: "all",
-                opacity: 1,
-                y: 0,
-                yPercent: 0,
-            },
+                clearProps: "all"
+            }
         );
 
         return;
     }
 
+
     // ------------------------------------------------------------------------
-    // ESTADO INICIAL MOBILE
+    // ESTADOS INICIAIS
     // ------------------------------------------------------------------------
 
     gsap.set(".secao1", {
         opacity: 1,
+        yPercent: 0
     });
 
-    gsap.set(
-        [
-            ".jason-content",
-            ".coluna-parallax",
-            ".lucia-content",
-            ".coluna-parallax2",
-        ],
-        {
-            opacity: 0,
-            y: 40,
-        },
-    );
+    gsap.set(".secao2", {
+        opacity: 1,
+        yPercent: 0
+    });
+
+    gsap.set(".secao3", {
+        opacity: 1,
+        yPercent: 0
+    });
+
+    gsap.set(".secao4", {
+        opacity: 1,
+        yPercent: 0
+    });
 
     gsap.set(".secao5", {
         opacity: 1,
+        yPercent: 100
+    });
+
+    gsap.set(".secao6", {
+        opacity: 1,
+        yPercent: 100
     });
 
     gsap.set(".secao7", {
         opacity: 1,
+        yPercent: 100
     });
 
     gsap.set(".secao8", {
         opacity: 1,
-        backgroundColor: "#4a3c75",
+        yPercent: 100,
+        backgroundColor: "#4a3c75"
+    });
+
+    gsap.set(".secao9", {
+        opacity: 1,
+        yPercent: 100
+    });
+
+
+    // ------------------------------------------------------------------------
+    // CONTEÚDOS
+    // ------------------------------------------------------------------------
+
+    gsap.set(".jason-content", {
+        opacity: 0,
+        yPercent: 60
+    });
+
+    gsap.set(".coluna-parallax", {
+        opacity: 0,
+        yPercent: 80
+    });
+
+    gsap.set(".lucia-content", {
+        opacity: 0,
+        yPercent: 60
+    });
+
+    gsap.set(".coluna-parallax2", {
+        opacity: 0,
+        yPercent: 80
     });
 
     gsap.set(".content-secao8", {
         opacity: 0,
-        y: 30,
+        yPercent: 20
     });
 
-    gsap.set(".secao9", {
-        opacity: 0,
-        y: 30,
+
+    // ------------------------------------------------------------------------
+    // HERO
+    // ------------------------------------------------------------------------
+
+    const tlMobile = gsap.timeline({
+
+        scrollTrigger: {
+
+            trigger: ".containerPai",
+
+            start: "top top",
+
+            end: "+=9000",
+
+            scrub: 1,
+
+            pin: true,
+
+            anticipatePin: 1,
+
+            invalidateOnRefresh: true
+        }
     });
+
 
     // ========================================================================
     // SECTION 1
     // ========================================================================
 
-    gsap.fromTo(
-        ".secao1 .LogoBg",
+    tlMobile.to(".secao1", {
+
+        opacity: 0,
+
+        duration: 1.2,
+
+        ease: "power2.inOut"
+
+    });
+
+
+    // Logo desaparece
+
+    tlMobile.to(
+        ".LogoBg",
         {
             opacity: 0,
-            scale: 1.05,
+
+            scale: 1.08,
+
+            duration: 0.7,
+
+            ease: "power2.inOut"
         },
-        {
-            opacity: 1,
-            scale: 1,
-            duration: 1.2,
-            ease: "power2.out",
-        },
+        "<"
     );
+
 
     // ========================================================================
     // SECTION 2
     // ========================================================================
 
-    gsap.fromTo(
+    tlMobile.fromTo(
         ".secao2 img",
+
         {
             opacity: 0,
-            scale: 0.9,
-            filter: "blur(10px)",
+            scale: 0.8,
+            filter: "blur(12px)"
         },
+
         {
             opacity: 1,
             scale: 1,
             filter: "blur(0px)",
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: ".secao2",
-                start: "top 80%",
-                toggleActions: "play none none reverse",
-            },
-        },
-    );
 
-    // ========================================================================
-    // VIDEO 1
-    // ========================================================================
-
-    gsap.fromTo(
-        "#scroll-video",
-        {
-            opacity: 0,
-            scale: 1.05,
-        },
-        {
-            opacity: 1,
-            scale: 1,
             duration: 1,
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: ".secao3",
-                start: "top 80%",
-                toggleActions: "play none none reverse",
-            },
-        },
+
+            ease: "power2.out"
+        }
     );
 
-    // ========================================================================
-    // SECTION 4 - JASON
-    // ========================================================================
 
-    animateMobileElement(
-        ".jason-content",
-        {
-            duration: 0.8,
-        },
-        {
-            start: "top 80%",
-        },
-    );
-
-    animateMobileElement(
-        ".coluna-parallax",
-        {
-            duration: 0.9,
-            delay: 0.1,
-        },
-        {
-            start: "top 85%",
-        },
-    );
-
-    // Imagens individuais
-    gsap.utils.toArray(".secao4 img").forEach((img, index) => {
-        gsap.fromTo(
-            img,
-            {
-                opacity: 0,
-                scale: 1.04,
-            },
-            {
-                opacity: 1,
-                scale: 1,
-                duration: 0.8,
-                delay: index * 0.08,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: img,
-                    start: "top 90%",
-                    toggleActions: "play none none reverse",
-                },
-            },
-        );
-    });
-
-    // ========================================================================
-    // SECTION 5
-    // ========================================================================
-
-    gsap.fromTo(
-        "#scroll-video2",
+    tlMobile.to(
+        ".secao2",
         {
             opacity: 0,
-            scale: 1.03,
+
+            duration: 0.8,
+
+            ease: "power2.inOut"
+        }
+    );
+
+
+    // ========================================================================
+    // VÍDEO 1
+    // ========================================================================
+
+    tlMobile.fromTo(
+        "#scroll-video",
+
+        {
+            opacity: 0,
+            scale: 1.08
         },
+
         {
             opacity: 1,
             scale: 1,
+
             duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: ".secao5",
-                start: "top 80%",
-                toggleActions: "play none none reverse",
-            },
-        },
+
+            ease: "power2.out"
+        }
     );
 
-    // ========================================================================
-    // SECTION 6 - LUCIA
-    // ========================================================================
 
-    animateMobileElement(
-        ".lucia-content",
-        {
-            duration: 0.8,
-        },
-        {
-            start: "top 80%",
-        },
-    );
+    if (video) {
 
-    animateMobileElement(
-        ".coluna-parallax2",
-        {
-            duration: 0.9,
-        },
-        {
-            start: "top 85%",
-        },
-    );
-
-    gsap.utils.toArray(".secao6 img").forEach((img, index) => {
-        gsap.fromTo(
-            img,
+        tlMobile.to(
+            video,
             {
-                opacity: 0,
-                scale: 1.04,
-            },
-            {
-                opacity: 1,
-                scale: 1,
-                duration: 0.8,
-                delay: index * 0.08,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: img,
-                    start: "top 90%",
-                    toggleActions: "play none none reverse",
-                },
-            },
+                currentTime: () => video.duration || 1,
+
+                duration: 2.5,
+
+                ease: "none"
+            }
         );
-    });
+
+    }
+
+
+    // Saída do vídeo
+
+    tlMobile.to(
+        "#scroll-video",
+
+        {
+            scale: 1.08,
+
+            opacity: 0,
+
+            filter: "blur(8px)",
+
+            duration: 0.8,
+
+            ease: "power2.inOut"
+        }
+    );
+
+
+    // ========================================================================
+    // JASON
+    // ========================================================================
+
+    tlMobile.fromTo(
+
+        ".jason-content",
+
+        {
+            opacity: 0,
+            yPercent: 70
+        },
+
+        {
+            opacity: 1,
+            yPercent: 0,
+
+            duration: 1.2,
+
+            ease: "power2.out"
+        },
+
+        "-=0.4"
+    );
+
+
+    tlMobile.fromTo(
+
+        ".coluna-parallax",
+
+        {
+            opacity: 0,
+            yPercent: 80
+        },
+
+        {
+            opacity: 1,
+            yPercent: 0,
+
+            duration: 1.4,
+
+            ease: "power2.out"
+        },
+
+        "-=1"
+    );
+
+
+    // Pequeno parallax
+
+    tlMobile.to(
+        ".coluna-parallax",
+
+        {
+            yPercent: -25,
+
+            duration: 1.2,
+
+            ease: "none"
+        }
+    );
+
+
+    tlMobile.to(
+        ".jason-content",
+
+        {
+            yPercent: -25,
+
+            duration: 1.2,
+
+            ease: "none"
+        },
+
+        "<"
+    );
+
+
+    // ========================================================================
+    // VÍDEO 2
+    // ========================================================================
+
+    tlMobile.to(
+
+        ".secao5",
+
+        {
+            yPercent: 0,
+
+            duration: 1.2,
+
+            ease: "power2.inOut"
+        }
+
+    );
+
+
+    if (video2) {
+
+        tlMobile.to(
+
+            video2,
+
+            {
+                currentTime: () => video2.duration || 1,
+
+                duration: 2,
+
+                ease: "none"
+            },
+
+            "<+=0.2"
+        );
+
+    }
+
+
+    tlMobile.to(
+
+        "#scroll-video2",
+
+        {
+            scale: 1.06,
+
+            opacity: 0,
+
+            filter: "blur(8px)",
+
+            duration: 0.7,
+
+            ease: "power2.inOut"
+        }
+
+    );
+
+
+    // ========================================================================
+    // LUCIA
+    // ========================================================================
+
+    tlMobile.fromTo(
+
+        ".lucia-content",
+
+        {
+            opacity: 0,
+            yPercent: 70
+        },
+
+        {
+            opacity: 1,
+            yPercent: 0,
+
+            duration: 1.2,
+
+            ease: "power2.out"
+        },
+
+        "-=0.4"
+    );
+
+
+    tlMobile.fromTo(
+
+        ".coluna-parallax2",
+
+        {
+            opacity: 0,
+            yPercent: 80
+        },
+
+        {
+            opacity: 1,
+            yPercent: 0,
+
+            duration: 1.4,
+
+            ease: "power2.out"
+        },
+
+        "-=1"
+    );
+
+
+    // Parallax Lucia
+
+    tlMobile.to(
+
+        ".coluna-parallax2",
+
+        {
+            yPercent: -25,
+
+            duration: 1.2,
+
+            ease: "none"
+        }
+
+    );
+
+
+    tlMobile.to(
+
+        ".lucia-content",
+
+        {
+            yPercent: -25,
+
+            duration: 1.2,
+
+            ease: "none"
+        },
+
+        "<"
+    );
+
 
     // ========================================================================
     // SECTION 7
     // ========================================================================
 
-    gsap.fromTo(
-        ".post-card-wrapper",
+    tlMobile.to(
+
+        ".secao7",
+
         {
-            opacity: 0,
-            scale: 0.96,
-        },
-        {
-            opacity: 1,
-            scale: 1,
-            duration: 1,
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: ".secao7",
-                start: "top 80%",
-                toggleActions: "play none none reverse",
-            },
-        },
+            yPercent: 0,
+
+            duration: 1.2,
+
+            ease: "power2.out"
+        }
+
     );
+
+
+    tlMobile.fromTo(
+
+        ".post-card-wrapper",
+
+        {
+            scale: 0.94,
+            opacity: 0
+        },
+
+        {
+            scale: 1,
+            opacity: 1,
+
+            duration: 1,
+
+            ease: "power2.out"
+        },
+
+        "<"
+    );
+
+
+    // Vídeo 3
+
+    if (video3) {
+
+        tlMobile.to(
+
+            video3,
+
+            {
+                currentTime: () => video3.duration || 1,
+
+                duration: 2,
+
+                ease: "none"
+            },
+
+            "<"
+        );
+
+    }
+
+
+    // Saída
+
+    tlMobile.to(
+
+        ".secao7",
+
+        {
+            yPercent: -100,
+
+            duration: 1,
+
+            ease: "power2.inOut"
+        }
+
+    );
+
 
     // ========================================================================
     // SECTION 8
     // ========================================================================
 
-    gsap.fromTo(
-        ".content-secao8",
+    tlMobile.to(
+
+        ".secao8",
+
         {
-            opacity: 0,
-            y: 30,
-        },
-        {
-            opacity: 1,
-            y: 0,
+            yPercent: 0,
+
             duration: 1,
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: ".secao8",
-                start: "top 75%",
-                toggleActions: "play none none reverse",
-            },
+
+            ease: "power2.out"
         },
+
+        "<"
     );
 
-    gsap.fromTo(
-        ".secao8",
+
+    // Conteúdo
+
+    tlMobile.to(
+
+        ".content-secao8",
+
         {
-            backgroundColor: "#4a3c75",
-        },
+            opacity: 1,
+
+            yPercent: 0,
+
+            duration: 1,
+
+            ease: "power2.out"
+        }
+
+    );
+
+
+    // Vídeo 4
+
+    if (video4) {
+
+        tlMobile.to(
+
+            video4,
+
+            {
+                currentTime: () => video4.duration || 1,
+
+                duration: 2,
+
+                ease: "none"
+            },
+
+            "<"
+        );
+
+    }
+
+
+    // Gradiente → preto
+
+    tlMobile.to(
+
+        ".secao8",
+
         {
             backgroundColor: "#000000",
+
             duration: 1.5,
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: ".secao8",
-                start: "top 65%",
-                toggleActions: "play none none reverse",
-            },
-        },
+
+            ease: "none"
+        }
+
     );
+
+
+    tlMobile.to(
+
+        "#scroll-video4",
+
+        {
+            opacity: 0,
+
+            duration: 0.8,
+
+            ease: "power2.out"
+        },
+
+        "<"
+    );
+
 
     // ========================================================================
     // SECTION 9
     // ========================================================================
 
-    gsap.fromTo(
+    tlMobile.to(
+
         ".secao9",
+
         {
-            opacity: 0,
-            y: 40,
-        },
-        {
-            opacity: 1,
-            y: 0,
+            yPercent: 0,
+
             duration: 1,
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: ".secao9",
-                start: "top 85%",
-                toggleActions: "play none none reverse",
-            },
-        },
+
+            ease: "power3.out"
+        }
+
     );
 
-    gsap.fromTo(
+
+    // Logos
+
+    tlMobile.fromTo(
+
         ".footer img",
+
         {
             opacity: 0,
-            scale: 0.9,
+            scale: 0.85
         },
+
         {
             opacity: 1,
             scale: 1,
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: ".secao9",
-                start: "top 75%",
-                toggleActions: "play none none reverse",
-            },
+
+            duration: 0.7,
+
+            stagger: 0.08,
+
+            ease: "power2.out"
         },
+
+        "-=0.5"
     );
 
-    gsap.fromTo(
+
+    // Título
+
+    tlMobile.fromTo(
+
         ".gradient-title",
+
         {
             opacity: 0,
-            y: 25,
+            y: 25
         },
+
         {
             opacity: 1,
             y: 0,
+
             duration: 0.8,
-            delay: 0.15,
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: ".gradient-title",
-                start: "top 85%",
-                toggleActions: "play none none reverse",
-            },
+
+            ease: "power2.out"
         },
+
+        "-=0.5"
     );
 
-    gsap.fromTo(
-        ".logos",
-        {
-            opacity: 0,
-            y: 20,
-        },
-        {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            delay: 0.25,
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: ".logos",
-                start: "top 90%",
-                toggleActions: "play none none reverse",
-            },
-        },
-    );
 
     // ------------------------------------------------------------------------
     // REFRESH
     // ------------------------------------------------------------------------
 
     requestAnimationFrame(() => {
+
         ScrollTrigger.refresh();
+
     });
+
+
+    // ------------------------------------------------------------------------
+    // CLEANUP
+    // ------------------------------------------------------------------------
+
+    return () => {
+
+        tlMobile.kill();
+
+    };
+
 });
 
 // ============================================================================
