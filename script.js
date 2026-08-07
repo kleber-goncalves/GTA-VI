@@ -1,74 +1,149 @@
 gsap.registerPlugin(ScrollTrigger);
 
-const isTabletOrMobile = window.matchMedia("(max-width: 1024px)").matches || window.innerWidth < 1024;
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
 const video = document.getElementById("scroll-video");
 const video2 = document.getElementById("scroll-video2");
 const video3 = document.getElementById("scroll-video3");
 const video4 = document.getElementById("scroll-video4");
 
-function initTimeline() {
-    if (reduceMotion || isTabletOrMobile) {
-        return;
-    }
+const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+).matches;
 
-    // 1. Estados Iniciais - Tudo que vem de baixo nasce no yPercent: 100
-    gsap.set(".secao5", { opacity: 0, yPercent: 30 });
-    gsap.set(".secao7", { opacity: 1, yPercent: 120 });
+// ============================================================================
+// MATCHMEDIA DO GSAP
+// ============================================================================
+const mm = gsap.matchMedia();
+
+// ============================================================================
+// FUNÇÃO PARA CRIAR A TIMELINE DESKTOP
+// ============================================================================
+function createDesktopTimeline() {
+    // ========================================================================
+    // ESTADOS INICIAIS
+    // ========================================================================
+
+    gsap.set(".secao5", {
+        opacity: 0,
+        yPercent: 30,
+    });
+
+    gsap.set(".secao7", {
+        opacity: 1,
+        yPercent: 120,
+    });
+
     gsap.set(".secao8", {
         opacity: 1,
         yPercent: 100,
         backgroundColor: "#4a3c75",
     });
+
     gsap.set(".content-secao8", {
         yPercent: 40,
         opacity: 0,
     });
+
     gsap.set(".secao9", {
         yPercent: 100,
         opacity: 1,
     });
 
+    // ========================================================================
+    // TIMELINE PRINCIPAL
+    // ========================================================================
+
     const tl = gsap.timeline({
         scrollTrigger: {
             trigger: ".containerPai",
+
             start: "top top",
-            // Ajuste este valor se sobrar rolagem preta no fim.
-            // Tente entre "+=12000" e "+=18000" até ficar perfeito:
+
             end: "+=15000",
+
             scrub: 1,
+
             pin: true,
-            // markers: true, // Descomente para ajudar a ajustar o 'end' acima
+
+            // markers: true,
         },
     });
 
-    // =========================================================================
-    // 1 a 5. ANIMAÇÕES INICIAIS (Hero, Vídeo 1, Seção 4)
-    // =========================================================================
-    tl.to(".secao1", { maskSize: "20vw", duration: 2 });
-    tl.to(".LogoBg", { opacity: 0, duration: 0.5 }, "-=1.8");
-    tl.to(".secBrac", { backgroundColor: "white", duration: 1 }, "-=1");
+    // ========================================================================
+    // 1 — HERO
+    // ========================================================================
 
-    tl.to(".secao1", { opacity: 0, duration: 1 });
+    tl.to(".secao1", {
+        maskSize: "20vw",
+        duration: 2,
+    });
+
+    tl.to(
+        ".LogoBg",
+        {
+            opacity: 0,
+            duration: 0.5,
+        },
+        "-=1.8",
+    );
+
+    tl.to(
+        ".secBrac",
+        {
+            backgroundColor: "white",
+            duration: 1,
+        },
+        "-=1",
+    );
+
+    // ========================================================================
+    // 2 — SAÍDA HERO
+    // ========================================================================
+
+    tl.to(".secao1", {
+        opacity: 0,
+        duration: 1,
+    });
+
+    // ========================================================================
+    // 3 — LOGO
+    // ========================================================================
+
     tl.from(
         ".secao2 img",
-        { opacity: 0, filter: "blur(20px)", duration: 1 },
+        {
+            opacity: 0,
+            filter: "blur(20px)",
+            duration: 1,
+        },
         "-=0.5",
     );
 
-    tl.to(".secao2", { opacity: 0, duration: 1 });
+    tl.to(".secao2", {
+        opacity: 0,
+        duration: 1,
+    });
+
+    // ========================================================================
+    // 4 — VÍDEO 1
+    // ========================================================================
+
     tl.from(
         "#scroll-video",
-        { opacity: 0, filter: "blur(20px)", duration: 1 },
+        {
+            opacity: 0,
+            filter: "blur(20px)",
+            duration: 1,
+        },
         "-=0.5",
     );
 
-    tl.to(video, {
-        currentTime: video.duration || 1,
-        duration: 4,
-        ease: "power2.inOut",
-    });
+    if (video) {
+        tl.to(video, {
+            currentTime: video.duration || 1,
+            duration: 4,
+            ease: "power2.inOut",
+        });
+    }
 
     tl.to(
         "#scroll-video",
@@ -81,50 +156,97 @@ function initTimeline() {
         },
         "-=0.5",
     );
+
+    // ========================================================================
+    // 5 — JASON
+    // ========================================================================
+
     tl.to(
         ".secao4",
-        { backgroundColor: "rgba(0, 0, 0, 0)", duration: 1, ease: "power1.in" },
+        {
+            backgroundColor: "rgba(0, 0, 0, 0)",
+            duration: 1,
+            ease: "power1.in",
+        },
         "<",
     );
 
     tl.fromTo(
         ".jason-content",
-        { yPercent: 180, opacity: 0 },
-        { yPercent: 0, opacity: 1, duration: 2, ease: "power1.out" },
+        {
+            yPercent: 180,
+            opacity: 0,
+        },
+        {
+            yPercent: 0,
+            opacity: 1,
+            duration: 2,
+            ease: "power1.out",
+        },
         "-=1.5",
     );
+
     tl.fromTo(
         ".coluna-parallax",
-        { yPercent: 450, opacity: 1 },
-        { yPercent: 0, opacity: 1, duration: 2, ease: "power1.out" },
+        {
+            yPercent: 450,
+            opacity: 1,
+        },
+        {
+            yPercent: 0,
+            opacity: 1,
+            duration: 2,
+            ease: "power1.out",
+        },
         "-=2",
     );
 
-    tl.to(".coluna-parallax", { yPercent: -130, duration: 3, ease: "none" });
+    // ========================================================================
+    // PARALLAX JASON
+    // ========================================================================
+
+    tl.to(".coluna-parallax", {
+        yPercent: -130,
+        duration: 3,
+        ease: "none",
+    });
+
     tl.to(
         ".jason-content",
-        { yPercent: -100, duration: 3, ease: "power1.inOut" },
+        {
+            yPercent: -100,
+            duration: 3,
+            ease: "power1.inOut",
+        },
         "<",
     );
 
-    // =========================================================================
-    // 6. TRANSIÇÃO: SAÍDA DA SEÇÃO 4 & ENTRADA DA SEÇÃO 5
-    // =========================================================================
-    tl.to(
-        ".secao5",
-        { yPercent: 0, opacity: 1, duration: 2, ease: "power2.inOut" },
-        "<+=0.5",
-    );
+    // ========================================================================
+    // 6 — VÍDEO 2
+    // ========================================================================
 
     tl.to(
-        video2,
+        ".secao5",
         {
-            currentTime: video2.duration || 1,
+            yPercent: 0,
+            opacity: 1,
             duration: 2,
             ease: "power2.inOut",
         },
-        "<+=1",
+        "<+=0.5",
     );
+
+    if (video2) {
+        tl.to(
+            video2,
+            {
+                currentTime: video2.duration || 1,
+                duration: 2,
+                ease: "power2.inOut",
+            },
+            "<+=1",
+        );
+    }
 
     tl.to(
         "#scroll-video2",
@@ -137,36 +259,65 @@ function initTimeline() {
         },
         "<+=1",
     );
-    // =========================================================================
-    // 6. ENTRADA DA SEÇÃO 6 (LUCIA) - MAIS CURTA E DIRETA
-    // =========================================================================
-    // Reduzimos o yPercent de 180 para 100
+
+    // ========================================================================
+    // 7 — LUCIA
+    // ========================================================================
 
     tl.fromTo(
         ".lucia-content",
-        { yPercent: 100, opacity: 1 },
-        { yPercent: 0, opacity: 1, duration: 2, ease: "none" },
+        {
+            yPercent: 100,
+            opacity: 1,
+        },
+        {
+            yPercent: 0,
+            opacity: 1,
+            duration: 2,
+            ease: "none",
+        },
         "<-=0.6",
     );
 
-    // O GRANDE VILÃO: Reduzimos de yPercent: 350 para 150.
-    // Isso diminui drasticamente a quantidade de scroll necessária.
     tl.fromTo(
         ".coluna-parallax2",
-        { yPercent: 150, opacity: 1 },
-        { yPercent: 0, opacity: 1, duration: 2, ease: "none" },
+        {
+            yPercent: 150,
+            opacity: 1,
+        },
+        {
+            yPercent: 0,
+            opacity: 1,
+            duration: 2,
+            ease: "none",
+        },
         "<",
     );
 
-    // =========================================================================
-    // 6. SAÍDA DA SEÇÃO 6 & ROLAGM NORMAL DA SEÇÃO 7
-    // =========================================================================
-    // Textos/Imagens da Seção 6 começam a subir para sair da tela
-    tl.to(".coluna-parallax2", { yPercent: -100, duration: 2, ease: "none" });
-    tl.to(".lucia-content", { yPercent: -100, duration: 2, ease: "none" }, "<");
+    // ========================================================================
+    // SAÍDA LUCIA
+    // ========================================================================
 
-    // O SIMBOLISMO DO "<": A Seção 7 sobe do chão (yPercent: 100 -> 0)
-    // exatamente ao mesmo tempo em que a Seção 6 vai embora.
+    tl.to(".coluna-parallax2", {
+        yPercent: -100,
+        duration: 2,
+        ease: "none",
+    });
+
+    tl.to(
+        ".lucia-content",
+        {
+            yPercent: -100,
+            duration: 2,
+            ease: "none",
+        },
+        "<",
+    );
+
+    // ========================================================================
+    // 8 — SEÇÃO 7
+    // ========================================================================
+
     tl.to(
         ".secao7",
         {
@@ -177,25 +328,28 @@ function initTimeline() {
         "<",
     );
 
-    // O vídeo 3 rola conforme a Seção 7 já está fixada na tela
-    tl.to(
-        video3,
-        {
-            currentTime: video3.duration || 1,
-            duration: 2,
-            ease: "none",
-        },
-        "<",
-    );
-    // O SIMBOLISMO DO "<": A Seção 7 sobe do chão (yPercent: 100 -> 0)
-    // exatamente ao mesmo tempo em que a Seção 6 vai embora.
-    tl.to(".secao7", { yPercent: -100, duration: 1, ease: "none" });
-    // =========================================================================
-    // 8. TRANSIÇÃO: SAÍDA DA SEÇÃO 7 & ENTRADA DA SEÇÃO 8
-    // =========================================================================
+    if (video3) {
+        tl.to(
+            video3,
+            {
+                currentTime: video3.duration || 1,
+                duration: 2,
+                ease: "none",
+            },
+            "<",
+        );
+    }
 
-    // A Seção 8 entra parando no ZERO, revelando escala e gradiente ao mesmo tempo
-    // label para sincronizar tudo
+    tl.to(".secao7", {
+        yPercent: -100,
+        duration: 1,
+        ease: "none",
+    });
+
+    // ========================================================================
+    // 9 — SEÇÃO 8
+    // ========================================================================
+
     tl.addLabel("secao8");
 
     tl.to(
@@ -207,21 +361,26 @@ function initTimeline() {
         },
         "<",
     );
+
     tl.to(".content-secao8", {
         opacity: 1,
         yPercent: 0,
         duration: 1,
         ease: "power2.out",
     });
-    tl.to(
-        video4,
-        {
-            currentTime: video4.duration || 1,
-            duration: 2,
-            ease: "none",
-        },
-        "<",
-    );
+
+    if (video4) {
+        tl.to(
+            video4,
+            {
+                currentTime: video4.duration || 1,
+                duration: 2,
+                ease: "none",
+            },
+            "<",
+        );
+    }
+
     tl.to(
         ".secao8",
         {
@@ -232,69 +391,480 @@ function initTimeline() {
         },
         "<",
     );
-    tl.to("#scroll-video4", { opacity: 0, duration: 1, ease: "power4.out" });
 
-    // Entrada
+    tl.to("#scroll-video4", {
+        opacity: 0,
+        duration: 1,
+        ease: "power4.out",
+    });
+
+    // ========================================================================
+    // 10 — ENTRADA SEÇÃO 9
+    // ========================================================================
+
     tl.to(".secao9", {
         yPercent: 0,
         duration: 0.5,
         ease: "power4.out",
     });
 
-    // Não faça a saída ainda.
+    return tl;
 }
 
-// =========================================================================
-// SISTEMA DE CARREGAMENTO (Corrigido para aguardar os 4 vídeos)
-// =========================================================================
-// =========================================================================
-// SISTEMA DE CARREGAMENTO À PROVA DE FALHAS
-// =========================================================================
-const videos = [
-    document.getElementById("scroll-video"),
-    document.getElementById("scroll-video2"),
-    document.getElementById("scroll-video3"),
-    document.getElementById("scroll-video4"),
-].filter((vid) => vid !== null); // Filtra e ignora os vídeos que não existem no HTML
+// ============================================================================
+// TIMELINE MOBILE / TABLET
+// ============================================================================
+
+function createMobileTimeline() {
+    // ========================================================================
+    // ESTADOS INICIAIS
+    // ========================================================================
+
+    gsap.set(".secao5", {
+        opacity: 0,
+        yPercent: 15,
+    });
+
+    gsap.set(".secao7", {
+        opacity: 1,
+        yPercent: 100,
+    });
+
+    gsap.set(".secao8", {
+        opacity: 1,
+        yPercent: 100,
+        backgroundColor: "#4a3c75",
+    });
+
+    gsap.set(".content-secao8", {
+        yPercent: 20,
+        opacity: 0,
+    });
+
+    gsap.set(".secao9", {
+        yPercent: 100,
+        opacity: 1,
+    });
+
+    // ========================================================================
+    // TIMELINE MOBILE
+    // ========================================================================
+
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: ".containerPai",
+
+            start: "top top",
+
+            end: "+=9000",
+
+            scrub: 0.8,
+
+            pin: true,
+
+            // markers: true,
+        },
+    });
+
+    // ========================================================================
+    // HERO
+    // ========================================================================
+
+    tl.to(".secao1", {
+        maskSize: "45vw",
+        duration: 2,
+    });
+
+    tl.to(
+        ".LogoBg",
+        {
+            opacity: 0,
+            duration: 0.5,
+        },
+        "-=1.5",
+    );
+
+    tl.to(".secao1", {
+        opacity: 0,
+        duration: 0.8,
+    });
+
+    // ========================================================================
+    // LOGO
+    // ========================================================================
+
+    tl.from(
+        ".secao2 img",
+        {
+            opacity: 0,
+            filter: "blur(10px)",
+            duration: 0.8,
+        },
+        "-=0.3",
+    );
+
+    tl.to(".secao2", {
+        opacity: 0,
+        duration: 0.8,
+    });
+
+    // ========================================================================
+    // VÍDEO 1
+    // ========================================================================
+
+    tl.from(
+        "#scroll-video",
+        {
+            opacity: 0,
+            duration: 0.8,
+        },
+        "-=0.3",
+    );
+
+    if (video) {
+        tl.to(video, {
+            currentTime: video.duration || 1,
+            duration: 3,
+            ease: "none",
+        });
+    }
+
+    tl.to("#scroll-video", {
+        opacity: 0,
+        scale: 1.03,
+        duration: 0.6,
+        ease: "power1.out",
+    });
+
+    // ========================================================================
+    // JASON — MAIS LEVE
+    // ========================================================================
+
+    tl.fromTo(
+        ".jason-content",
+        {
+            yPercent: 50,
+            opacity: 0,
+        },
+        {
+            yPercent: 0,
+            opacity: 1,
+            duration: 1.5,
+            ease: "power2.out",
+        },
+    );
+
+    tl.fromTo(
+        ".coluna-parallax",
+        {
+            yPercent: 80,
+            opacity: 0,
+        },
+        {
+            yPercent: 0,
+            opacity: 1,
+            duration: 1.5,
+            ease: "power2.out",
+        },
+        "<",
+    );
+
+    // ========================================================================
+    // SAÍDA JASON
+    // ========================================================================
+
+    tl.to(".jason-content", {
+        yPercent: -50,
+        opacity: 0,
+        duration: 1.5,
+    });
+
+    tl.to(
+        ".coluna-parallax",
+        {
+            yPercent: -50,
+            opacity: 0,
+            duration: 1.5,
+        },
+        "<",
+    );
+
+    // ========================================================================
+    // VÍDEO 2
+    // ========================================================================
+
+    tl.to(".secao5", {
+        yPercent: 0,
+        opacity: 1,
+        duration: 1.5,
+        ease: "power2.out",
+    });
+
+    if (video2) {
+        tl.to(video2, {
+            currentTime: video2.duration || 1,
+            duration: 2,
+            ease: "none",
+        });
+    }
+
+    tl.to("#scroll-video2", {
+        opacity: 0,
+        duration: 0.5,
+    });
+
+    // ========================================================================
+    // LUCIA
+    // ========================================================================
+
+    tl.fromTo(
+        ".lucia-content",
+        {
+            yPercent: 50,
+            opacity: 0,
+        },
+        {
+            yPercent: 0,
+            opacity: 1,
+            duration: 1.5,
+            ease: "power2.out",
+        },
+    );
+
+    tl.fromTo(
+        ".coluna-parallax2",
+        {
+            yPercent: 70,
+            opacity: 0,
+        },
+        {
+            yPercent: 0,
+            opacity: 1,
+            duration: 1.5,
+            ease: "power2.out",
+        },
+        "<",
+    );
+
+    // ========================================================================
+    // SAÍDA LUCIA
+    // ========================================================================
+
+    tl.to(".lucia-content", {
+        yPercent: -50,
+        opacity: 0,
+        duration: 1.5,
+    });
+
+    tl.to(
+        ".coluna-parallax2",
+        {
+            yPercent: -50,
+            opacity: 0,
+            duration: 1.5,
+        },
+        "<",
+    );
+
+    // ========================================================================
+    // SEÇÃO 7
+    // ========================================================================
+
+    tl.to(".secao7", {
+        yPercent: 0,
+        duration: 1.5,
+        ease: "none",
+    });
+
+    if (video3) {
+        tl.to(
+            video3,
+            {
+                currentTime: video3.duration || 1,
+                duration: 2,
+                ease: "none",
+            },
+            "<",
+        );
+    }
+
+    tl.to(".secao7", {
+        yPercent: -100,
+        duration: 1,
+    });
+
+    // ========================================================================
+    // SEÇÃO 8
+    // ========================================================================
+
+    tl.to(".secao8", {
+        yPercent: 0,
+        duration: 1,
+        ease: "none",
+    });
+
+    tl.to(".content-secao8", {
+        opacity: 1,
+        yPercent: 0,
+        duration: 1,
+        ease: "power2.out",
+    });
+
+    if (video4) {
+        tl.to(
+            video4,
+            {
+                currentTime: video4.duration || 1,
+                duration: 2,
+                ease: "none",
+            },
+            "<",
+        );
+    }
+
+    tl.to("#scroll-video4", {
+        opacity: 0,
+        duration: 0.8,
+    });
+
+    // ========================================================================
+    // SEÇÃO 9
+    // ========================================================================
+
+    tl.to(".secao9", {
+        yPercent: 0,
+        duration: 1,
+        ease: "power3.out",
+    });
+
+    return tl;
+}
+
+// ============================================================================
+// REDUCED MOTION
+// ============================================================================
+
+if (reduceMotion) {
+    gsap.set(".secao1", {
+        opacity: 0,
+    });
+
+    gsap.set(".secao2", {
+        opacity: 0,
+    });
+
+    gsap.set(".secao5", {
+        opacity: 1,
+        yPercent: 0,
+    });
+
+    gsap.set(".secao7", {
+        yPercent: 0,
+    });
+
+    gsap.set(".secao8", {
+        yPercent: 0,
+        opacity: 1,
+        backgroundColor: "#000",
+    });
+
+    gsap.set(".content-secao8", {
+        yPercent: 0,
+        opacity: 1,
+    });
+
+    gsap.set(".secao9", {
+        yPercent: 0,
+        opacity: 1,
+    });
+}
+
+// ============================================================================
+// GSAP MATCHMEDIA
+// ============================================================================
+else {
+    // ========================================================================
+    // DESKTOP
+    // ========================================================================
+
+    mm.add("(min-width: 1025px)", () => {
+        const timeline = createDesktopTimeline();
+
+        return () => {
+            timeline.kill();
+        };
+    });
+
+    // ========================================================================
+    // TABLET + MOBILE
+    // ========================================================================
+
+    mm.add("(max-width: 1024px)", () => {
+        const timeline = createMobileTimeline();
+
+        return () => {
+            timeline.kill();
+        };
+    });
+}
+
+// ============================================================================
+// SISTEMA DE CARREGAMENTO DOS VÍDEOS
+// ============================================================================
+
+const videos = [video, video2, video3, video4].filter((vid) => vid !== null);
 
 let videosLoaded = 0;
 let timelineIniciada = false;
 
 function checkVideosReady() {
-    if (timelineIniciada) return; // Garante que a timeline não inicie duas vezes
+    if (timelineIniciada) {
+        return;
+    }
 
     videosLoaded++;
-    // Inicia se todos os vídeos encontrados na tela já carregaram
+
     if (videosLoaded >= videos.length) {
         timelineIniciada = true;
-        initTimeline();
+
+        ScrollTrigger.refresh();
     }
 }
 
-// 1. Verifica se não tem vídeos na tela (inicia direto)
+// ============================================================================
+// VERIFICAÇÃO DOS VÍDEOS
+// ============================================================================
+
 if (videos.length === 0) {
     timelineIniciada = true;
-    initTimeline();
+
+    ScrollTrigger.refresh();
 } else {
-    // 2. Adiciona o listener para os vídeos que existem
     videos.forEach((vid) => {
         if (vid.readyState >= 1) {
             checkVideosReady();
         } else {
-            vid.addEventListener("loadedmetadata", checkVideosReady);
-            // Fallback extra caso o erro seja na rede
-            vid.addEventListener("error", checkVideosReady);
+            vid.addEventListener("loadedmetadata", checkVideosReady, {
+                once: true,
+            });
+
+            vid.addEventListener("error", checkVideosReady, { once: true });
         }
     });
 }
 
-// 3. FALLBACK DE SEGURANÇA MÁXIMA (Trava de 2 segundos)
-// Se após 2 segundos a timeline ainda não iniciou, forçamos o início.
-// Isso impede que o site fique travado sem scroll se algum vídeo falhar.
+// ============================================================================
+// FALLBACK
+// ============================================================================
+
 setTimeout(() => {
     if (!timelineIniciada) {
-        console.warn("Forçando inicialização: vídeos demoraram muito.");
+        console.warn(
+            "Forçando atualização do ScrollTrigger: vídeos demoraram muito.",
+        );
+
         timelineIniciada = true;
-        initTimeline();
+
+        ScrollTrigger.refresh();
     }
 }, 2000);
