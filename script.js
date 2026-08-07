@@ -1,11 +1,18 @@
 gsap.registerPlugin(ScrollTrigger);
 
+const isTabletOrMobile = window.matchMedia("(max-width: 1024px)").matches || window.innerWidth < 1024;
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 const video = document.getElementById("scroll-video");
 const video2 = document.getElementById("scroll-video2");
 const video3 = document.getElementById("scroll-video3");
 const video4 = document.getElementById("scroll-video4");
 
 function initTimeline() {
+    if (reduceMotion || isTabletOrMobile) {
+        return;
+    }
+
     // 1. Estados Iniciais - Tudo que vem de baixo nasce no yPercent: 100
     gsap.set(".secao5", { opacity: 0, yPercent: 30 });
     gsap.set(".secao7", { opacity: 1, yPercent: 120 });

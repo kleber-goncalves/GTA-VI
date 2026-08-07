@@ -10,6 +10,7 @@
 body {
     overflow-x: hidden;
     background-color: #000;
+    min-height: 100vh;
 }
 
 .containerPai {
@@ -27,20 +28,45 @@ section {
     top: 0;
     left: 0;
     overflow: hidden;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 /* =========================================================================
    SISTEMA DE Z-INDEX
    Garante que as novas seções sobreponham as anteriores ao "subirem" na tela
 ========================================================================= */
-.secao1 { z-index: 10; background-color: #000; } /* Hero */
-.secao2 { z-index: 9;  background-color: #000; } /* Transição inicial */
-.secao3 { z-index: 8;  background-color: #000; } /* Vídeo 1 */
-.secao4 { z-index: 11; background-color: transparent; } /* Textos Jason (entra sobre o vídeo 1) */
-.secao5 { z-index: 10; background-color: #000; } /* Vídeo 2 (cobre a seção 4) */
-.secao6 { z-index: 13; background-color: transparent; } /* Textos Lucia (entra sobre vídeo 2) */
-.secao7 { z-index: 14; background-color: #000; } /* Nova tela */
-.secao8 { z-index: 15; } /* Tela Final (Gradiente) */
+.secao1 {
+    z-index: 10;
+    background-color: #000;
+} /* Hero */
+.secao2 {
+    z-index: 9;
+    background-color: #000;
+} /* Transição inicial */
+.secao3 {
+    z-index: 8;
+    background-color: #000;
+} /* Vídeo 1 */
+.secao4 {
+    z-index: 11;
+    background-color: transparent;
+} /* Textos Jason (entra sobre o vídeo 1) */
+.secao5 {
+    z-index: 10;
+    background-color: #000;
+} /* Vídeo 2 (cobre a seção 4) */
+.secao6 {
+    z-index: 13;
+    background-color: transparent;
+} /* Textos Lucia (entra sobre vídeo 2) */
+.secao7 {
+    z-index: 14;
+    background-color: #000;
+} /* Nova tela */
+.secao8 {
+    z-index: 15;
+} /* Tela Final (Gradiente) */
 
 /* =========================================================================
    SEÇÃO 1 (HERO)
@@ -89,7 +115,8 @@ section {
     width: 20%;
 }
 
-.secao3, .secao5 {
+.secao3,
+.secao5 {
     will-change: transform, filter, opacity;
 }
 
@@ -102,7 +129,8 @@ video {
 /* =========================================================================
    ESTRUTURAS COMPARTILHADAS (Seção 4 e Seção 6)
 ========================================================================= */
-.secao4, .secao6 {
+.secao4,
+.secao6 {
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -129,17 +157,26 @@ video {
 }
 
 /* Fundos radiantes e containers */
-.jason-content, .lucia-content, .card-texto, .coluna-parallax, .coluna-parallax2 {
+.jason-content,
+.lucia-content,
+.card-texto,
+.coluna-parallax,
+.coluna-parallax2,
+.post-card-wrapper {
     position: relative;
     z-index: 2;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
-.jason-content, .lucia-content {
+.jason-content,
+.lucia-content {
     background: radial-gradient(ellipse, #111117 20%, transparent 70%);
 }
 
-.coluna-parallax, .coluna-parallax2 {
-    margin-top: 0; 
+.coluna-parallax,
+.coluna-parallax2 {
+    margin-top: 0;
     will-change: transform; /* Otimização de performance para o Parallax */
 }
 
@@ -158,7 +195,7 @@ video {
 .card-texto h1 {
     font-size: 6rem;
     line-height: 1;
-    color: #ff0055; 
+    color: #ff0055;
     margin-bottom: 0.5rem;
 }
 
@@ -184,15 +221,17 @@ video {
 /* =========================================================================
    GALERIA DE IMAGENS JASON (Seção 4)
 ========================================================================= */
-.jason-1, .jason-3 {
+.jason-1,
+.jason-3 {
     width: 100%;
     overflow: hidden;
     position: relative;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.jason-1 img, .jason-3 img {
+.jason-1 img,
+.jason-3 img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -202,7 +241,7 @@ video {
 .jason-2 {
     position: relative;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.1);
     height: 90vh;
     width: 100%;
@@ -310,24 +349,18 @@ video {
    SEÇÃO 8 (GRADIENTE ANIMADO)
 ========================================================================= */
 
-
 .secao8 {
-    
     will-change: transform, opacity, background-color;
-   
 }
-
 
 .content-secao8 {
     opacity: 0;
     overflow: hidden;
 }
 
-
 .animated-gradient-bg {
-  background: linear-gradient(135deg, #1e2a52 0%, #6e4b91 100%);
+    background: linear-gradient(135deg, #1e2a52 0%, #6e4b91 100%);
 }
-
 
 .secao9 {
     position: absolute;
@@ -347,15 +380,15 @@ video {
     gap: 2rem;
 }
 
-#logo-p{
+#logo-p {
     width: 17rem;
 }
 
-#logo-ps{
+#logo-ps {
     width: 8rem;
 }
 
-#logo-xbox{
+#logo-xbox {
     width: 13rem;
 }
 
@@ -367,15 +400,333 @@ video {
 }
 
 .gradient-title {
-   font-size: 5rem;
-  font-weight: 800 !important;
-  text-transform: uppercase;
-  line-height: 4.5rem;
-  text-align: center;
-  background-image: linear-gradient(to right, #f472b6, #f87171, #fb923c);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+    font-size: 5rem;
+    font-weight: 800 !important;
+    text-transform: uppercase;
+    line-height: 4.5rem;
+    text-align: center;
+    background-image: linear-gradient(to right, #f472b6, #f87171, #fb923c);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
 
-   
+/* =========================================================================
+   RESPONSIVIDADE
+========================================================================= */
+@media (max-width: 1400px) {
+    .secao4 {
+        padding-left: 8rem;
+    }
+
+    .secao6 {
+        padding-right: 4rem;
+    }
+
+    .card-texto h1 {
+        font-size: 4.5rem;
+    }
+
+    .card-texto h2 {
+        font-size: 2.3rem;
+        padding-inline-end: 3rem;
+    }
+
+    .card-texto p {
+        font-size: 1.3rem;
+    }
+
+    .gradient-title {
+        font-size: 4.3rem;
+        line-height: 3.8rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    .secao4,
+    .secao6 {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 3rem 2rem;
+        gap: 1.5rem;
+    }
+
+    .secao4 {
+        padding-left: 2rem;
+    }
+
+    .secao6 {
+        padding-right: 2rem;
+    }
+
+    .coluna {
+        width: 100%;
+        max-width: none;
+        gap: 1.25rem;
+    }
+
+    .lucia-content .card-texto {
+        padding-left: 0;
+    }
+
+    .card-texto {
+        max-width: none;
+    }
+
+    .card-texto h1 {
+        font-size: clamp(3rem, 5.2vw, 3.8rem);
+    }
+
+    .card-texto h2 {
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        padding-inline-end: 0;
+    }
+
+    .card-texto p {
+        font-size: clamp(1rem, 1.8vw, 1.25rem);
+    }
+
+    .jason-2 {
+        height: 60vh;
+    }
+
+    .lucia-3 {
+        height: 45vh;
+    }
+
+    .secao7 {
+        padding: 2rem 1.2rem;
+    }
+
+    .post-card-wrapper {
+        height: min(72vh, 40rem);
+        margin: 0;
+    }
+
+    .footer {
+        gap: 1.5rem;
+        padding: 2rem 1rem;
+    }
+
+    #logo-p {
+        width: 12rem;
+    }
+
+    #logo-ps {
+        width: 6rem;
+    }
+
+    #logo-xbox {
+        width: 9rem;
+    }
+
+    .gradient-title {
+        font-size: clamp(2.8rem, 5vw, 3.8rem);
+        line-height: 1.08;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        overflow-x: hidden;
+    }
+
+    .containerPai {
+        position: relative;
+        height: auto;
+    }
+
+    section {
+        position: relative;
+        top: auto;
+        left: auto;
+        height: auto;
+        min-height: 100svh;
+        overflow: visible;
+    }
+
+    .secao1,
+    .secao2,
+    .secao3,
+    .secao4,
+    .secao5,
+    .secao6,
+    .secao7,
+    .secao8,
+    .secao9 {
+        min-height: 100svh;
+    }
+
+    .secao1 {
+        mask-image: none;
+    }
+
+    .secao1 .bg1,
+    .secao1 .LogoBg {
+        object-position: center;
+    }
+
+    .secao1 .LogoBg {
+        top: 0;
+    }
+
+    .secao2 {
+        padding: 2rem 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .secao2 img {
+        width: min(55vw, 220px);
+    }
+
+    video {
+        height: 100svh;
+        min-height: 100svh;
+    }
+
+    .secao4,
+    .secao6 {
+        padding: 2.2rem 1rem;
+        gap: 1rem;
+    }
+
+    .jason-content,
+    .lucia-content {
+        background: none;
+    }
+
+    .jason-1,
+    .jason-2,
+    .jason-3,
+    .lucia-1,
+    .lucia-2,
+    .lucia-3 {
+        height: auto;
+        min-height: 14rem;
+    }
+
+    .jason-2 {
+        height: 45vh;
+    }
+
+    .lucia-3 {
+        height: 40vh;
+    }
+
+    .lucia-2 {
+        height: 40vh;
+    }
+
+    .secao7 {
+        padding: 1rem;
+    }
+
+    .post-card-wrapper {
+        height: 70svh;
+        min-height: 24rem;
+        margin: 0;
+    }
+
+    .content-secao8 {
+        opacity: 1;
+    }
+
+    .logos {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    #logo-p {
+        width: 10rem;
+    }
+
+    #logo-ps {
+        width: 5rem;
+    }
+
+    #logo-xbox {
+        width: 7rem;
+    }
+
+    .gradient-title {
+        font-size: clamp(2.3rem, 8vw, 3rem);
+        line-height: 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .secao4,
+    .secao6 {
+        padding: 1.5rem 0.8rem;
+    }
+
+    .card-texto h1 {
+        font-size: 2.4rem;
+    }
+
+    .card-texto h2 {
+        font-size: 1.35rem;
+    }
+
+    .card-texto p {
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .jason-2,
+    .lucia-3,
+    .lucia-2 {
+        height: 16rem;
+    }
+
+    .secao7 {
+        padding: 0.75rem;
+    }
+
+    .post-card-wrapper {
+        height: 60svh;
+        min-height: 20rem;
+    }
+
+    #logo-p {
+        width: 8rem;
+    }
+
+    #logo-ps {
+        width: 4.2rem;
+    }
+
+    #logo-xbox {
+        width: 6rem;
+    }
+}
+
+@media (min-width: 1600px) {
+    .secao4,
+    .secao6 {
+        padding-inline: 12rem;
+    }
+
+    .card-texto {
+        max-width: 46rem;
+    }
+
+    .card-texto h1 {
+        font-size: 7rem;
+    }
+
+    .card-texto h2 {
+        font-size: 3.3rem;
+    }
+
+    .card-texto p {
+        font-size: 1.7rem;
+    }
+
+    .gradient-title {
+        font-size: 6.5rem;
+        line-height: 5.5rem;
+    }
 }
