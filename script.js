@@ -3,7 +3,7 @@ gsap.registerPlugin(ScrollTrigger);
 const mm = gsap.matchMedia();
 
 const reduceMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
+    "(prefers-reduced-motion: reduce)",
 ).matches;
 
 const video = document.getElementById("scroll-video");
@@ -36,7 +36,7 @@ function animateMobileElement(element, vars, scrollVars = {}) {
                 ...scrollVars,
             },
             ...vars,
-        }
+        },
     );
 }
 
@@ -45,7 +45,6 @@ function animateMobileElement(element, vars, scrollVars = {}) {
 // ============================================================================
 
 mm.add("(min-width: 1025px)", () => {
-
     if (reduceMotion) {
         gsap.set(
             [
@@ -65,7 +64,7 @@ mm.add("(min-width: 1025px)", () => {
             ],
             {
                 clearProps: "all",
-            }
+            },
         );
 
         return;
@@ -139,7 +138,7 @@ mm.add("(min-width: 1025px)", () => {
             opacity: 0,
             duration: 0.5,
         },
-        "-=1.8"
+        "-=1.8",
     );
 
     tl.to(
@@ -148,7 +147,7 @@ mm.add("(min-width: 1025px)", () => {
             backgroundColor: "white",
             duration: 1,
         },
-        "-=1"
+        "-=1",
     );
 
     tl.to(".secao1", {
@@ -167,7 +166,7 @@ mm.add("(min-width: 1025px)", () => {
             filter: "blur(20px)",
             duration: 1,
         },
-        "-=0.5"
+        "-=0.5",
     );
 
     tl.to(".secao2", {
@@ -186,7 +185,7 @@ mm.add("(min-width: 1025px)", () => {
             filter: "blur(20px)",
             duration: 1,
         },
-        "-=0.5"
+        "-=0.5",
     );
 
     if (video) {
@@ -206,7 +205,7 @@ mm.add("(min-width: 1025px)", () => {
             duration: 1,
             ease: "power2.inOut",
         },
-        "-=0.5"
+        "-=0.5",
     );
 
     // ========================================================================
@@ -220,7 +219,7 @@ mm.add("(min-width: 1025px)", () => {
             duration: 1,
             ease: "power1.in",
         },
-        "<"
+        "<",
     );
 
     tl.fromTo(
@@ -235,7 +234,7 @@ mm.add("(min-width: 1025px)", () => {
             duration: 2,
             ease: "power1.out",
         },
-        "-=1.5"
+        "-=1.5",
     );
 
     tl.fromTo(
@@ -250,7 +249,7 @@ mm.add("(min-width: 1025px)", () => {
             duration: 2,
             ease: "power1.out",
         },
-        "-=2"
+        "-=2",
     );
 
     tl.to(".coluna-parallax", {
@@ -266,7 +265,7 @@ mm.add("(min-width: 1025px)", () => {
             duration: 3,
             ease: "power1.inOut",
         },
-        "<"
+        "<",
     );
 
     // ========================================================================
@@ -281,7 +280,7 @@ mm.add("(min-width: 1025px)", () => {
             duration: 2,
             ease: "power2.inOut",
         },
-        "<+=0.5"
+        "<+=0.5",
     );
 
     if (video2) {
@@ -292,7 +291,7 @@ mm.add("(min-width: 1025px)", () => {
                 duration: 2,
                 ease: "power2.inOut",
             },
-            "<+=1"
+            "<+=1",
         );
     }
 
@@ -305,7 +304,7 @@ mm.add("(min-width: 1025px)", () => {
             duration: 0.5,
             ease: "power2.inOut",
         },
-        "<+=1"
+        "<+=1",
     );
 
     // ========================================================================
@@ -327,7 +326,7 @@ mm.add("(min-width: 1025px)", () => {
             duration: 1.5,
             ease: "power2.out",
         },
-        "<"
+        "<",
     );
 
     // Conteúdo da Lúcia
@@ -344,7 +343,7 @@ mm.add("(min-width: 1025px)", () => {
             duration: 2,
             ease: "power1.out",
         },
-        "<+=0.2"
+        "<+=0.2",
     );
 
     // Galeria da Lúcia
@@ -361,19 +360,16 @@ mm.add("(min-width: 1025px)", () => {
             duration: 2,
             ease: "power1.out",
         },
-        "<"
+        "<",
     );
 
     // Parallax
 
-    tl.to(
-        ".coluna-parallax2",
-        {
-            yPercent: -100,
-            duration: 2,
-            ease: "none",
-        }
-    );
+    tl.to(".coluna-parallax2", {
+        yPercent: -100,
+        duration: 2,
+        ease: "none",
+    });
 
     tl.to(
         ".lucia-content",
@@ -382,7 +378,7 @@ mm.add("(min-width: 1025px)", () => {
             duration: 2,
             ease: "none",
         },
-        "<"
+        "<",
     );
 
     // ========================================================================
@@ -396,7 +392,7 @@ mm.add("(min-width: 1025px)", () => {
             duration: 2,
             ease: "none",
         },
-        "<"
+        "<",
     );
 
     if (video3) {
@@ -407,7 +403,7 @@ mm.add("(min-width: 1025px)", () => {
                 duration: 2,
                 ease: "none",
             },
-            "<"
+            "<",
         );
     }
 
@@ -430,7 +426,7 @@ mm.add("(min-width: 1025px)", () => {
             duration: 1,
             ease: "none",
         },
-        "<"
+        "<",
     );
 
     tl.to(".content-secao8", {
@@ -448,7 +444,7 @@ mm.add("(min-width: 1025px)", () => {
                 duration: 2,
                 ease: "none",
             },
-            "<"
+            "<",
         );
     }
 
@@ -460,7 +456,7 @@ mm.add("(min-width: 1025px)", () => {
             duration: 2,
             ease: "none",
         },
-        "<"
+        "<",
     );
 
     tl.to("#scroll-video4", {
@@ -490,7 +486,6 @@ mm.add("(min-width: 1025px)", () => {
 // ============================================================================
 
 mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
-
     if (reduceMotion) {
         return;
     }
@@ -561,7 +556,7 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
             opacity: 0,
             duration: 0.5,
         },
-        "-=1.5"
+        "-=1.5",
     );
 
     tlTablet.to(".secao1", {
@@ -580,7 +575,7 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
             filter: "blur(12px)",
             duration: 1,
         },
-        "-=0.5"
+        "-=0.5",
     );
 
     tlTablet.to(".secao2", {
@@ -598,7 +593,7 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
             opacity: 0,
             duration: 1,
         },
-        "-=0.5"
+        "-=0.5",
     );
 
     if (video) {
@@ -624,7 +619,7 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
             opacity: 1,
             duration: 2,
             ease: "power2.out",
-        }
+        },
     );
 
     tlTablet.fromTo(
@@ -639,7 +634,7 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
             duration: 2,
             ease: "none",
         },
-        "<"
+        "<",
     );
 
     // ------------------------------------------------------------------------
@@ -660,7 +655,7 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
                 duration: 2,
                 ease: "none",
             },
-            "<"
+            "<",
         );
     }
 
@@ -676,15 +671,12 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
     // CORREÇÃO:
     // Faz a section6 realmente entrar na tela.
 
-    tlTablet.to(
-        ".secao6",
-        {
-            yPercent: 0,
-            opacity: 1,
-            duration: 1.5,
-            ease: "power2.out",
-        }
-    );
+    tlTablet.to(".secao6", {
+        yPercent: 0,
+        opacity: 1,
+        duration: 1.5,
+        ease: "power2.out",
+    });
 
     tlTablet.fromTo(
         ".lucia-content",
@@ -698,7 +690,7 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
             duration: 2,
             ease: "power2.out",
         },
-        "<+=0.1"
+        "<+=0.1",
     );
 
     tlTablet.fromTo(
@@ -713,17 +705,14 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
             duration: 2,
             ease: "none",
         },
-        "<"
+        "<",
     );
 
-    tlTablet.to(
-        ".coluna-parallax2",
-        {
-            yPercent: -30,
-            duration: 1.5,
-            ease: "none",
-        }
-    );
+    tlTablet.to(".coluna-parallax2", {
+        yPercent: -30,
+        duration: 1.5,
+        ease: "none",
+    });
 
     tlTablet.to(
         ".lucia-content",
@@ -732,7 +721,7 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
             duration: 1.5,
             ease: "none",
         },
-        "<"
+        "<",
     );
 
     // ------------------------------------------------------------------------
@@ -753,7 +742,7 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
                 duration: 2,
                 ease: "none",
             },
-            "<"
+            "<",
         );
     }
 
@@ -780,7 +769,7 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
                 duration: 2,
                 ease: "none",
             },
-            "<"
+            "<",
         );
     }
 
@@ -809,13 +798,11 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
 // ============================================================================
 
 mm.add("(max-width: 768px)", () => {
-
     // ------------------------------------------------------------------------
     // REDUCED MOTION
     // ------------------------------------------------------------------------
 
     if (reduceMotion) {
-
         gsap.set(
             [
                 ".secao1",
@@ -835,7 +822,7 @@ mm.add("(max-width: 768px)", () => {
             ],
             {
                 clearProps: "all",
-            }
+            },
         );
 
         return;
@@ -955,7 +942,7 @@ mm.add("(max-width: 768px)", () => {
             duration: 0.7,
             ease: "power2.inOut",
         },
-        "<"
+        "<",
     );
 
     // ========================================================================
@@ -975,7 +962,7 @@ mm.add("(max-width: 768px)", () => {
             filter: "blur(0px)",
             duration: 1,
             ease: "power2.out",
-        }
+        },
     );
 
     tlMobile.to(".secao2", {
@@ -999,7 +986,7 @@ mm.add("(max-width: 768px)", () => {
             scale: 1,
             duration: 0.8,
             ease: "power2.out",
-        }
+        },
     );
 
     if (video) {
@@ -1034,14 +1021,14 @@ mm.add("(max-width: 768px)", () => {
             duration: 1.2,
             ease: "power2.out",
         },
-        "-=0.4"
+        "-=0.4",
     );
 
     tlMobile.fromTo(
         ".coluna-parallax",
         {
             opacity: 0,
-            yPercent: 80,
+            yPercent: 40,
         },
         {
             opacity: 1,
@@ -1049,44 +1036,54 @@ mm.add("(max-width: 768px)", () => {
             duration: 1.4,
             ease: "power2.out",
         },
-        "-=1"
+        "-=0.4",
     );
 
     tlMobile.to(".coluna-parallax", {
-        yPercent: -25,
-        duration: 1.2,
+        yPercent: -9,
+        duration: 0.5,
         ease: "none",
     });
 
     tlMobile.to(
         ".jason-content",
         {
-            yPercent: -25,
-            duration: 1.2,
+            yPercent: -9,
+            duration: 0.5,
             ease: "none",
         },
-        "<"
+        "<",
     );
 
     // ========================================================================
-    // SECTION 5 - VIDEO 2
+    // SAÍDA DA SECTION 4 + ENTRADA DA SECTION 5
     // ========================================================================
 
-    tlMobile.to(".secao5", {
-        yPercent: 0,
+    tlMobile.to(".secao4", {
+        yPercent: -100,
         duration: 1.2,
         ease: "power2.inOut",
     });
 
+    tlMobile.to(
+        ".secao5",
+        {
+            yPercent: 0,
+            duration: 2,
+            ease: "power2.inOut",
+        },
+        "<-=0.4",
+    );
     if (video2) {
         tlMobile.to(
             video2,
             {
                 currentTime: () => video2.duration || 1,
-                duration: 2,
-                ease: "none",
+                duration: 2.5,
+                ease: "power2.inOut",
             },
-            "<+=0.2"
+            "<+=0.7",
+           
         );
     }
 
@@ -1096,7 +1093,7 @@ mm.add("(max-width: 768px)", () => {
         filter: "blur(8px)",
         duration: 0.7,
         ease: "power2.inOut",
-    });
+    }, "-=0.7");
 
     // ========================================================================
     // SECTION 6 - LUCIA
@@ -1110,11 +1107,26 @@ mm.add("(max-width: 768px)", () => {
         ".secao6",
         {
             yPercent: 0,
-            opacity: 1,
-            duration: 1.2,
-            ease: "power2.out",
-        }
+            duration: 1.5,
+            ease: "power1.out",
+        },
+        "<-=0.1",
     );
+
+        tlMobile.fromTo(
+            ".coluna-parallax2",
+            {
+                opacity: 1,
+                yPercent: 80,
+            },
+            {
+                opacity: 1,
+                yPercent: 0,
+                duration: 1.4,
+                ease: "power2.out",
+            },
+            "-=1",
+        );
 
     // Conteúdo Lucia
 
@@ -1130,32 +1142,19 @@ mm.add("(max-width: 768px)", () => {
             duration: 1.2,
             ease: "power2.out",
         },
-        "<+=0.1"
+        "-=1",
     );
 
     // Galeria Lucia
 
-    tlMobile.fromTo(
-        ".coluna-parallax2",
-        {
-            opacity: 0,
-            yPercent: 80,
-        },
-        {
-            opacity: 1,
-            yPercent: 0,
-            duration: 1.4,
-            ease: "power2.out",
-        },
-        "<"
-    );
+
 
     // Parallax Lucia
 
     tlMobile.to(".coluna-parallax2", {
         yPercent: -25,
         duration: 1.2,
-        ease: "none",
+        ease: "power2.inOut",
     });
 
     tlMobile.to(
@@ -1163,10 +1162,17 @@ mm.add("(max-width: 768px)", () => {
         {
             yPercent: -25,
             duration: 1.2,
-            ease: "none",
+            ease: "power2.inOut",
         },
-        "<"
+        "<",
     );
+
+    tlMobile.to(".secao6", {
+        yPercent: -100,
+        duration: 1,
+        ease: "none",
+    });
+
 
     // ========================================================================
     // SECTION 7
@@ -1174,9 +1180,9 @@ mm.add("(max-width: 768px)", () => {
 
     tlMobile.to(".secao7", {
         yPercent: 0,
-        duration: 1.2,
-        ease: "power2.out",
-    });
+        duration: 0.8,
+        ease: "none",
+    }, "<+=0.2");
 
     tlMobile.fromTo(
         ".post-card-wrapper",
@@ -1190,7 +1196,7 @@ mm.add("(max-width: 768px)", () => {
             duration: 1,
             ease: "power2.out",
         },
-        "<"
+        "<",
     );
 
     if (video3) {
@@ -1198,18 +1204,19 @@ mm.add("(max-width: 768px)", () => {
             video3,
             {
                 currentTime: () => video3.duration || 1,
-                duration: 2,
-                ease: "none",
+                duration: 1,
+                ease: "power1.inOut",
             },
-            "<"
+            "<-=0.2",
         );
     }
 
     tlMobile.to(".secao7", {
         yPercent: -100,
-        duration: 1,
-        ease: "power2.inOut",
-    });
+        duration: 0.8,
+        ease: "none",
+    }, "-=0.2");
+
 
     // ========================================================================
     // SECTION 8
@@ -1222,7 +1229,7 @@ mm.add("(max-width: 768px)", () => {
             duration: 1,
             ease: "power2.out",
         },
-        "<"
+        "-=1",
     );
 
     tlMobile.to(".content-secao8", {
@@ -1240,14 +1247,14 @@ mm.add("(max-width: 768px)", () => {
                 duration: 2,
                 ease: "none",
             },
-            "<"
+            "<",
         );
     }
 
     tlMobile.to(".secao8", {
         backgroundColor: "#000000",
-        duration: 1.5,
-        ease: "none",
+        duration: 0.2,
+        ease: "power2.out",
     });
 
     tlMobile.to(
@@ -1257,7 +1264,7 @@ mm.add("(max-width: 768px)", () => {
             duration: 0.8,
             ease: "power2.out",
         },
-        "<"
+        "<",
     );
 
     // ========================================================================
@@ -1285,7 +1292,7 @@ mm.add("(max-width: 768px)", () => {
             stagger: 0.08,
             ease: "power2.out",
         },
-        "-=0.5"
+        "-=0.5",
     );
 
     // Título
@@ -1302,7 +1309,7 @@ mm.add("(max-width: 768px)", () => {
             duration: 0.8,
             ease: "power2.out",
         },
-        "-=0.5"
+        "-=0.5",
     );
 
     // ------------------------------------------------------------------------
@@ -1326,18 +1333,12 @@ mm.add("(max-width: 768px)", () => {
 // SISTEMA DE CARREGAMENTO DOS VÍDEOS
 // ============================================================================
 
-const videos = [
-    video,
-    video2,
-    video3,
-    video4,
-].filter(Boolean);
+const videos = [video, video2, video3, video4].filter(Boolean);
 
 let videosLoaded = 0;
 let timelineIniciada = false;
 
 function checkVideosReady() {
-
     if (timelineIniciada) {
         return;
     }
@@ -1345,7 +1346,6 @@ function checkVideosReady() {
     videosLoaded++;
 
     if (videosLoaded >= videos.length) {
-
         timelineIniciada = true;
 
         ScrollTrigger.refresh();
@@ -1357,46 +1357,28 @@ function checkVideosReady() {
 // ============================================================================
 
 if (window.innerWidth <= 768) {
-
     timelineIniciada = true;
 
     requestAnimationFrame(() => {
         ScrollTrigger.refresh();
     });
-
 } else {
-
     if (videos.length === 0) {
-
         timelineIniciada = true;
 
         ScrollTrigger.refresh();
-
     } else {
-
         videos.forEach((vid) => {
-
             if (vid.readyState >= 1) {
-
                 checkVideosReady();
-
             } else {
+                vid.addEventListener("loadedmetadata", checkVideosReady, {
+                    once: true,
+                });
 
-                vid.addEventListener(
-                    "loadedmetadata",
-                    checkVideosReady,
-                    {
-                        once: true,
-                    }
-                );
-
-                vid.addEventListener(
-                    "error",
-                    checkVideosReady,
-                    {
-                        once: true,
-                    }
-                );
+                vid.addEventListener("error", checkVideosReady, {
+                    once: true,
+                });
             }
         });
     }
@@ -1406,17 +1388,12 @@ if (window.innerWidth <= 768) {
     // =========================================================================
 
     setTimeout(() => {
-
         if (!timelineIniciada) {
-
-            console.warn(
-                "Forçando inicialização: vídeos demoraram muito."
-            );
+            console.warn("Forçando inicialização: vídeos demoraram muito.");
 
             timelineIniciada = true;
 
             ScrollTrigger.refresh();
         }
-
     }, 2000);
-};
+}
