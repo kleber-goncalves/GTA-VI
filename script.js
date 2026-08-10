@@ -798,6 +798,9 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
 // ============================================================================
 
 mm.add("(max-width: 768px)", () => {
+    
+
+
     // ------------------------------------------------------------------------
     // REDUCED MOTION
     // ------------------------------------------------------------------------
@@ -907,6 +910,34 @@ mm.add("(max-width: 768px)", () => {
         opacity: 0,
         yPercent: 20,
     });
+
+
+
+    function animateVideoScroll(video, duration) {
+        if (!video) return;
+
+        const state = {
+            time: video.currentTime || 0,
+        };
+
+        let lastTime = -1;
+
+        gsap.to(state, {
+            time: () => video.duration || 1,
+            duration,
+            ease: "none",
+
+            onUpdate: () => {
+                // Evita atualizações muito pequenas
+                if (Math.abs(state.time - lastTime) < 0.05) {
+                    return;
+                }
+
+                lastTime = state.time;
+                video.currentTime = state.time;
+            },
+        });
+    }
 
     // ------------------------------------------------------------------------
     // TIMELINE MOBILE
@@ -1070,18 +1101,27 @@ mm.add("(max-width: 768px)", () => {
         },
         "<-=0.4",
     );
-    if (video2) {
-        tlMobile.to(
-            video2,
-            {
-                currentTime: () => video2.duration || 1,
-                duration: 2.5,
-                ease: "power2.inOut",
+if (video2) {
+    const video2State = { time: 0 };
+    let lastVideo2Time = -1;
+
+    tlMobile.to(
+        video2State,
+        {
+            time: () => video2.duration || 1,
+            duration: 2.5,
+            ease: "power2.inOut",
+
+            onUpdate: () => {
+                if (Math.abs(video2State.time - lastVideo2Time) >= 0.05) {
+                    lastVideo2Time = video2State.time;
+                    video2.currentTime = video2State.time;
+                }
             },
-            "<+=0.7",
-           
-        );
-    }
+        },
+        "<+=0.7",
+    );
+}
 
     tlMobile.to("#scroll-video2", {
 
