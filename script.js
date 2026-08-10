@@ -1014,7 +1014,7 @@ function animateFramesScroll(timeline, image, frames, duration, position) {
             trigger: ".containerPai",
             start: "top top",
             end: "+=9000",
-            scrub: 1,
+            scrub: 0.3,
             pin: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,
