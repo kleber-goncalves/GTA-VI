@@ -1334,6 +1334,11 @@ const videos = [video, video2, video3, video4].filter(Boolean);
 let videosLoaded = 0;
 let timelineIniciada = false;
 
+videos.forEach((vid) => {
+    vid.preload = "metadata";
+    vid.load();
+});
+
 function checkVideosReady() {
     if (timelineIniciada) {
         return;
