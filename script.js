@@ -1243,11 +1243,11 @@ animateVideoScroll(tlMobile, video2, 2.5, "<+=0.7");
         "<",
     );
 
-    tlMobile.to(".secao6", {
-        yPercent: -100,
-        duration: 1,
-        ease: "none",
-    });
+    // tlMobile.to(".secao6", {
+    //     yPercent: -100,
+    //     duration: 1,
+    //     ease: "none",
+    // });
 
 
     // ========================================================================
