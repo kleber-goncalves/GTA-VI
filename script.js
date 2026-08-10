@@ -930,7 +930,7 @@ function animateVideoScroll(timeline, video, duration, position) {
             ease: "none",
 
             onUpdate: () => {
-                if (Math.abs(state.time - lastTime) < 0.1) {
+                if (Math.abs(state.time - lastTime) < 0.10) {
                     return;
                 }
 
