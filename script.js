@@ -988,11 +988,11 @@ mm.add("(max-width: 768px)", () => {
     );
 
     if (video) {
-        // tlMobile.to(video, {
-        //     currentTime: () => video.duration || 1,
-        //     duration: 2.5,
-        //     ease: "none",
-        // });
+        tlMobile.to(video, {
+            currentTime: () => video.duration || 1,
+            duration: 2.5,
+            ease: "none",
+        });
     }
 
     tlMobile.to("#scroll-video", {
@@ -1071,16 +1071,16 @@ mm.add("(max-width: 768px)", () => {
         "<-=0.4",
     );
     if (video2) {
-        // tlMobile.to(
-        //     video2,
-        //     {
-        //         currentTime: () => video2.duration || 1,
-        //         duration: 2.5,
-        //         ease: "power2.inOut",
-        //     },
-        //     "<+=0.7",
+        tlMobile.to(
+            video2,
+            {
+                currentTime: () => video2.duration || 1,
+                duration: 2.5,
+                ease: "power2.inOut",
+            },
+            "<+=0.7",
            
-        // );
+        );
     }
 
     tlMobile.to("#scroll-video2", {
@@ -1196,15 +1196,15 @@ mm.add("(max-width: 768px)", () => {
     );
 
     if (video3) {
-        // tlMobile.to(
-        //     video3,
-        //     {
-        //         currentTime: () => video3.duration || 1,
-        //         duration: 1,
-        //         ease: "power1.inOut",
-        //     },
-        //     "<-=0.2",
-        // );
+        tlMobile.to(
+            video3,
+            {
+                currentTime: () => video3.duration || 1,
+                duration: 1,
+                ease: "power1.inOut",
+            },
+            "<-=0.2",
+        );
     }
 
     tlMobile.to(".secao7", {
@@ -1236,15 +1236,15 @@ mm.add("(max-width: 768px)", () => {
     });
 
     if (video4) {
-        // tlMobile.to(
-        //     video4,
-        //     {
-        //         currentTime: () => video4.duration || 1,
-        //         duration: 2,
-        //         ease: "none",
-        //     },
-        //     "<",
-        // );
+        tlMobile.to(
+            video4,
+            {
+                currentTime: () => video4.duration || 1,
+                duration: 2,
+                ease: "none",
+            },
+            "<",
+        );
     }
 
     tlMobile.to(".secao8", {
