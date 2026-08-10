@@ -913,31 +913,34 @@ mm.add("(max-width: 768px)", () => {
 
 
 
-    function animateVideoScroll(video, duration) {
-        if (!video) return;
+function animateVideoScroll(timeline, video, duration, position) {
+    if (!video) return;
 
-        const state = {
-            time: video.currentTime || 0,
-        };
+    const state = {
+        time: video.currentTime || 0,
+    };
 
-        let lastTime = -1;
+    let lastTime = -1;
 
-        gsap.to(state, {
+    timeline.to(
+        state,
+        {
             time: () => video.duration || 1,
             duration,
             ease: "none",
 
             onUpdate: () => {
-                // Evita atualizações muito pequenas
-                if (Math.abs(state.time - lastTime) < 0.05) {
+                if (Math.abs(state.time - lastTime) < 0.1) {
                     return;
                 }
 
                 lastTime = state.time;
                 video.currentTime = state.time;
             },
-        });
-    }
+        },
+        position,
+    );
+}
 
     // ------------------------------------------------------------------------
     // TIMELINE MOBILE
@@ -1018,13 +1021,7 @@ mm.add("(max-width: 768px)", () => {
         },
     );
 
-    if (video) {
-        tlMobile.to(video, {
-            currentTime: () => video.duration || 1,
-            duration: 2.5,
-            ease: "none",
-        });
-    }
+animateVideoScroll(tlMobile, video, 2.5);
 
     tlMobile.to("#scroll-video", {
         opacity: 0,
@@ -1101,27 +1098,7 @@ mm.add("(max-width: 768px)", () => {
         },
         "<-=0.4",
     );
-if (video2) {
-    const video2State = { time: 0 };
-    let lastVideo2Time = -1;
-
-    tlMobile.to(
-        video2State,
-        {
-            time: () => video2.duration || 1,
-            duration: 2.5,
-            ease: "power2.inOut",
-
-            onUpdate: () => {
-                if (Math.abs(video2State.time - lastVideo2Time) >= 0.05) {
-                    lastVideo2Time = video2State.time;
-                    video2.currentTime = video2State.time;
-                }
-            },
-        },
-        "<+=0.7",
-    );
-}
+animateVideoScroll(tlMobile, video2, 2.5, "<+=0.7");
 
     tlMobile.to("#scroll-video2", {
 
@@ -1235,17 +1212,7 @@ if (video2) {
         "<",
     );
 
-    if (video3) {
-        tlMobile.to(
-            video3,
-            {
-                currentTime: () => video3.duration || 1,
-                duration: 1,
-                ease: "power1.inOut",
-            },
-            "<-=0.2",
-        );
-    }
+animateVideoScroll(tlMobile, video3, 2, "<");
 
     tlMobile.to(".secao7", {
         yPercent: -100,
@@ -1275,17 +1242,7 @@ if (video2) {
         ease: "power2.out",
     });
 
-    if (video4) {
-        tlMobile.to(
-            video4,
-            {
-                currentTime: () => video4.duration || 1,
-                duration: 2,
-                ease: "none",
-            },
-            "<",
-        );
-    }
+animateVideoScroll(tlMobile, video4, 2, "<");
 
     tlMobile.to(".secao8", {
         backgroundColor: "#000000",
