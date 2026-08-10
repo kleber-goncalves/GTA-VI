@@ -1275,7 +1275,7 @@ animateVideoScroll(tlMobile, video2, 2.5, "<+=0.7");
         "<",
     );
 
-animateFramesScroll(tlMobile, frameImage3, framesVideo3, 2, "<");
+// animateFramesScroll(tlMobile, frameImage3, framesVideo3, 2, "<");
 
     tlMobile.to(".secao7", {
         yPercent: -100,
