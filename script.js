@@ -11,6 +11,26 @@ const video2 = document.getElementById("scroll-video2");
 const video3 = document.getElementById("scroll-video3");
 const video4 = document.getElementById("scroll-video4");
 
+function preloadFrames(path, total) {
+    const frames = [];
+
+    for (let i = 1; i <= total; i++) {
+        const img = new Image();
+
+        const number = String(i).padStart(4, "0");
+
+        img.src = `${path}/frame_${number}.webp`;
+
+        frames.push(img);
+    }
+
+    return frames;
+}
+
+const frameImage3 = document.getElementById("scroll-frame3");
+
+const framesVideo3 = preloadFrames("/frames/video3/", 60);
+
 // ============================================================================
 // FUNÇÃO AUXILIAR
 // ============================================================================
@@ -952,6 +972,39 @@ function animateVideoScroll(timeline, video, duration, position) {
         position,
     );
 }
+
+function animateFramesScroll(timeline, image, frames, duration, position) {
+    if (!image || !frames.length) return;
+
+    const state = {
+        frame: 0,
+    };
+
+    let lastFrame = -1;
+
+    timeline.to(
+        state,
+        {
+            frame: frames.length - 1,
+            duration,
+            ease: "none",
+
+            onUpdate: () => {
+                const frame = Math.round(state.frame);
+
+                if (frame === lastFrame) {
+                    return;
+                }
+
+                lastFrame = frame;
+
+                image.src = frames[frame].src;
+            },
+        },
+        position,
+    );
+}
+
     // ------------------------------------------------------------------------
     // TIMELINE MOBILE
     // ------------------------------------------------------------------------
@@ -1222,7 +1275,7 @@ animateVideoScroll(tlMobile, video2, 2.5, "<+=0.7");
         "<",
     );
 
-animateVideoScroll(tlMobile, video3, 2, "<");
+animateFramesScroll(tlMobile, frameImage3, framesVideo3, 2, "<");
 
     tlMobile.to(".secao7", {
         yPercent: -100,
