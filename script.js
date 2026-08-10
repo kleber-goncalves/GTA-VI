@@ -1014,7 +1014,7 @@ function animateFramesScroll(timeline, image, frames, duration, position) {
             trigger: ".containerPai",
             start: "top top",
             end: "+=9000",
-            scrub: 0.3,
+            scrub: 1,
             pin: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,
@@ -1254,11 +1254,11 @@ animateVideoScroll(tlMobile, video2, 2.5, "<+=0.7");
     // SECTION 7
     // ========================================================================
 
-    // tlMobile.to(".secao7", {
-    //     yPercent: 0,
-    //     duration: 0.8,
-    //     ease: "none",
-    // }, "<+=0.2");
+tlMobile.to(".secao7", {
+    yPercent: 0,
+    duration: 0.8,
+    ease: "none",
+});
 
     tlMobile.fromTo(
         ".post-card-wrapper",
@@ -1275,7 +1275,7 @@ animateVideoScroll(tlMobile, video2, 2.5, "<+=0.7");
         "<",
     );
 
-// animateFramesScroll(tlMobile, frameImage3, framesVideo3, 2, "<");
+animateFramesScroll(tlMobile, frameImage3, framesVideo3, 2, "<");
 
     // tlMobile.to(".secao7", {
     //     yPercent: -100,
