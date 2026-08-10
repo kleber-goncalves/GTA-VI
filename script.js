@@ -921,6 +921,7 @@ function animateVideoScroll(timeline, video, duration, position) {
     };
 
     let lastTime = -1;
+    let lastUpdate = 0;
 
     timeline.to(
         state,
@@ -930,18 +931,27 @@ function animateVideoScroll(timeline, video, duration, position) {
             ease: "none",
 
             onUpdate: () => {
-                if (Math.abs(state.time - lastTime) < 0.50) {
+                const now = performance.now();
+
+                // No máximo 10 atualizações por segundo
+                if (now - lastUpdate < 100) {
                     return;
                 }
 
+                // Só atualiza se mudou pelo menos 0.50 segundo
+                if (Math.abs(state.time - lastTime) < 0.5) {
+                    return;
+                }
+
+                lastUpdate = now;
                 lastTime = state.time;
+
                 video.currentTime = state.time;
             },
         },
         position,
     );
 }
-
     // ------------------------------------------------------------------------
     // TIMELINE MOBILE
     // ------------------------------------------------------------------------
