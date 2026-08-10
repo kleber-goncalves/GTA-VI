@@ -1254,11 +1254,11 @@ animateVideoScroll(tlMobile, video2, 2.5, "<+=0.7");
     // SECTION 7
     // ========================================================================
 
-    tlMobile.to(".secao7", {
-        yPercent: 0,
-        duration: 0.8,
-        ease: "none",
-    }, "<+=0.2");
+    // tlMobile.to(".secao7", {
+    //     yPercent: 0,
+    //     duration: 0.8,
+    //     ease: "none",
+    // }, "<+=0.2");
 
     tlMobile.fromTo(
         ".post-card-wrapper",
@@ -1277,11 +1277,11 @@ animateVideoScroll(tlMobile, video2, 2.5, "<+=0.7");
 
 // animateFramesScroll(tlMobile, frameImage3, framesVideo3, 2, "<");
 
-    tlMobile.to(".secao7", {
-        yPercent: -100,
-        duration: 0.8,
-        ease: "none",
-    }, "-=0.2");
+    // tlMobile.to(".secao7", {
+    //     yPercent: -100,
+    //     duration: 0.8,
+    //     ease: "none",
+    // }, "-=0.2");
 
 
     // ========================================================================
