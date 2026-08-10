@@ -979,28 +979,24 @@ mm.add("(max-width: 768px)", () => {
         "#scroll-video",
         {
             opacity: 0,
-            scale: 1.08,
         },
         {
             opacity: 1,
-            scale: 1,
             duration: 0.8,
             ease: "power2.out",
         },
     );
 
     if (video) {
-        tlMobile.to(video, {
-            currentTime: () => video.duration || 1,
-            duration: 2.5,
-            ease: "none",
-        });
+        // tlMobile.to(video, {
+        //     currentTime: () => video.duration || 1,
+        //     duration: 2.5,
+        //     ease: "none",
+        // });
     }
 
     tlMobile.to("#scroll-video", {
-        scale: 1.08,
         opacity: 0,
-        filter: "blur(8px)",
         duration: 0.8,
         ease: "power2.inOut",
     });
@@ -1075,22 +1071,22 @@ mm.add("(max-width: 768px)", () => {
         "<-=0.4",
     );
     if (video2) {
-        tlMobile.to(
-            video2,
-            {
-                currentTime: () => video2.duration || 1,
-                duration: 2.5,
-                ease: "power2.inOut",
-            },
-            "<+=0.7",
+        // tlMobile.to(
+        //     video2,
+        //     {
+        //         currentTime: () => video2.duration || 1,
+        //         duration: 2.5,
+        //         ease: "power2.inOut",
+        //     },
+        //     "<+=0.7",
            
-        );
+        // );
     }
 
     tlMobile.to("#scroll-video2", {
-        scale: 1.06,
+
         opacity: 0,
-        filter: "blur(8px)",
+
         duration: 0.7,
         ease: "power2.inOut",
     }, "-=0.7");
@@ -1187,11 +1183,11 @@ mm.add("(max-width: 768px)", () => {
     tlMobile.fromTo(
         ".post-card-wrapper",
         {
-            scale: 0.94,
+
             opacity: 0,
         },
         {
-            scale: 1,
+
             opacity: 1,
             duration: 1,
             ease: "power2.out",
@@ -1200,15 +1196,15 @@ mm.add("(max-width: 768px)", () => {
     );
 
     if (video3) {
-        tlMobile.to(
-            video3,
-            {
-                currentTime: () => video3.duration || 1,
-                duration: 1,
-                ease: "power1.inOut",
-            },
-            "<-=0.2",
-        );
+        // tlMobile.to(
+        //     video3,
+        //     {
+        //         currentTime: () => video3.duration || 1,
+        //         duration: 1,
+        //         ease: "power1.inOut",
+        //     },
+        //     "<-=0.2",
+        // );
     }
 
     tlMobile.to(".secao7", {
@@ -1240,15 +1236,15 @@ mm.add("(max-width: 768px)", () => {
     });
 
     if (video4) {
-        tlMobile.to(
-            video4,
-            {
-                currentTime: () => video4.duration || 1,
-                duration: 2,
-                ease: "none",
-            },
-            "<",
-        );
+        // tlMobile.to(
+        //     video4,
+        //     {
+        //         currentTime: () => video4.duration || 1,
+        //         duration: 2,
+        //         ease: "none",
+        //     },
+        //     "<",
+        // );
     }
 
     tlMobile.to(".secao8", {
