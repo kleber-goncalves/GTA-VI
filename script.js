@@ -27,15 +27,17 @@ function preloadFrames(path, total) {
     return frames;
 }
 
-// frmes video 2
 const frameImage2 = document.getElementById("scroll-frame2");
-
-const framesVideo2 = preloadFrames("/frames/video2", 89);
-
-// frmes video 3
 const frameImage3 = document.getElementById("scroll-frame3");
 
-const framesVideo3 = preloadFrames("/frames/video3/", 60);
+
+let framesVideo2 = [];
+let framesVideo3 = [];
+
+if (window.innerWidth <= 768) {
+    framesVideo2 = preloadFrames("/frames/video2", 89);
+    framesVideo3 = preloadFrames("/frames/video3", 60);
+}
 
 // ============================================================================
 // FUNÇÃO AUXILIAR
