@@ -818,9 +818,6 @@ mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
 // ============================================================================
 
 mm.add("(max-width: 768px)", () => {
-    
-
-
     // ------------------------------------------------------------------------
     // REDUCED MOTION
     // ------------------------------------------------------------------------
@@ -931,79 +928,77 @@ mm.add("(max-width: 768px)", () => {
         yPercent: 20,
     });
 
+    function animateVideoScroll(timeline, video, duration, position) {
+        if (!video) return;
 
+        const state = {
+            time: video.currentTime || 0,
+        };
 
-function animateVideoScroll(timeline, video, duration, position) {
-    if (!video) return;
+        let lastTime = -1;
+        let lastUpdate = 0;
 
-    const state = {
-        time: video.currentTime || 0,
-    };
+        timeline.to(
+            state,
+            {
+                time: () => video.duration || 1,
+                duration,
+                ease: "none",
 
-    let lastTime = -1;
-    let lastUpdate = 0;
+                onUpdate: () => {
+                    const now = performance.now();
 
-    timeline.to(
-        state,
-        {
-            time: () => video.duration || 1,
-            duration,
-            ease: "none",
+                    // No máximo 10 atualizações por segundo
+                    if (now - lastUpdate < 100) {
+                        return;
+                    }
 
-            onUpdate: () => {
-                const now = performance.now();
+                    // Só atualiza se mudou pelo menos 0.50 segundo
+                    if (Math.abs(state.time - lastTime) < 0.5) {
+                        return;
+                    }
 
-                // No máximo 10 atualizações por segundo
-                if (now - lastUpdate < 100) {
-                    return;
-                }
+                    lastUpdate = now;
+                    lastTime = state.time;
 
-                // Só atualiza se mudou pelo menos 0.50 segundo
-                if (Math.abs(state.time - lastTime) < 0.5) {
-                    return;
-                }
-
-                lastUpdate = now;
-                lastTime = state.time;
-
-                video.currentTime = state.time;
+                    video.currentTime = state.time;
+                },
             },
-        },
-        position,
-    );
-}
+            position,
+        );
+    }
 
-function animateFramesScroll(timeline, image, frames, duration, position) {
-    if (!image || !frames.length) return;
+    function animateFramesScroll(timeline, image, frames, duration, position) {
+        if (!image || !frames.length) return;
 
-    const state = {
-        frame: 0,
-    };
+        const state = {
+            frame: 0,
+        };
 
-    let lastFrame = -1;
+        let lastFrame = -1;
 
-    timeline.to(
-        state,
-        {
-            frame: frames.length - 1,
-            duration,
-            ease: "none",
+        timeline.to(
+            state,
+            {
+                frame: frames.length - 1,
+                duration,
+                ease: "none",
 
-            onUpdate: () => {
-                const frame = Math.round(state.frame);
+                onUpdate: () => {
+                    const frame = Math.round(state.frame);
 
-                if (frame === lastFrame) {
-                    return;
-                }
+                    if (frame === lastFrame) {
+                        return;
+                    }
 
-                lastFrame = frame;
+                    lastFrame = frame;
 
-                image.src = frames[frame].src;
+                    image.src = frames[frame].src;
+                },
             },
-        },
-        position,
-    );
-}
+            position,
+        );
+    }
 
     // ------------------------------------------------------------------------
     // TIMELINE MOBILE
@@ -1084,7 +1079,7 @@ function animateFramesScroll(timeline, image, frames, duration, position) {
         },
     );
 
-animateVideoScroll(tlMobile, video, 2.5);
+    animateVideoScroll(tlMobile, video, 2.5);
 
     tlMobile.to("#scroll-video", {
         opacity: 0,
@@ -1161,15 +1156,18 @@ animateVideoScroll(tlMobile, video, 2.5);
         },
         "<-=0.4",
     );
-animateVideoScroll(tlMobile, video2, 2.5, "<+=0.7");
+    animateVideoScroll(tlMobile, video2, 2.5, "<+=0.7");
 
-    tlMobile.to("#scroll-video2", {
+    tlMobile.to(
+        "#scroll-video2",
+        {
+            opacity: 0,
 
-        opacity: 0,
-
-        duration: 0.7,
-        ease: "power2.inOut",
-    }, "-=0.7");
+            duration: 0.7,
+            ease: "power2.inOut",
+        },
+        "-=0.7",
+    );
 
     // ========================================================================
     // SECTION 6 - LUCIA
@@ -1189,20 +1187,20 @@ animateVideoScroll(tlMobile, video2, 2.5, "<+=0.7");
         "<-=0.1",
     );
 
-        tlMobile.fromTo(
-            ".coluna-parallax2",
-            {
-                opacity: 1,
-                yPercent: 80,
-            },
-            {
-                opacity: 1,
-                yPercent: 0,
-                duration: 1.4,
-                ease: "power2.out",
-            },
-            "-=1",
-        );
+    tlMobile.fromTo(
+        ".coluna-parallax2",
+        {
+            opacity: 1,
+            yPercent: 80,
+        },
+        {
+            opacity: 1,
+            yPercent: 0,
+            duration: 1.4,
+            ease: "power2.out",
+        },
+        "-=1",
+    );
 
     // Conteúdo Lucia
 
@@ -1223,8 +1221,6 @@ animateVideoScroll(tlMobile, video2, 2.5, "<+=0.7");
 
     // Galeria Lucia
 
-
-
     // Parallax Lucia
 
     tlMobile.to(".coluna-parallax2", {
@@ -1243,46 +1239,31 @@ animateVideoScroll(tlMobile, video2, 2.5, "<+=0.7");
         "<",
     );
 
-    // tlMobile.to(".secao6", {
-    //     yPercent: -100,
-    //     duration: 1,
-    //     ease: "none",
-    // });
-
+    tlMobile.to(".secao6", {
+        yPercent: -100,
+        duration: 1,
+        ease: "none",
+    });
 
     // ========================================================================
     // SECTION 7
     // ========================================================================
 
-tlMobile.to(".secao7", {
-    yPercent: 0,
-    duration: 0.8,
-    ease: "none",
-});
+    // 1. ENTRA
+    tlMobile.to(".secao7", {
+        yPercent: 0,
+        duration: 0.8,
+        ease: "none",
+    });
 
-    tlMobile.fromTo(
-        ".post-card-wrapper",
-        {
+    animateFramesScroll(tlMobile, frameImage3, framesVideo3, 2, "<");
 
-            opacity: 0,
-        },
-        {
-
-            opacity: 1,
-            duration: 1,
-            ease: "power2.out",
-        },
-        "<",
-    );
-
-animateFramesScroll(tlMobile, frameImage3, framesVideo3, 2, "<");
-
-    // tlMobile.to(".secao7", {
-    //     yPercent: -100,
-    //     duration: 0.8,
-    //     ease: "none",
-    // }, "-=0.2");
-
+    // 3. SAI DEPOIS DOS FRAMES
+    tlMobile.to(".secao7", {
+        yPercent: -100,
+        duration: 0.8,
+        ease: "none",
+    });
 
     // ========================================================================
     // SECTION 8
@@ -1305,7 +1286,7 @@ animateFramesScroll(tlMobile, frameImage3, framesVideo3, 2, "<");
         ease: "power2.out",
     });
 
-animateVideoScroll(tlMobile, video4, 2, "<");
+    animateVideoScroll(tlMobile, video4, 2, "<");
 
     tlMobile.to(".secao8", {
         backgroundColor: "#000000",
