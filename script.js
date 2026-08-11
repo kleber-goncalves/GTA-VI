@@ -1492,7 +1492,7 @@ function initMobile(assetData) {
         "<-=0.4",
     );
 
-    animateFramesScroll(tl, frameImage2, framesVideo2, 2.5, "<+=0.7");
+    animateFramesScroll(tl, frameImage2, framesVideo2, 5, "<+=0.7");
 
     tl.to(
         ".secao5",
