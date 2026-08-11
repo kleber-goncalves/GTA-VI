@@ -27,6 +27,12 @@ function preloadFrames(path, total) {
     return frames;
 }
 
+// frmes video 2
+const frameImage2 = document.getElementById("scroll-frame2");
+
+const framesVideo2 = preloadFrames("/frames/video2", 89);
+
+// frmes video 3
 const frameImage3 = document.getElementById("scroll-frame3");
 
 const framesVideo3 = preloadFrames("/frames/video3/", 60);
@@ -1156,10 +1162,10 @@ mm.add("(max-width: 768px)", () => {
         },
         "<-=0.4",
     );
-    animateVideoScroll(tlMobile, video2, 2.5, "<+=0.7");
+    animateFramesScroll(tlMobile, frameImage2, framesVideo2, 2.5, "<+=0.7");
 
     tlMobile.to(
-        "#scroll-video2",
+        ".secao5",
         {
             opacity: 0,
 
