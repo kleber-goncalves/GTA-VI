@@ -7,6 +7,33 @@
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>
+        <div id="page-loader">
+
+        <div class="loader-content">
+
+            <div class="loader-title">
+                GTA VI
+            </div>
+
+            <div class="loader-progress">
+
+                <div
+                    id="loader-progress-bar"
+                    class="loader-progress-bar"
+                ></div>
+
+            </div>
+
+            <div
+                id="loader-progress-text"
+                class="loader-progress-text"
+            >
+                0%
+            </div>
+
+        </div>
+
+    </div>
         <main class="containerPai">
             <section id="hero" class="secao1">
                 <img class="bg1" src="img/hero-bg.webp" alt="" />
@@ -19,7 +46,7 @@
             <section class="secao3">
                 <video
                     id="scroll-video"
-                    src="video/output1.mp4"
+                     data-src="video/output1.mp4"
                     playsinline
                     muted
                     preload="auto"
@@ -71,7 +98,7 @@
             <section class="secao5">
                 <video
                     id="scroll-video2"
-                    src="video/output2.mp4"
+                     data-src="video/output2.mp4"
                     playsinline
                     muted
                     preload="auto"
@@ -127,7 +154,7 @@
 
                     <video
                         id="scroll-video3"
-                        src="video/postcard-vd.mp4"
+                         data-src="video/postcard-vd.mp4"
                         playsinline
                         muted
                         preload="auto"
@@ -147,7 +174,7 @@
                 <div class="content-secao8">
                     <video
                         id="scroll-video4"
-                        src="video/output3.mp4"
+                         data-src="video/output3.mp4"
                         playsinline
                         muted
                         preload="auto"
@@ -194,4 +221,5 @@
         <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
         <script src="script.js"></script>
     </body>
+    
 </html>
