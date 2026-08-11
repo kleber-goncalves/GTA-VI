@@ -1032,8 +1032,10 @@ video {
 ========================================================================= */
 
 @media (max-width: 480px) {
+    #scroll-video,
     #scroll-video2,
-    #scroll-video3 {
+    #scroll-video3,
+    #scroll-video4 {
     display: none;
 }
 

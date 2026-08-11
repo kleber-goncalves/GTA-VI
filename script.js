@@ -11,33 +11,6 @@ const video2 = document.getElementById("scroll-video2");
 const video3 = document.getElementById("scroll-video3");
 const video4 = document.getElementById("scroll-video4");
 
-function preloadFrames(path, total) {
-    const frames = [];
-
-    for (let i = 1; i <= total; i++) {
-        const img = new Image();
-
-        const number = String(i).padStart(4, "0");
-
-        img.src = `${path}/frame_${number}.webp`;
-
-        frames.push(img);
-    }
-
-    return frames;
-}
-
-const frameImage2 = document.getElementById("scroll-frame2");
-const frameImage3 = document.getElementById("scroll-frame3");
-
-
-let framesVideo2 = [];
-let framesVideo3 = [];
-
-if (window.innerWidth <= 768) {
-    framesVideo2 = preloadFrames("/frames/video2", 89);
-    framesVideo3 = preloadFrames("/frames/video3", 60);
-}
 
 // ============================================================================
 // FUNÇÃO AUXILIAR
@@ -856,6 +829,58 @@ mm.add("(max-width: 768px)", () => {
         return;
     }
 
+    // ========================================================================
+    // FRAMES DOS VÍDEOS — SOMENTE MOBILE
+    // ========================================================================
+
+    function preloadFrames(path, total) {
+        const frames = [];
+
+        for (let i = 1; i <= total; i++) {
+            const img = new Image();
+
+            const number = String(i).padStart(4, "0");
+
+            img.src = `${path}/frame_${number}.webp`;
+
+            frames.push(img);
+        }
+
+        return frames;
+    }
+
+    // ------------------------------------------------------------------------
+    // VÍDEO 1
+    // ------------------------------------------------------------------------
+
+    const frameImage1 = document.getElementById("scroll-frame1");
+
+    const framesVideo1 = preloadFrames("/frames/video1", 59);
+
+    // ------------------------------------------------------------------------
+    // VÍDEO 2
+    // ------------------------------------------------------------------------
+
+    const frameImage2 = document.getElementById("scroll-frame2");
+
+    const framesVideo2 = preloadFrames("/frames/video2", 89);
+
+    // ------------------------------------------------------------------------
+    // VÍDEO 3
+    // ------------------------------------------------------------------------
+
+    const frameImage3 = document.getElementById("scroll-frame3");
+
+    const framesVideo3 = preloadFrames("/frames/video3", 60);
+
+    // ------------------------------------------------------------------------
+    // VÍDEO 4
+    // ------------------------------------------------------------------------
+
+    const frameImage4 = document.getElementById("scroll-frame4");
+
+    const framesVideo4 = preloadFrames("/frames/video4", 55);
+
     // ------------------------------------------------------------------------
     // ESTADOS INICIAIS
     // ------------------------------------------------------------------------
@@ -936,45 +961,9 @@ mm.add("(max-width: 768px)", () => {
         yPercent: 20,
     });
 
-    function animateVideoScroll(timeline, video, duration, position) {
-        if (!video) return;
-
-        const state = {
-            time: video.currentTime || 0,
-        };
-
-        let lastTime = -1;
-        let lastUpdate = 0;
-
-        timeline.to(
-            state,
-            {
-                time: () => video.duration || 1,
-                duration,
-                ease: "none",
-
-                onUpdate: () => {
-                    const now = performance.now();
-
-                    // No máximo 10 atualizações por segundo
-                    if (now - lastUpdate < 100) {
-                        return;
-                    }
-
-                    // Só atualiza se mudou pelo menos 0.50 segundo
-                    if (Math.abs(state.time - lastTime) < 0.5) {
-                        return;
-                    }
-
-                    lastUpdate = now;
-                    lastTime = state.time;
-
-                    video.currentTime = state.time;
-                },
-            },
-            position,
-        );
-    }
+    // ------------------------------------------------------------------------
+    // ANIMAÇÃO DOS FRAMES
+    // ------------------------------------------------------------------------
 
     function animateFramesScroll(timeline, image, frames, duration, position) {
         if (!image || !frames.length) return;
@@ -1076,7 +1065,7 @@ mm.add("(max-width: 768px)", () => {
     // ========================================================================
 
     tlMobile.fromTo(
-        "#scroll-video",
+        "#scroll-frame1",
         {
             opacity: 0,
         },
@@ -1087,9 +1076,9 @@ mm.add("(max-width: 768px)", () => {
         },
     );
 
-    animateVideoScroll(tlMobile, video, 2.5);
+    animateFramesScroll(tlMobile, frameImage1, framesVideo1, 2.5);
 
-    tlMobile.to("#scroll-video", {
+    tlMobile.to("#scroll-frame1", {
         opacity: 0,
         duration: 0.8,
         ease: "power2.inOut",
@@ -1294,7 +1283,7 @@ mm.add("(max-width: 768px)", () => {
         ease: "power2.out",
     });
 
-    animateVideoScroll(tlMobile, video4, 2, "<");
+    animateFramesScroll(tlMobile, frameImage4, framesVideo4, 2, "<");
 
     tlMobile.to(".secao8", {
         backgroundColor: "#000000",
@@ -1303,7 +1292,7 @@ mm.add("(max-width: 768px)", () => {
     });
 
     tlMobile.to(
-        "#scroll-video4",
+        "#scroll-frame4",
         {
             opacity: 0,
             duration: 0.8,
