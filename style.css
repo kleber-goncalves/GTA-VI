@@ -1,19 +1,62 @@
+@font-face {
+    font-family: "Long";
+    src: url("fonts/long.woff") format("woff");
+}
+@font-face {
+    font-family: "Round";
+    src: url("fonts/round.woff") format("woff");
+}
+@font-face {
+    font-family: "Round Bold";
+    font-weight: bold;
+    src: url("fonts/round-bold.woff");
+}
+
+
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
     list-style: none;
     text-decoration: none;
 }
 
 html {
     scroll-behavior: smooth;
+     -webkit-user-select: none; /* Safari */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* IE10+/Edge Antigo */
+  user-select: none;         /* Padrão (Chrome, Edge, Opera) */
+
+    -webkit-touch-callout: none; /* Desativa o menu de salvar/copiar no iOS */
+  -webkit-user-drag: none;     /* Impede arrastar a imagem no PC e Mobile */
+}
+
+:root {
+    --fonte-principal: "Round", sans-serif;
+    --font-long: "Long", sans-serif;
+  --font-round-bold: "Round Bold", sans-serif;
+   --color-yellow: #fff9cb;
+  --color-pink: #ffb0c4;
+  
+  --gradienteFundo: linear-gradient(
+    223.17deg,
+    rgb(28, 24, 41) 0%,
+    rgb(27, 24, 40) 8.61%,
+    rgb(25, 23, 36) 17.21%,
+    rgb(22, 21, 32) 25.82%,
+    rgb(20, 19, 28) 34.42%,
+    rgb(18, 18, 24) 43.03%,
+    rgb(17, 17, 23) 51.63%
+  );
+  
+    --cor-fundo-solida: rgb(22, 21, 32);
 }
 
 body {
+    font-family: var(--fonte-principal);
     overflow-x: hidden;
-    background-color: #000;
+    background: var(--gradienteFundo);
     min-height: 100vh;
 }
 
@@ -31,7 +74,7 @@ body {
     align-items: center;
     justify-content: center;
 
-    background: #000;
+    background: var(--gradienteFundo);
 
     opacity: 1;
     visibility: visible;
@@ -158,17 +201,20 @@ section {
 
 .secao1 {
     z-index: 10;
-    background-color: #000;
+    background-color: var(--cor-fundo-solida); 
+    background-image: var(--gradiente-escuro); 
 }
 
 .secao2 {
     z-index: 9;
-    background-color: #000;
+    background-color: var(--cor-fundo-solida); 
+    background-image: var(--gradiente-escuro); 
 }
 
 .secao3 {
     z-index: 8;
-    background-color: #000;
+    background-color: var(--cor-fundo-solida); 
+    background-image: var(--gradiente-escuro); 
 }
 
 .secao4 {
@@ -178,7 +224,8 @@ section {
 
 .secao5 {
     z-index: 10;
-    background-color: #000;
+        background-color: var(--cor-fundo-solida); 
+    background-image: var(--gradiente-escuro); 
 }
 
 .secao6 {
@@ -188,7 +235,8 @@ section {
 
 .secao7 {
     z-index: 14;
-    background-color: #000;
+        background-color: var(--cor-fundo-solida); 
+    background-image: var(--gradiente-escuro); 
 }
 
 .secao8 {
@@ -197,7 +245,8 @@ section {
 
 .secao9 {
     z-index: 16;
-    background-color: #000;
+    background-color: var(--cor-fundo-solida); 
+    background-image: var(--gradiente-escuro); 
 }
 
 
@@ -349,29 +398,33 @@ video {
 }
 
 .card-texto h1 {
+    font-family: var(--font-long);
     font-size: 6rem;
     line-height: 1;
-    color: #ff0055;
-    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    color: var(--color-yellow);
+    margin-bottom: 5rem;
 }
 
-.card-texto h2 {
+
+.txts h2 {
     font-size: 3rem;
     line-height: 1;
-    margin-bottom: 1rem;
-    color: #e0e0e0;
-    padding-inline-end: 8rem;
+    margin-bottom: 2rem;
+    color: var(--color-pink);
+    padding-inline-end: 12rem;
 }
 
 .lucia-content .card-texto h2 {
     padding: 0;
 }
 
-.card-texto p {
+.txts p {
     color: #a0a0ab;
     font-size: 1.5rem;
     line-height: calc(2 / 1.5);
-    margin-bottom: 1.5rem;
+    margin-bottom: 6rem;
+    padding-inline-end: 12rem;
 }
 
 
@@ -381,37 +434,46 @@ video {
 
 .jason-1,
 .jason-3 {
+    background: var(--color-yellow);
     width: 100%;
     overflow: hidden;
     position: relative;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.443);
 }
 
 .jason-1 img,
 .jason-3 img {
+   transition: transform 300ms ease-in-out;
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
 }
 
+
 .jason-2 {
     position: relative;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+     background: var(--color-yellow);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.443);
     height: 90vh;
     width: 100%;
 }
 
 .jason-2 img {
+
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: 80% center;
     display: block;
+    transition: transform 300ms ease-in-out;
+
 }
+
+
 
 
 /* =========================================================================
@@ -421,6 +483,9 @@ video {
 .lucia-1 {
     width: 100%;
     overflow: hidden;
+         background: var(--color-yellow);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.443);
     position: relative;
 }
 
@@ -429,11 +494,15 @@ video {
     height: 100%;
     object-fit: cover;
     display: block;
+     transition: transform 300ms ease-in-out;
 }
 
 .lucia-2 {
     display: flex;
     position: relative;
+         background: var(--color-yellow);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.443);
     overflow: hidden;
     height: 45vh;
     width: 100%;
@@ -445,12 +514,15 @@ video {
     object-fit: cover;
     object-position: 65% center;
     display: block;
+    margin-bottom: 3rem;
+     transition: transform 300ms ease-in-out;
 }
 
 .lucia-3 {
     display: flex;
     align-items: center;
     justify-content: right;
+
     position: relative;
     overflow: hidden;
     height: 65vh;
@@ -460,11 +532,18 @@ video {
 .lucia-3 img {
     width: 60%;
     height: 100%;
+        background: var(--color-yellow);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.443);
     object-fit: cover;
     display: block;
     object-position: 62% center;
+     transition: transform 300ms ease-in-out;
 }
 
+.lucia-txts p {
+    padding-inline-end: 0rem;
+}
 
 /* =========================================================================
    FORMATOS
@@ -476,8 +555,20 @@ video {
 }
 
 .img-retangular {
+
     height: 100%;
     width: 60%;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .jason-1 img:hover,
+  .jason-2 img:hover, .lucia-1 img:hover, .lucia-2 img:hover, .lucia-3 img:hover {
+    transform: scale(0.98);
+  }
+
+  .jason-3 img:hover {
+    transform: scale(0.97);
+  }
 }
 
 
@@ -520,6 +611,7 @@ video {
 
 
 
+
 /* =========================================================================
    SEÇÃO 8
 ========================================================================= */
@@ -554,7 +646,8 @@ video {
     z-index: 16;
     height: 100vh;
     width: 100%;
-    background-color: #000;
+        background-color: var(--cor-fundo-solida); 
+    background-image: var(--gradiente-escuro); 
 }
 
 .footer {
@@ -760,12 +853,13 @@ video {
 
     body {
         overflow-x: hidden;
-        background: #000;
+            background-color: var(--cor-fundo-solida); 
+    background-image: var(--gradiente-escuro); 
     }
 
     .containerPai {
         width: 100%;
-        height: 100vh;
+        height: 100dvh;
         position: relative;
         overflow: hidden;
     }
@@ -1042,17 +1136,19 @@ video {
         overflow: hidden;
     }
 
-    .post-card-wrapper img {
+    .post-card-wrapper .overlay {
         width: 100%;
         height: 100%;
-
-        object-fit: cover;
+        position: absolute;
+        z-index: 10;
+        object-fit: contain;
     }
 
-    .post-card-wrapper video {
+        .post-card-wrapper #scroll-frame3 {
         width: 100%;
         height: 100%;
-
+        position: relative;
+        z-index: 5;
         object-fit: cover;
     }
 
@@ -1164,21 +1260,27 @@ video {
 
     .secao4,
     .secao6 {
-        padding: 1rem 0.7rem;
+        height: fit-content;
+        padding: 1rem 1rem;
     }
 
     .card-texto h1 {
-        font-size: 2.3rem;
+        font-size: 5rem;
+        margin-bottom: 3rem;
     }
 
-    .card-texto h2 {
-        font-size: 1.25rem;
+    .txts h2 {
+        margin-bottom: 2rem;
+        font-size: 1.875rem;
     }
 
-    .card-texto p {
-        font-size: 0.9rem;
-        line-height: 1.5;
-    }
+
+    .txts p {
+    color: #a0a0ab;
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    padding-inline-end: 4rem;
+}
 
     .jason-1,
     .jason-3 {
@@ -1190,7 +1292,7 @@ video {
     }
 
     .lucia-1 {
-        height: 20vh;
+        height: 30vh;
     }
 
     .lucia-2 {
@@ -1198,11 +1300,46 @@ video {
     }
 
     .lucia-3 {
-        height: 27vh;
+        width: 58vh;
+        height: 30vh;
+        transform: translateX(calc(.68rem * -5));
+    }
+
+        .secao7 {
+        padding: 0.8rem;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
     }
 
     .post-card-wrapper {
-        height: 80svh;
+        width: 100%;
+        height: 82svh;
+
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        overflow: hidden;
+    }
+
+    .post-card-wrapper .overlay {
+        display: none;
+    }
+
+        .post-card-wrapper #scroll-frame3 {
+        width: 100%;
+        height: 100%;
+        border: 12px solid #fff;
+        position: relative;
+        z-index: 5;
+        object-fit: cover;
+        object-position: 42% center;
+
     }
 
     #logo-p {
@@ -1215,6 +1352,18 @@ video {
 
     #logo-xbox {
         width: 5.5rem;
+    }
+
+    .jason-1 img:active,
+    .jason-2 img:active, .lucia-3 img:active,
+    .lucia-2 img:active, .lucia-1 img:active {
+        transform: scale(0.95);
+        transition: transform 0.1s ease;
+    }
+
+    .jason-3 img:active {
+        transform: scale(0.94);
+        transition: transform 0.1s ease;
     }
 }
 
