@@ -23,13 +23,13 @@
 
 html {
     scroll-behavior: smooth;
-     -webkit-user-select: none; /* Safari */
-  -moz-user-select: none;    /* Firefox */
-  -ms-user-select: none;     /* IE10+/Edge Antigo */
-  user-select: none;         /* Padrão (Chrome, Edge, Opera) */
+     -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 
-    -webkit-touch-callout: none; /* Desativa o menu de salvar/copiar no iOS */
-  -webkit-user-drag: none;     /* Impede arrastar a imagem no PC e Mobile */
+    -webkit-touch-callout: none; 
+  -webkit-user-drag: none;
 }
 
 :root {
@@ -147,7 +147,7 @@ body {
 
 
 /* ============================================================
-   EVITA MOSTRAR O SITE ANTES DO LOADER
+   ESCONDER O LOADER
 ============================================================ */
 
 body.loading {
@@ -164,6 +164,455 @@ body:not(.loading) .containerPai {
     visibility: visible;
 }
 
+/* =========================================================
+   NAV
+   ========================================================= */
+
+   body.menu-open {
+    overflow: hidden;
+}
+
+.site-nav {
+    position: fixed;
+
+    inset: 0 0 auto 0;
+
+    width: 100%;
+    height: 80px;
+
+    z-index: 9999;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   BARRA
+   ========================================================= */
+
+.nav-bar {
+    position: relative;
+
+    z-index: 100001;
+
+    width: 100%;
+    height: 80px;
+
+    padding: 0 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    box-sizing: border-box;
+
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   LOGO
+   ========================================================= */
+
+.nav-logo {
+    display: block;
+
+    width: 82px;
+
+    text-decoration: none;
+
+    transform-origin: center;
+
+    transition:
+        transform 0.25s ease,
+        opacity 0.25s ease;
+}
+
+.nav-logo svg {
+    color: #fff;
+    display: block;
+
+    width: 3rem;
+    height: auto;
+}
+
+.nav-logo:hover {
+    transform: scale(1.06);
+}
+
+.site-nav.menu-open .nav-logo{
+    opacity: 0;
+}
+
+
+/* =========================================================
+   BOTÃO MENU
+   ========================================================= */
+
+.nav-toggle {
+    position: relative;
+
+    width: 54px;
+    height: 54px;
+
+    padding: 0;
+
+    border: 0;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    transition: transform 0.3s ease;
+}
+
+.nav-toggle:hover {
+    transform: scale(1.08);
+
+}
+
+.nav-toggle span {
+    display: block;
+
+    width: 31px;
+    height: 7px;
+
+    background: #fff;
+
+    transform-origin: center;
+
+    transition:
+        transform 0.35s ease,
+        opacity 0.25s ease;
+}
+
+
+/* =========================================================
+   X
+   ========================================================= */
+
+.site-nav.menu-open .nav-toggle span:first-child {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.site-nav.menu-open .nav-toggle span:last-child {
+    transform: translateY(-4px) rotate(-45deg);
+}
+
+
+/* =========================================================
+   OVERLAY
+   ========================================================= */
+
+.nav-overlay {
+    position: fixed;
+
+    z-index: 100000;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100dvh;
+
+    background: var(--cor-fundo-solida);
+
+    opacity: 0;
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transform: translateY(-15px);
+
+    transition:
+        opacity 0.35s ease,
+        transform 0.35s ease,
+        visibility 0.35s ease;
+}
+
+
+/* =========================================================
+   MENU ABERTO
+   ========================================================= */
+
+.site-nav.menu-open .nav-overlay {
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   CONTEÚDO MENU
+   ========================================================= */
+
+.nav-menu {
+    width: 100%;
+    height: 100%;
+
+    padding: 120px 8vw 50px;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+}
+
+
+/* =========================================================
+   TÍTULO
+   ========================================================= */
+
+.nav-menu-title {
+    display: flex;
+    gap: 23px;
+    align-items: center;
+    width: fit-content;
+    color: rgba(255, 255, 255, 0.831);
+    font-family: var(--fonte-principal);
+    font-size: 10px;
+    letter-spacing: 3px;
+
+}
+
+.nav-menu-title span {
+    width: 3px;
+    height: 24px;
+
+    background: #ffffff7e;
+}
+
+.nav-menu-title a {
+    display: inline-flex;
+
+    width: 31px;
+    height: 31px;
+
+    margin-right: 7px;
+    margin-top: 7px;
+
+    align-items: center;
+    justify-content: center;
+
+    color: rgba(255, 255, 255, 0.831);
+
+    text-decoration: none;
+}
+
+
+.nav-menu-title-icon {
+    display: block;
+
+    width: 31px;
+    height: 31px;
+
+    color: inherit;
+
+    transition:
+        color 0.25s ease,
+        filter 0.25s ease;
+}
+
+
+.nav-menu-title a:hover {
+    color: #fff;
+}
+
+
+.nav-menu-title a:hover .nav-menu-title-icon {
+    filter:
+        drop-shadow(0 0 16px rgba(255, 255, 255, 0.35))
+        drop-shadow(0 0 25px rgba(255, 255, 255, 0.15));
+}
+
+.nnav-footer {
+    display: flex;
+    gap: 23px;
+    align-items: center;
+
+    color: rgba(255, 255, 255, 0.831);
+    font-family: var(--font-round-bold);
+    font-size: 10px;
+
+}
+
+.nav-footer span {
+    color: rgba(255, 255, 255, 0.831);
+}
+
+.nav-footer a {
+    display: inline-flex;
+
+
+    align-items: center;
+    justify-content: center;
+
+    color: rgba(255, 255, 255, 0.831);
+
+    text-decoration: none;
+}
+
+/* =========================================================
+   LINKS
+   ========================================================= */
+
+.nav-links {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.nav-link {
+    position: relative;
+
+    width: fit-content;
+
+    display: flex;
+
+    align-items: baseline;
+
+    gap: 18px;
+
+    color: #fff;
+
+    text-decoration: none;
+
+    font-family: var(--font-long);
+
+    font-size: clamp(38px, 6vw, 76px);
+
+    font-weight: 800;
+
+    letter-spacing: -2px;
+
+    transform: translateX(-35px);
+
+    opacity: 0;
+
+    transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+/* =========================================================
+   ANIMAÇÃO DOS LINKS
+   ========================================================= */
+
+.site-nav.menu-open .nav-link {
+    opacity: 1;
+
+    transform: translateX(0);
+}
+
+.site-nav.menu-open .nav-link:nth-child(1) {
+    transition-delay: 0.08s;
+}
+
+.site-nav.menu-open .nav-link:nth-child(2) {
+    transition-delay: 0.13s;
+}
+
+.site-nav.menu-open .nav-link:nth-child(3) {
+    transition-delay: 0.18s;
+}
+
+.site-nav.menu-open .nav-link:nth-child(4) {
+    transition-delay: 0.23s;
+}
+
+.site-nav.menu-open .nav-link:nth-child(5) {
+    transition-delay: 0.28s;
+}
+
+
+/* =========================================================
+   NÚMERO
+   ========================================================= */
+
+.nav-number {
+    width: 25px;
+
+    color: rgba(255, 255, 255, 0.35);
+
+    font-size: 11px;
+
+    font-weight: 400;
+
+    letter-spacing: 0;
+}
+
+
+/* =========================================================
+   HOVER
+   ========================================================= */
+
+.nav-link:hover {
+    color: #ff6b9a;
+    transform: translateX(12px);
+}
+
+.nav-link.active {
+    color: #ff6b9a;
+}
+
+/* =========================================================
+   INDICADOR
+   ========================================================= */
+
+.nav-link::after {
+    content: "";
+
+    position: absolute;
+
+    left: 43px;
+    bottom: -3px;
+    
+    width: 0;
+    height: 2px;
+
+    background: currentColor;
+
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    
+    width: calc(100% - 43px);
+    
+}
+
+
+/* =========================================================
+   FOOTER MENU
+   ========================================================= */
+
+.nav-footer {
+    color: rgba(255, 255, 255, 0.35);
+
+    font-family: Arial, sans-serif;
+
+    font-size: 10px;
+
+    letter-spacing: 4px;
+}
 
 
 .containerPai {
@@ -173,10 +622,6 @@ body:not(.loading) .containerPai {
     overflow: hidden;
 }
 
-
-/* =========================================================================
-   BASE DAS SEÇÕES
-========================================================================= */
 
 section {
     width: 100%;
@@ -302,7 +747,7 @@ section {
 
 
 /* =========================================================================
-   VÍDEOS
+   COF VÍDEOS
 ========================================================================= */
 
 .secao3,
@@ -343,7 +788,7 @@ video {
 
 
 /* =========================================================================
-   COLUNAS
+   COLUNAS DE TEXTO SCROLL
 ========================================================================= */
 
 .coluna {
@@ -355,7 +800,7 @@ video {
 
 
 /* =========================================================================
-   CONTEÚDO
+   CONTEÚDO S
 ========================================================================= */
 
 .jason-content,
@@ -429,7 +874,7 @@ video {
 
 
 /* =========================================================================
-   GALERIA JASON
+   PARTE DA SEC JASON
 ========================================================================= */
 
 .jason-1,
@@ -477,7 +922,7 @@ video {
 
 
 /* =========================================================================
-   GALERIA LUCIA
+   PARTE DA SEC LUCIA
 ========================================================================= */
 
 .lucia-1 {
@@ -546,7 +991,7 @@ video {
 }
 
 /* =========================================================================
-   FORMATOS
+   FORMATOS DAS IMGS
 ========================================================================= */
 
 .img-quadrada {
@@ -559,6 +1004,7 @@ video {
     height: 100%;
     width: 60%;
 }
+
 
 @media (hover: hover) and (pointer: fine) {
   .jason-1 img:hover,
@@ -842,7 +1288,7 @@ video {
 }
 
 /* =========================================================================
-   MOBILE — EXPERIÊNCIA ANIMADA
+   MOBILE MAIS FORTE
 ========================================================================= */
 
 @media (max-width: 768px) {
@@ -863,11 +1309,6 @@ video {
         position: relative;
         overflow: hidden;
     }
-
-    /* ---------------------------------------------------------
-       SEÇÕES CONTINUAM SOBREPOSTAS
-       Isso é importante para a timeline funcionar.
-    --------------------------------------------------------- */
 
     section {
         width: 100%;
@@ -970,7 +1411,7 @@ video {
     }
 
     /* ---------------------------------------------------------
-       CONTEÚDO
+       PARTE DA SEC JASON
     --------------------------------------------------------- */
 
     .jason-content,
@@ -1039,7 +1480,7 @@ video {
     }
 
     /* ---------------------------------------------------------
-       IMAGENS JASON
+       IMGS JASON
     --------------------------------------------------------- */
 
     .jason-1,
@@ -1074,7 +1515,7 @@ video {
     }
 
     /* ---------------------------------------------------------
-       IMAGENS LUCIA
+       IMGS LUCIA
     --------------------------------------------------------- */
 
     .lucia-1 {
@@ -1230,7 +1671,7 @@ video {
 
 
 /* =========================================================================
-   CELULARES MUITO PEQUENOS
+   CELULARES MENORES(FRACOS)
 ========================================================================= */
 
 
@@ -1250,12 +1691,98 @@ video {
    FRAMES-VIDEO
 ========================================================================= */
 
+    .site-nav {
+        height: 64px;
+    }
+
+    .nav-bar {
+        height: 64px;
+
+        padding: 0 16px;
+    }
+
+    .nav-logo {
+        width: 67px;
+    }
+
+    .nav-logo svg {
+
+    width: 2.3rem;
+    height: auto;
+}
+
+    .nav-toggle {
+        width: 12px;
+        height: 12px;
+
+    
+    }
+
+    .nav-toggle span {
+        width: 26px;
+    }
+
+    .site-nav.menu-open .nav-toggle span:last-child {
+    transform: translateY(-1px) rotate(-45deg);
+}
+
+    .nav-menu {
+        display: flex;
+
+        flex-direction: column;
+        justify-content: space-between;
+        height: 80vh;
+        padding: 100px 25px 30px;
+    }
+
+    .nav-menu-title {
+        font-size: 9px;
+
+        letter-spacing: 2px;
+    }
+
+    .nav-links {
+        gap: 7px;
+    }
+
+    .nav-link {
+        font-size: clamp(35px, 11vw, 52px);
+
+        gap: 12px;
+
+        letter-spacing: -1px;
+    }
+
+    .nav-number {
+        width: 20px;
+
+        font-size: 9px;
+    }
+
+    .nav-link::after {
+        left: 32px;
+    }
+
+    .nav-link:hover {
+        transform: translateX(5px);
+    }
+
+    .nav-footer {
+        font-size: 8px;
+
+        letter-spacing: 3px;
+    }
+
 
     #scroll-frame1, #scroll-frame2, #scroll-frame3, #scroll-frame4 {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+    -webkit-touch-callout: none;
+    -webkit-user-drag: none;
+    pointer-events: none; 
+
 }
 
     .secao4,
@@ -1365,10 +1892,12 @@ video {
         transform: scale(0.94);
         transition: transform 0.1s ease;
     }
+
+    
 }
 
 /* =========================================================================
-   ACESSIBILIDADE
+   ACESSIBILIDADE CASO O CELULAR SEJA FRACO DEMIAS
 ========================================================================= */
 
 @media (prefers-reduced-motion: reduce) {

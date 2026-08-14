@@ -1,18 +1,10 @@
 gsap.registerPlugin(ScrollTrigger);
 
-/* ============================================================
-   CONFIGURAÇÃO
-============================================================ */
-
 const mm = gsap.matchMedia();
 
 const reduceMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
 ).matches;
-
-/* ============================================================
-   ELEMENTOS
-============================================================ */
 
 const loader = document.getElementById("page-loader");
 const progressBar = document.getElementById("loader-progress-bar");
@@ -23,19 +15,236 @@ const video2 = document.getElementById("scroll-video2");
 const video3 = document.getElementById("scroll-video3");
 const video4 = document.getElementById("scroll-video4");
 
+
+const siteNav = document.getElementById("siteNav");
+const navToggle = document.getElementById("navToggle");
+const navOverlay = document.getElementById("navOverlay");
+const navLinks = document.querySelectorAll(".nav-link");
+
 const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
+const navSections = ["hero", "JasonDuval", "lucia", "leonida", "footer"];
+
  const imagens = document.querySelectorAll(
-     ".jason-1 img, .jason-2 img, .jason-3 img",
+     ".jason-1 img, .jason-2 img, .jason-3 img, .lucia-1 img, .lucia-2 img, .lucia-3 img, .overlay img, .logo img, .ps-logo img, .xbox-logo img, .hero-bg img, .hero-text img",
  );
 
+      // Bloqueia o menu de contexto (clique com botão direito ou clique longo no mobile)
  imagens.forEach((img) => {
-     // Bloqueia o menu de contexto (clique com botão direito ou clique longo no mobile)
+
      img.addEventListener("contextmenu", (event) => {
          event.preventDefault();
      });
  });
 
+// ============================================================
+// NAVIGATION MENU
+// ============================================================
+
+// ============================================================
+// CONTROLE DA NAV
+// ============================================================
+
+
+function setActiveNav(section) {
+
+    navLinks.forEach((link) => {
+
+        link.classList.toggle(
+            "active",
+            link.dataset.section === section
+        );
+
+    });
+
+}
+
+
+
+function updateActiveNavFromTimeline(timeline) {
+    if (!timeline) return;
+
+    const currentTime = timeline.time();
+    const labels = timeline.labels;
+
+    let activeSection = navSections[0];
+
+    for (let i = 0; i < navSections.length; i++) {
+        const currentSection = navSections[i];
+        const currentLabelTime = labels[currentSection];
+
+        if (currentLabelTime === undefined) {
+            continue;
+        }
+
+        const nextSection = navSections[i + 1];
+
+        const nextLabelTime = nextSection
+            ? labels[nextSection]
+            : timeline.duration();
+
+        if (currentTime >= currentLabelTime && currentTime < nextLabelTime) {
+            activeSection = currentSection;
+            break;
+        }
+    }
+
+    setActiveNav(activeSection);
+}
+
+ 
+// ============================================================
+// ABRIR / FECHAR
+// ============================================================
+
+function toggleNavigation() {
+    if (!siteNav || !navToggle) {
+        return;
+    }
+
+    const isOpen = siteNav.classList.contains("menu-open");
+
+    if (isOpen) {
+        closeNavigation();
+    } else {
+        openNavigation();
+    }
+}
+
+function openNavigation() {
+    if (!siteNav || !navToggle) {
+        return;
+    }
+
+    
+
+    siteNav.classList.add("menu-open");
+
+    document.body.classList.add("menu-open");
+
+    navToggle.setAttribute("aria-expanded", "true");
+
+    navToggle.setAttribute("aria-label", "Fechar menu");
+}
+
+function closeNavigation() {
+    if (!siteNav || !navToggle) {
+        return;
+    }
+
+        siteNav.classList.remove("menu-open");
+
+        document.body.classList.remove("menu-open");
+
+    navToggle.setAttribute("aria-expanded", "false");
+
+    navToggle.setAttribute("aria-label", "Abrir menu");
+}
+
+
+// ============================================================
+// BOTÃO
+// ============================================================
+
+if (navToggle) {
+
+    navToggle.addEventListener(
+        "click",
+        toggleNavigation
+    );
+
+}
+
+
+// ============================================================
+// FECHAR MENU
+// ============================================================
+
+
+
+// ============================================================
+// LINKS
+// ============================================================
+
+navLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        const section = link.dataset.section;
+
+        if (!section) {
+            return;
+        }
+
+
+        closeNavigation();
+
+        const timeline = window.mainTimeline;
+
+        if (!timeline) {
+            console.warn("Timeline principal ainda não foi criada.");
+            return;
+        }
+
+        const targetTime = timeline.labels[section];
+
+        if (targetTime === undefined) {
+            console.warn(`Label "${section}" não encontrada na timeline.`);
+            return;
+        }
+
+        const progress = targetTime / timeline.duration();
+
+        const trigger = timeline.scrollTrigger;
+
+        if (!trigger) {
+            console.warn("ScrollTrigger da timeline não encontrado.");
+            return;
+        }
+
+        const targetScroll =
+            trigger.start + (trigger.end - trigger.start) * progress;
+
+        window.scrollTo({
+            top: targetScroll,
+            behavior: "smooth",
+        });
+    });
+});
+
+
+// ============================================================
+// ESC
+// ============================================================
+
+document.addEventListener("keydown", (event) => {
+
+    if (event.key === "Escape") {
+
+        closeNavigation();
+
+    }
+
+});
+
+
+// ============================================================
+// CLICAR FORA DO MENU
+// ============================================================
+
+if (navOverlay) {
+
+    navOverlay.addEventListener("click", (event) => {
+
+        if (event.target === navOverlay) {
+
+            closeNavigation();
+
+        }
+
+    });
+
+}
 /* ============================================================
    LOADING
 ============================================================ */
@@ -44,10 +253,6 @@ document.body.classList.add("loading");
 
 let totalAssets = 0;
 let loadedAssets = 0;
-
-/* ============================================================
-   PROGRESSO
-============================================================ */
 
 function updateProgress() {
     loadedAssets++;
@@ -78,7 +283,7 @@ function preloadImage(src) {
             try {
                 await img.decode();
             } catch (error) {
-                // Alguns navegadores podem não suportar decode
+                console.warn("Erro ao carregar imagem:", src);
             }
 
             updateProgress();
@@ -179,7 +384,7 @@ function preloadVideo(videoElement) {
 }
 
 /* ============================================================
-   IMAGENS ESTÁTICAS IMPORTANTES
+   IMAGENS ESTÁTICAS IMPORTANTES PARA O CARREGAMENTO
 ============================================================ */
 
 const staticImages = [
@@ -223,7 +428,7 @@ async function loadMobileAssets() {
     /*
      * Importante:
      *
-     * No mobile NÃO colocamos src nos vídeos.
+     * No mobile NÃO colocamos src nos vídeos porque ja deu ruim com o cache.
      *
      * Portanto eles não serão baixados.
      */
@@ -280,7 +485,7 @@ async function loadDesktopAssets() {
 }
 
 /* ============================================================
-   ANIMAÇÃO DOS FRAMES
+   ANIMAÇÃO DE CADA FRAMES
 ============================================================ */
 
 function animateFramesScroll(timeline, image, frames, duration, position) {
@@ -355,8 +560,6 @@ function initDesktop() {
         return;
     }
 
-
-
     gsap.set(".secao5", {
         opacity: 0,
         yPercent: 30,
@@ -388,7 +591,7 @@ function initDesktop() {
         opacity: 1,
     });
 
-    const tl = gsap.timeline({
+    const tlDesktop = gsap.timeline({
         scrollTrigger: {
             trigger: ".containerPai",
 
@@ -405,18 +608,26 @@ function initDesktop() {
             invalidateOnRefresh: true,
         },
     });
+    
+    window.mainTimeline = tlDesktop;
+
+    tlDesktop.eventCallback("onUpdate", () => {
+        updateActiveNavFromTimeline(tlDesktop);
+    });
 
     /* ========================================================
        SECTION 1
     ======================================================== */
 
-    tl.to(".secao1", {
+    tlDesktop.addLabel("hero");
+
+    tlDesktop.to(".secao1", {
         maskSize: "20vw",
 
         duration: 2,
     });
 
-    tl.to(
+    tlDesktop.to(
         ".LogoBg",
         {
             opacity: 0,
@@ -426,7 +637,7 @@ function initDesktop() {
         "-=1.8",
     );
 
-    tl.to(
+    tlDesktop.to(
         ".secBrac",
         {
             backgroundColor: "white",
@@ -436,7 +647,7 @@ function initDesktop() {
         "-=1",
     );
 
-    tl.to(".secao1", {
+    tlDesktop.to(".secao1", {
         opacity: 0,
 
         duration: 1,
@@ -446,7 +657,7 @@ function initDesktop() {
        SECTION 2
     ======================================================== */
 
-    tl.fromTo(
+    tlDesktop.fromTo(
         ".secao2 img",
         {
             filter: "blur(10px)",
@@ -459,12 +670,9 @@ function initDesktop() {
             duration: 1,
         },
         "-=1",
-        
     );
 
-
-
-    tl.to(".secao2 ", {
+    tlDesktop.to(".secao2 ", {
         opacity: 0,
         duration: 1,
     });
@@ -472,8 +680,8 @@ function initDesktop() {
     /* ========================================================
        VIDEO 1
     ======================================================== */
-
-    tl.fromTo(
+    
+    tlDesktop.fromTo(
         "#scroll-video",
         {
             opacity: 1,
@@ -485,9 +693,9 @@ function initDesktop() {
         },
         "-=0.5",
     );
-
+    
     if (video) {
-        tl.to(
+        tlDesktop.to(
             video,
             {
                 currentTime: () => video.duration || 1,
@@ -498,7 +706,8 @@ function initDesktop() {
         );
     }
 
-    tl.to(
+
+    tlDesktop.to(
         "#scroll-video",
         {
             scale: 1.1,
@@ -510,12 +719,14 @@ function initDesktop() {
         },
         "-=0.5",
     );
-
+    
     /* ========================================================
        JASON
     ======================================================== */
 
-    tl.to(
+    tlDesktop.addLabel("JasonDuval");
+
+    tlDesktop.to(
         ".secao4",
         {
             backgroundColor: "rgba(0, 0, 0, 0)",
@@ -526,8 +737,8 @@ function initDesktop() {
         },
         "<",
     );
-
-    tl.fromTo(
+    
+    tlDesktop.fromTo(
         ".jason-content",
 
         {
@@ -549,7 +760,7 @@ function initDesktop() {
         "-=1.5",
     );
 
-    tl.fromTo(
+    tlDesktop.fromTo(
         ".coluna-parallax",
 
         {
@@ -571,7 +782,7 @@ function initDesktop() {
         "-=2",
     );
 
-    tl.to(".coluna-parallax", {
+    tlDesktop.to(".coluna-parallax", {
         yPercent: -130,
 
         duration: 3,
@@ -579,7 +790,7 @@ function initDesktop() {
         ease: "none",
     });
 
-    tl.to(
+    tlDesktop.to(
         ".jason-content",
         {
             yPercent: -100,
@@ -594,8 +805,9 @@ function initDesktop() {
     /* ========================================================
        VIDEO 2
     ======================================================== */
+    tlDesktop.addLabel("lucia");
 
-    tl.to(
+    tlDesktop.to(
         ".secao5",
         {
             yPercent: 0,
@@ -610,7 +822,7 @@ function initDesktop() {
     );
 
     if (video2) {
-        tl.to(
+        tlDesktop.to(
             video2,
             {
                 currentTime: () => video2.duration || 1,
@@ -622,8 +834,8 @@ function initDesktop() {
             "<+=1",
         );
     }
-
-    tl.to(
+    
+    tlDesktop.to(
         "#scroll-video2",
         {
             scale: 1.1,
@@ -643,7 +855,8 @@ function initDesktop() {
        LUCIA
     ======================================================== */
 
-    tl.to(
+    
+    tlDesktop.to(
         ".secao6",
         {
             yPercent: 0,
@@ -657,7 +870,7 @@ function initDesktop() {
         "<",
     );
 
-    tl.fromTo(
+    tlDesktop.fromTo(
         ".lucia-content",
 
         {
@@ -679,7 +892,7 @@ function initDesktop() {
         "<-=0.5",
     );
 
-    tl.fromTo(
+    tlDesktop.fromTo(
         ".coluna-parallax2",
 
         {
@@ -701,7 +914,7 @@ function initDesktop() {
         "<",
     );
 
-    tl.to(".coluna-parallax2", {
+    tlDesktop.to(".coluna-parallax2", {
         yPercent: -100,
 
         duration: 2,
@@ -709,7 +922,7 @@ function initDesktop() {
         ease: "none",
     });
 
-    tl.to(
+    tlDesktop.to(
         ".lucia-content",
         {
             yPercent: -86,
@@ -725,7 +938,9 @@ function initDesktop() {
        SECTION 7
     ======================================================== */
 
-    tl.to(
+    tlDesktop.addLabel("leonida");
+
+    tlDesktop.to(
         ".secao7",
         {
             yPercent: 0,
@@ -738,7 +953,7 @@ function initDesktop() {
     );
 
     if (video3) {
-        tl.to(
+        tlDesktop.to(
             video3,
             {
                 currentTime: () => video3.duration || 1,
@@ -751,7 +966,7 @@ function initDesktop() {
         );
     }
 
-    tl.to(".secao7", {
+    tlDesktop.to(".secao7", {
         yPercent: -100,
 
         duration: 1,
@@ -763,9 +978,9 @@ function initDesktop() {
        SECTION 8
     ======================================================== */
 
-    tl.addLabel("secao8");
+    tlDesktop.addLabel("secao8");
 
-    tl.to(
+    tlDesktop.to(
         ".secao8",
         {
             yPercent: 0,
@@ -777,7 +992,7 @@ function initDesktop() {
         "<",
     );
 
-    tl.to(".content-secao8", {
+    tlDesktop.to(".content-secao8", {
         opacity: 1,
 
         yPercent: 0,
@@ -788,7 +1003,7 @@ function initDesktop() {
     });
 
     if (video4) {
-        tl.to(
+        tlDesktop.to(
             video4,
             {
                 currentTime: () => video4.duration || 1,
@@ -801,7 +1016,7 @@ function initDesktop() {
         );
     }
 
-    tl.to(
+    tlDesktop.to(
         ".secao8",
         {
             backgroundColor: "rgb(22, 21, 32)",
@@ -813,7 +1028,7 @@ function initDesktop() {
         "<",
     );
 
-    tl.to("#scroll-video4", {
+    tlDesktop.to("#scroll-video4", {
         opacity: 0,
 
         duration: 1,
@@ -825,7 +1040,9 @@ function initDesktop() {
        SECTION 9
     ======================================================== */
 
-    tl.to(".secao9", {
+    
+
+    tlDesktop.to(".secao9", {
         yPercent: 0,
 
         duration: 1,
@@ -834,7 +1051,8 @@ function initDesktop() {
     });
 
     
-    tl.fromTo(
+
+    tlDesktop.fromTo(
         ".footer img",
 
         {
@@ -858,7 +1076,9 @@ function initDesktop() {
         "-=0.5",
     );
 
-    tl.fromTo(
+    tlDesktop.addLabel("footer");
+
+    tlDesktop.fromTo(
         ".gradient-title",
 
         {
@@ -881,9 +1101,13 @@ function initDesktop() {
     );
 
 
-    return () => {
-        tl.kill();
-    };
+return () => {
+    tlDesktop.kill();
+
+    if (window.mainTimeline === tlDesktop) {
+        window.mainTimeline = null;
+    }
+};
 }
 
 /* ============================================================
@@ -926,7 +1150,7 @@ function initTablet() {
         yPercent: 100,
     });
 
-    const tl = gsap.timeline({
+    const tlTablet = gsap.timeline({
         scrollTrigger: {
             trigger: ".containerPai",
 
@@ -944,15 +1168,16 @@ function initTablet() {
         },
     });
 
+
     /* HERO */
 
-    tl.to(".secao1", {
+    tlTablet.to(".secao1", {
         maskSize: "25vw",
 
         duration: 2,
     });
 
-    tl.to(
+    tlTablet.to(
         ".LogoBg",
         {
             opacity: 0,
@@ -962,7 +1187,7 @@ function initTablet() {
         "-=1.5",
     );
 
-    tl.to(".secao1", {
+    tlTablet.to(".secao1", {
         opacity: 0,
 
         duration: 1,
@@ -970,7 +1195,7 @@ function initTablet() {
 
     /* SECTION 2 */
 
-    tl.from(
+    tlTablet.from(
         ".secao2 img",
         {
             opacity: 0,
@@ -982,7 +1207,7 @@ function initTablet() {
         "-=0.5",
     );
 
-    tl.to(".secao2", {
+    tlTablet.to(".secao2", {
         opacity: 0,
 
         duration: 1,
@@ -990,7 +1215,7 @@ function initTablet() {
 
     /* VIDEO 1 */
 
-    tl.from(
+    tlTablet.from(
         "#scroll-video",
         {
             opacity: 0,
@@ -1001,7 +1226,7 @@ function initTablet() {
     );
 
     if (video) {
-        tl.to(video, {
+        tlTablet.to(video, {
             currentTime: () => video.duration || 1,
 
             duration: 3,
@@ -1012,7 +1237,7 @@ function initTablet() {
 
     /* JASON */
 
-    tl.fromTo(
+    tlTablet.fromTo(
         ".jason-content",
 
         {
@@ -1032,7 +1257,7 @@ function initTablet() {
         },
     );
 
-    tl.fromTo(
+    tlTablet.fromTo(
         ".coluna-parallax",
 
         {
@@ -1056,7 +1281,7 @@ function initTablet() {
 
     /* VIDEO 2 */
 
-    tl.to(".secao5", {
+    tlTablet.to(".secao5", {
         yPercent: 0,
 
         opacity: 1,
@@ -1065,7 +1290,7 @@ function initTablet() {
     });
 
     if (video2) {
-        tl.to(
+        tlTablet.to(
             video2,
             {
                 currentTime: () => video2.duration || 1,
@@ -1078,7 +1303,7 @@ function initTablet() {
         );
     }
 
-    tl.to("#scroll-video2", {
+    tlTablet.to("#scroll-video2", {
         opacity: 0,
 
         duration: 0.7,
@@ -1086,7 +1311,7 @@ function initTablet() {
 
     /* LUCIA */
 
-    tl.to(".secao6", {
+    tlTablet.to(".secao6", {
         yPercent: 0,
 
         opacity: 1,
@@ -1096,7 +1321,7 @@ function initTablet() {
         ease: "power2.out",
     });
 
-    tl.fromTo(
+    tlTablet.fromTo(
         ".lucia-content",
 
         {
@@ -1118,7 +1343,7 @@ function initTablet() {
         "<+=0.1",
     );
 
-    tl.fromTo(
+    tlTablet.fromTo(
         ".coluna-parallax2",
 
         {
@@ -1140,7 +1365,7 @@ function initTablet() {
         "<",
     );
 
-    tl.to(".coluna-parallax2", {
+    tlTablet.to(".coluna-parallax2", {
         yPercent: -30,
 
         duration: 1.5,
@@ -1148,7 +1373,7 @@ function initTablet() {
         ease: "none",
     });
 
-    tl.to(
+    tlTablet.to(
         ".lucia-content",
         {
             yPercent: -30,
@@ -1162,7 +1387,7 @@ function initTablet() {
 
     /* SECTION 7 */
 
-    tl.to(".secao7", {
+    tlTablet.to(".secao7", {
         yPercent: 0,
 
         duration: 1.5,
@@ -1171,7 +1396,7 @@ function initTablet() {
     });
 
     if (video3) {
-        tl.to(
+        tlTablet.to(
             video3,
             {
                 currentTime: () => video3.duration || 1,
@@ -1186,13 +1411,13 @@ function initTablet() {
 
     /* SECTION 8 */
 
-    tl.to(".secao8", {
+    tlTablet.to(".secao8", {
         yPercent: 0,
 
         duration: 1,
     });
 
-    tl.to(".content-secao8", {
+    tlTablet.to(".content-secao8", {
         opacity: 1,
 
         yPercent: 0,
@@ -1201,7 +1426,7 @@ function initTablet() {
     });
 
     if (video4) {
-        tl.to(
+        tlTablet.to(
             video4,
             {
                 currentTime: () => video4.duration || 1,
@@ -1214,7 +1439,7 @@ function initTablet() {
         );
     }
 
-    tl.to("#scroll-video4", {
+    tlTablet.to("#scroll-video4", {
         opacity: 0,
 
         duration: 1,
@@ -1222,7 +1447,7 @@ function initTablet() {
 
     /* SECTION 9 */
 
-    tl.to(".secao9", {
+    tlTablet.to(".secao9", {
         yPercent: 0,
 
         duration: 0.8,
@@ -1230,9 +1455,13 @@ function initTablet() {
         ease: "power2.out",
     });
 
-    return () => {
-        tl.kill();
-    };
+return () => {
+    tlTablet.kill();
+
+    if (window.mainTimeline === tlTablet) {
+        window.mainTimeline = null;
+    }
+};
 }
 
 /* ============================================================
@@ -1278,7 +1507,7 @@ function initMobile(assetData) {
     const frameImage4 = document.getElementById("scroll-frame4");
 
     /* ========================================================
-       ESTADOS
+       ESTADOS DE CADA SEC
     ======================================================== */
 
     gsap.set(".secao1", {
@@ -1353,10 +1582,10 @@ function initMobile(assetData) {
     });
 
     /* ========================================================
-       TIMELINE
+       TIMELINE(COMO INICIARA O SCROLL)
     ======================================================== */
 
-    const tl = gsap.timeline({
+    const tlMobile = gsap.timeline({
         scrollTrigger: {
             trigger: ".containerPai",
 
@@ -1374,11 +1603,19 @@ function initMobile(assetData) {
         },
     });
 
+    window.mainTimeline = tlMobile;
+
+    tlMobile.eventCallback("onUpdate", () => {
+        updateActiveNavFromTimeline(tlMobile);
+    });
+
     /* ========================================================
        SECTION 1
     ======================================================== */
 
-    tl.to(".secao1", {
+    tlMobile.addLabel("hero");
+
+    tlMobile.to(".secao1", {
         opacity: 0,
 
         duration: 1.2,
@@ -1386,7 +1623,7 @@ function initMobile(assetData) {
         ease: "power2.inOut",
     });
 
-    tl.to(
+    tlMobile.to(
         ".LogoBg",
         {
             opacity: 0,
@@ -1404,7 +1641,7 @@ function initMobile(assetData) {
        SECTION 2
     ======================================================== */
 
-    tl.fromTo(
+    tlMobile.fromTo(
         ".secao2 img",
 
         {
@@ -1428,7 +1665,7 @@ function initMobile(assetData) {
         },
     );
 
-    tl.to(".secao2", {
+    tlMobile.to(".secao2", {
         opacity: 0,
 
         duration: 0.8,
@@ -1440,7 +1677,7 @@ function initMobile(assetData) {
        FRAME 1
     ======================================================== */
 
-    tl.fromTo(
+    tlMobile.fromTo(
         "#scroll-frame1",
 
         {
@@ -1456,9 +1693,9 @@ function initMobile(assetData) {
         },
     );
 
-    animateFramesScroll(tl, frameImage1, framesVideo1, 2.5);
+    animateFramesScroll(tlMobile, frameImage1, framesVideo1, 2.5);
 
-    tl.to("#scroll-frame1", {
+    tlMobile.to("#scroll-frame1", {
         opacity: 0,
 
         duration: 0.8,
@@ -1470,7 +1707,9 @@ function initMobile(assetData) {
        JASON
     ======================================================== */
 
-    tl.fromTo(
+    tlMobile.addLabel("JasonDuval");
+
+    tlMobile.fromTo(
         ".jason-content",
 
         {
@@ -1492,7 +1731,7 @@ function initMobile(assetData) {
         "-=0.4",
     );
 
-    tl.fromTo(
+    tlMobile.fromTo(
         ".coluna-parallax",
 
         {
@@ -1514,7 +1753,7 @@ function initMobile(assetData) {
         "-=0.4",
     );
 
-    tl.to(".coluna-parallax", {
+    tlMobile.to(".coluna-parallax", {
         yPercent: 0,
 
         duration: 1,
@@ -1522,7 +1761,7 @@ function initMobile(assetData) {
         ease: "power2.inOut",
     });
 
-    tl.to(
+    tlMobile.to(
         ".jason-content",
         {
             yPercent: 0,
@@ -1538,7 +1777,7 @@ function initMobile(assetData) {
        SECTION 5
     ======================================================== */
 
-    tl.to(".secao4", {
+    tlMobile.to(".secao4", {
         yPercent: -100,
 
         duration: 2,
@@ -1546,7 +1785,7 @@ function initMobile(assetData) {
         ease: "power2.inOut",
     });
 
-    tl.to(
+    tlMobile.to(
         ".secao5",
         {
             yPercent: 0,
@@ -1558,9 +1797,9 @@ function initMobile(assetData) {
         "<",
     );
 
-    animateFramesScroll(tl, frameImage2, framesVideo2, 5, "<+=0.9");
+    animateFramesScroll(tlMobile, frameImage2, framesVideo2, 5, "<+=0.9");
 
-    tl.to(
+    tlMobile.to(
         ".secao5",
         {
             opacity: 0,
@@ -1576,7 +1815,9 @@ function initMobile(assetData) {
        LUCIA
     ======================================================== */
 
-    tl.to(
+    tlMobile.addLabel("lucia");
+
+    tlMobile.to(
         ".secao6",
         {
             yPercent: 0,
@@ -1588,7 +1829,7 @@ function initMobile(assetData) {
         "<-=0.1",
     );
 
-    tl.fromTo(
+    tlMobile.fromTo(
         ".coluna-parallax2",
 
         {
@@ -1610,7 +1851,7 @@ function initMobile(assetData) {
         "-=1",
     );
 
-    tl.fromTo(
+    tlMobile.fromTo(
         ".lucia-content",
 
         {
@@ -1632,7 +1873,7 @@ function initMobile(assetData) {
         "-=2",
     );
 
-    tl.to(".coluna-parallax2", {
+    tlMobile.to(".coluna-parallax2", {
         yPercent: -35,
 
         duration: 1,
@@ -1640,7 +1881,7 @@ function initMobile(assetData) {
         ease: "power2.inOut",
     });
 
-    tl.to(
+    tlMobile.to(
         ".lucia-content",
         {
             yPercent: -25,
@@ -1652,7 +1893,7 @@ function initMobile(assetData) {
         "<",
     );
 
-    tl.to(".secao6", {
+    tlMobile.to(".secao6", {
         yPercent: -100,
 
         duration: 1.5,
@@ -1664,17 +1905,23 @@ function initMobile(assetData) {
        SECTION 7
     ======================================================== */
 
-    tl.to(".secao7", {
-        yPercent: 0,
+    tlMobile.addLabel("leonida");
 
-        duration: 0.8,
+    tlMobile.to(
+        ".secao7",
+        {
+            yPercent: 0,
 
-        ease: "none",
-    }, "<+=0.6");
+            duration: 0.8,
 
-    animateFramesScroll(tl, frameImage3, framesVideo3, 0.7, "<");
+            ease: "none",
+        },
+        "<+=0.6",
+    );
 
-    tl.to(".secao7", {
+    animateFramesScroll(tlMobile, frameImage3, framesVideo3, 0.7, "<");
+
+    tlMobile.to(".secao7", {
         yPercent: -100,
 
         duration: 0.8,
@@ -1686,7 +1933,7 @@ function initMobile(assetData) {
        SECTION 8
     ======================================================== */
 
-    tl.to(
+    tlMobile.to(
         ".secao8",
         {
             yPercent: 0,
@@ -1698,7 +1945,7 @@ function initMobile(assetData) {
         "-=1",
     );
 
-    tl.to(".content-secao8", {
+    tlMobile.to(".content-secao8", {
         opacity: 1,
 
         yPercent: 0,
@@ -1708,9 +1955,9 @@ function initMobile(assetData) {
         ease: "power2.out",
     });
 
-    animateFramesScroll(tl, frameImage4, framesVideo4, 2, "<");
+    animateFramesScroll(tlMobile, frameImage4, framesVideo4, 2, "<");
 
-    tl.to(".secao8", {
+    tlMobile.to(".secao8", {
         backgroundColor: "rgb(22, 21, 32)",
 
         duration: 0.2,
@@ -1718,7 +1965,7 @@ function initMobile(assetData) {
         ease: "power2.out",
     });
 
-    tl.to(
+    tlMobile.to(
         "#scroll-frame4",
         {
             opacity: 0,
@@ -1734,15 +1981,16 @@ function initMobile(assetData) {
        SECTION 9
     ======================================================== */
 
-    tl.to(".secao9", {
+    tlMobile.to(".secao9", {
         yPercent: 0,
 
         duration: 1,
 
         ease: "power3.out",
     });
+    tlMobile.addLabel("footer");
 
-    tl.fromTo(
+    tlMobile.fromTo(
         ".footer img",
 
         {
@@ -1766,7 +2014,7 @@ function initMobile(assetData) {
         "-=0.5",
     );
 
-    tl.fromTo(
+    tlMobile.fromTo(
         ".gradient-title",
 
         {
@@ -1792,9 +2040,13 @@ function initMobile(assetData) {
         ScrollTrigger.refresh();
     });
 
-    return () => {
-        tl.kill();
-    };
+return () => {
+    tlMobile.kill();
+
+    if (window.mainTimeline === tlMobile) {
+        window.mainTimeline = null;
+    }
+};
 }
 
 /* ============================================================
@@ -1812,7 +2064,7 @@ async function startApplication() {
          */
 
         if (isMobile) {
-            console.log("📱 Mobile: carregando frames...");
+            console.log("Mobile: carregando os frames...");
 
             assetData = await loadMobileAssets();
         } else {
@@ -1822,7 +2074,7 @@ async function startApplication() {
          * DESKTOP / TABLET
          * ========================================================
          */
-            console.log("🖥️ Desktop/Tablet: carregando vídeos...");
+            console.log("Desktop/Tablet: carregando vídeos...");
 
             await loadDesktopAssets();
         }
