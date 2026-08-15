@@ -439,7 +439,7 @@ body:not(.loading) .containerPai {
         drop-shadow(0 0 25px rgba(255, 255, 255, 0.15));
 }
 
-.nnav-footer {
+.nav-footer {
     display: flex;
     gap: 23px;
     align-items: center;
@@ -563,11 +563,6 @@ body:not(.loading) .containerPai {
    HOVER
    ========================================================= */
 
-.nav-link:hover {
-    color: #ff6b9a;
-    transform: translateX(12px);
-}
-
 .nav-link.active {
     color: #ff6b9a;
 }
@@ -592,11 +587,21 @@ body:not(.loading) .containerPai {
     transition: width 0.3s ease;
 }
 
-.nav-link:hover::after,
 .nav-link.active::after {
     
     width: calc(100% - 43px);
     
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .nav-link:hover {
+        color: #ff6b9a;
+        transform: translateX(12px);
+    }
+
+    .nav-link:hover::after {
+        width: calc(100% - 43px);
+    }
 }
 
 
@@ -1677,6 +1682,18 @@ video {
 
 
 @media (max-width: 480px) {
+
+
+    /* Remove o fundo/contorno azul ao tocar em elementos interativos no mobile */
+button, 
+a, 
+input, 
+select, 
+textarea,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent; /* Remove a cor azul de toque */
+  outline: none; /* Garante que o contorno de foco também seja removido */
+}
 
 
     

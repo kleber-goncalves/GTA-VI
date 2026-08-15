@@ -29,7 +29,6 @@ const navSections = ["hero", "JasonDuval", "lucia", "leonida", "footer"];
      ".jason-1 img, .jason-2 img, .jason-3 img, .lucia-1 img, .lucia-2 img, .lucia-3 img, .overlay img, .logo img, .ps-logo img, .xbox-logo img, .hero-bg img, .hero-text img",
  );
 
-      // Bloqueia o menu de contexto (clique com botão direito ou clique longo no mobile)
  imagens.forEach((img) => {
 
      img.addEventListener("contextmenu", (event) => {
@@ -154,11 +153,6 @@ if (navToggle) {
     );
 
 }
-
-
-// ============================================================
-// FECHAR MENU
-// ============================================================
 
 
 
@@ -1707,7 +1701,7 @@ function initMobile(assetData) {
        JASON
     ======================================================== */
 
-    tlMobile.addLabel("JasonDuval");
+    
 
     tlMobile.fromTo(
         ".jason-content",
@@ -1730,6 +1724,7 @@ function initMobile(assetData) {
 
         "-=0.4",
     );
+    tlMobile.addLabel("JasonDuval");
 
     tlMobile.fromTo(
         ".coluna-parallax",
@@ -1815,7 +1810,6 @@ function initMobile(assetData) {
        LUCIA
     ======================================================== */
 
-    tlMobile.addLabel("lucia");
 
     tlMobile.to(
         ".secao6",
@@ -1828,6 +1822,8 @@ function initMobile(assetData) {
         },
         "<-=0.1",
     );
+        tlMobile.addLabel("lucia");
+
 
     tlMobile.fromTo(
         ".coluna-parallax2",
@@ -1988,7 +1984,6 @@ function initMobile(assetData) {
 
         ease: "power3.out",
     });
-    tlMobile.addLabel("footer");
 
     tlMobile.fromTo(
         ".footer img",
@@ -2013,6 +2008,8 @@ function initMobile(assetData) {
 
         "-=0.5",
     );
+        tlMobile.addLabel("footer");
+
 
     tlMobile.fromTo(
         ".gradient-title",
