@@ -10,6 +10,7 @@ const loader = document.getElementById("page-loader");
 const progressBar = document.getElementById("loader-progress-bar");
 const progressText = document.getElementById("loader-progress-text");
 
+
 const video = document.getElementById("scroll-video");
 const video2 = document.getElementById("scroll-video2");
 const video3 = document.getElementById("scroll-video3");
