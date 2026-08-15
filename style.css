@@ -1801,6 +1801,12 @@ textarea,
     pointer-events: none; 
 
 }
+    #scroll-frame1{
+    object-position: 72% center;
+}
+    /* #scroll-frame2{
+    object-position: 20% center;
+} */
 
     .secao4,
     .secao6 {

@@ -1740,9 +1740,9 @@ function initMobile(assetData) {
 
             yPercent: 0,
 
-            duration: 1.4,
+            duration: 0.1,
 
-            ease: "power2.out",
+            ease: "none",
         },
 
         "-=0.4",
