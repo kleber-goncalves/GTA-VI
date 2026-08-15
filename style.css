@@ -1,17 +1,624 @@
+@font-face {
+    font-family: "Long";
+    src: url("fonts/long.woff") format("woff");
+}
+@font-face {
+    font-family: "Round";
+    src: url("fonts/round.woff") format("woff");
+}
+@font-face {
+    font-family: "Round Bold";
+    font-weight: bold;
+    src: url("fonts/round-bold.woff");
+}
+
+
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
     list-style: none;
     text-decoration: none;
 }
 
+html {
+    scroll-behavior: smooth;
+     -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+    -webkit-touch-callout: none; 
+  -webkit-user-drag: none;
+}
+
+:root {
+    --fonte-principal: "Round", sans-serif;
+    --font-long: "Long", sans-serif;
+  --font-round-bold: "Round Bold", sans-serif;
+   --color-yellow: #fff9cb;
+  --color-pink: #ffb0c4;
+  
+  --gradienteFundo: linear-gradient(
+    223.17deg,
+    rgb(28, 24, 41) 0%,
+    rgb(27, 24, 40) 8.61%,
+    rgb(25, 23, 36) 17.21%,
+    rgb(22, 21, 32) 25.82%,
+    rgb(20, 19, 28) 34.42%,
+    rgb(18, 18, 24) 43.03%,
+    rgb(17, 17, 23) 51.63%
+  );
+  
+    --cor-fundo-solida: rgb(22, 21, 32);
+}
+
 body {
+    font-family: var(--fonte-principal);
     overflow-x: hidden;
-    background-color: #000;
+    background: var(--gradienteFundo);
     min-height: 100vh;
 }
+
+/* ============================================================
+   LOADER
+============================================================ */
+
+#page-loader {
+    position: fixed;
+    inset: 0;
+
+    z-index: 99999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--gradienteFundo);
+
+    opacity: 1;
+    visibility: visible;
+
+    transition:
+        opacity 0.6s ease,
+        visibility 0.6s ease;
+}
+
+
+#page-loader.loader-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+
+.loader-content {
+    width: min(80%, 420px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 15px;
+}
+
+
+.loader-title {
+    color: #fff;
+
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 4px;
+
+    margin-bottom: 15px;
+}
+
+
+.loader-progress {
+    width: 100%;
+    height: 4px;
+
+    background: rgba(255, 255, 255, 0.2);
+
+    overflow: hidden;
+}
+
+
+.loader-progress-bar {
+    width: 0%;
+    height: 100%;
+
+    background: #fff;
+
+    transform-origin: left center;
+
+    transition: width 0.15s linear;
+}
+
+
+.loader-progress-text {
+    color: #fff;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    letter-spacing: 2px;
+}
+
+
+/* ============================================================
+   ESCONDER O LOADER
+============================================================ */
+
+body.loading {
+    overflow: hidden;
+}
+
+
+body.loading .containerPai {
+    visibility: hidden;
+}
+
+
+body:not(.loading) .containerPai {
+    visibility: visible;
+}
+
+/* =========================================================
+   NAV
+   ========================================================= */
+
+   body.menu-open {
+    overflow: hidden;
+}
+
+.site-nav {
+    position: fixed;
+
+    inset: 0 0 auto 0;
+
+    width: 100%;
+    height: 80px;
+
+    z-index: 9999;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   BARRA
+   ========================================================= */
+
+.nav-bar {
+    position: relative;
+
+    z-index: 100001;
+
+    width: 100%;
+    height: 80px;
+
+    padding: 0 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    box-sizing: border-box;
+
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   LOGO
+   ========================================================= */
+
+.nav-logo {
+    display: block;
+
+    width: 82px;
+
+    text-decoration: none;
+
+    transform-origin: center;
+
+    transition:
+        transform 0.25s ease,
+        opacity 0.25s ease;
+}
+
+.nav-logo svg {
+    color: #fff;
+    display: block;
+
+    width: 3rem;
+    height: auto;
+}
+
+.nav-logo:hover {
+    transform: scale(1.06);
+}
+
+.site-nav.menu-open .nav-logo{
+    opacity: 0;
+}
+
+
+/* =========================================================
+   BOTÃO MENU
+   ========================================================= */
+
+.nav-toggle {
+    position: relative;
+
+    width: 54px;
+    height: 54px;
+
+    padding: 0;
+
+    border: 0;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    transition: transform 0.3s ease;
+}
+
+.nav-toggle:hover {
+    transform: scale(1.08);
+
+}
+
+.nav-toggle span {
+    display: block;
+
+    width: 31px;
+    height: 7px;
+
+    background: #fff;
+
+    transform-origin: center;
+
+    transition:
+        transform 0.35s ease,
+        opacity 0.25s ease;
+}
+
+
+/* =========================================================
+   X
+   ========================================================= */
+
+.site-nav.menu-open .nav-toggle span:first-child {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.site-nav.menu-open .nav-toggle span:last-child {
+    transform: translateY(-4px) rotate(-45deg);
+}
+
+
+/* =========================================================
+   OVERLAY
+   ========================================================= */
+
+.nav-overlay {
+    position: fixed;
+
+    z-index: 100000;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100dvh;
+
+    background: var(--cor-fundo-solida);
+
+    opacity: 0;
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transform: translateY(-15px);
+
+    transition:
+        opacity 0.35s ease,
+        transform 0.35s ease,
+        visibility 0.35s ease;
+}
+
+
+/* =========================================================
+   MENU ABERTO
+   ========================================================= */
+
+.site-nav.menu-open .nav-overlay {
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   CONTEÚDO MENU
+   ========================================================= */
+
+.nav-menu {
+    width: 100%;
+    height: 100%;
+
+    padding: 120px 8vw 50px;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+}
+
+
+/* =========================================================
+   TÍTULO
+   ========================================================= */
+
+.nav-menu-title {
+    display: flex;
+    gap: 23px;
+    align-items: center;
+    width: fit-content;
+    color: rgba(255, 255, 255, 0.831);
+    font-family: var(--fonte-principal);
+    font-size: 10px;
+    letter-spacing: 3px;
+
+}
+
+.nav-menu-title span {
+    width: 3px;
+    height: 24px;
+
+    background: #ffffff7e;
+}
+
+.nav-menu-title a {
+    display: inline-flex;
+
+    width: 31px;
+    height: 31px;
+
+    margin-right: 7px;
+    margin-top: 7px;
+
+    align-items: center;
+    justify-content: center;
+
+    color: rgba(255, 255, 255, 0.831);
+
+    text-decoration: none;
+}
+
+
+.nav-menu-title-icon {
+    display: block;
+
+    width: 31px;
+    height: 31px;
+
+    color: inherit;
+
+    transition:
+        color 0.25s ease,
+        filter 0.25s ease;
+}
+
+
+.nav-menu-title a:hover {
+    color: #fff;
+}
+
+
+.nav-menu-title a:hover .nav-menu-title-icon {
+    filter:
+        drop-shadow(0 0 16px rgba(255, 255, 255, 0.35))
+        drop-shadow(0 0 25px rgba(255, 255, 255, 0.15));
+}
+
+.nav-footer {
+    display: flex;
+    gap: 23px;
+    align-items: center;
+
+    color: rgba(255, 255, 255, 0.831);
+    font-family: var(--font-round-bold);
+    font-size: 10px;
+
+}
+
+.nav-footer span {
+    color: rgba(255, 255, 255, 0.831);
+}
+
+.nav-footer a {
+    display: inline-flex;
+
+
+    align-items: center;
+    justify-content: center;
+
+    color: rgba(255, 255, 255, 0.831);
+
+    text-decoration: none;
+}
+
+/* =========================================================
+   LINKS
+   ========================================================= */
+
+.nav-links {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.nav-link {
+    position: relative;
+
+    width: fit-content;
+
+    display: flex;
+
+    align-items: baseline;
+
+    gap: 18px;
+
+    color: #fff;
+
+    text-decoration: none;
+
+    font-family: var(--font-long);
+
+    font-size: clamp(38px, 6vw, 76px);
+
+    font-weight: 800;
+
+    letter-spacing: -2px;
+
+    transform: translateX(-35px);
+
+    opacity: 0;
+
+    transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+/* =========================================================
+   ANIMAÇÃO DOS LINKS
+   ========================================================= */
+
+.site-nav.menu-open .nav-link {
+    opacity: 1;
+
+    transform: translateX(0);
+}
+
+.site-nav.menu-open .nav-link:nth-child(1) {
+    transition-delay: 0.08s;
+}
+
+.site-nav.menu-open .nav-link:nth-child(2) {
+    transition-delay: 0.13s;
+}
+
+.site-nav.menu-open .nav-link:nth-child(3) {
+    transition-delay: 0.18s;
+}
+
+.site-nav.menu-open .nav-link:nth-child(4) {
+    transition-delay: 0.23s;
+}
+
+.site-nav.menu-open .nav-link:nth-child(5) {
+    transition-delay: 0.28s;
+}
+
+
+/* =========================================================
+   NÚMERO
+   ========================================================= */
+
+.nav-number {
+    width: 25px;
+
+    color: rgba(255, 255, 255, 0.35);
+
+    font-size: 11px;
+
+    font-weight: 400;
+
+    letter-spacing: 0;
+}
+
+
+/* =========================================================
+   HOVER
+   ========================================================= */
+
+.nav-link.active {
+    color: #ff6b9a;
+}
+
+/* =========================================================
+   INDICADOR
+   ========================================================= */
+
+.nav-link::after {
+    content: "";
+
+    position: absolute;
+
+    left: 43px;
+    bottom: -3px;
+    
+    width: 0;
+    height: 2px;
+
+    background: currentColor;
+
+    transition: width 0.3s ease;
+}
+
+.nav-link.active::after {
+    
+    width: calc(100% - 43px);
+    
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .nav-link:hover {
+        color: #ff6b9a;
+        transform: translateX(12px);
+    }
+
+    .nav-link:hover::after {
+        width: calc(100% - 43px);
+    }
+}
+
+
+/* =========================================================
+   FOOTER MENU
+   ========================================================= */
+
+.nav-footer {
+    color: rgba(255, 255, 255, 0.35);
+
+    font-family: Arial, sans-serif;
+
+    font-size: 10px;
+
+    letter-spacing: 4px;
+}
+
 
 .containerPai {
     width: 100%;
@@ -20,7 +627,7 @@ body {
     overflow: hidden;
 }
 
-/* Base para todas as seções */
+
 section {
     width: 100%;
     height: 100vh;
@@ -28,49 +635,75 @@ section {
     top: 0;
     left: 0;
     overflow: hidden;
-    transform: translateZ(0);
-    backface-visibility: hidden;
 }
 
 /* =========================================================================
-   SISTEMA DE Z-INDEX
-   Garante que as novas seções sobreponham as anteriores ao "subirem" na tela
+   FRAMES-VIDEO
 ========================================================================= */
+
+    #scroll-frame1, #scroll-frame2, #scroll-frame3, #scroll-frame4 {
+    display: none;
+}
+
+/* =========================================================================
+   Z-INDEX
+========================================================================= */
+
 .secao1 {
     z-index: 10;
-    background-color: #000;
-} /* Hero */
+    background-color: var(--cor-fundo-solida); 
+    background-image: var(--gradiente-escuro); 
+}
+
 .secao2 {
     z-index: 9;
-    background-color: #000;
-} /* Transição inicial */
+    background-color: var(--cor-fundo-solida); 
+    background-image: var(--gradiente-escuro); 
+}
+
 .secao3 {
     z-index: 8;
-    background-color: #000;
-} /* Vídeo 1 */
+    background-color: var(--cor-fundo-solida); 
+    background-image: var(--gradiente-escuro); 
+}
+
 .secao4 {
-    z-index: 11;
+    z-index: 12;
     background-color: transparent;
-} /* Textos Jason (entra sobre o vídeo 1) */
+}
+
 .secao5 {
     z-index: 10;
-    background-color: #000;
-} /* Vídeo 2 (cobre a seção 4) */
+        background-color: var(--cor-fundo-solida); 
+    background-image: var(--gradiente-escuro); 
+}
+
 .secao6 {
     z-index: 13;
     background-color: transparent;
-} /* Textos Lucia (entra sobre vídeo 2) */
+}
+
 .secao7 {
     z-index: 14;
-    background-color: #000;
-} /* Nova tela */
+        background-color: var(--cor-fundo-solida); 
+    background-image: var(--gradiente-escuro); 
+}
+
 .secao8 {
-    z-index: 15;
-} /* Tela Final (Gradiente) */
+    z-index: 13;
+}
+
+.secao9 {
+    z-index: 16;
+    background-color: var(--cor-fundo-solida); 
+    background-image: var(--gradiente-escuro); 
+}
+
 
 /* =========================================================================
-   SEÇÃO 1 (HERO)
+   SEÇÃO 1
 ========================================================================= */
+
 .secao1 {
     mask-image: url("img/hero-text-lmp.svg");
     mask-repeat: no-repeat;
@@ -102,9 +735,11 @@ section {
     z-index: 99;
 }
 
+
 /* =========================================================================
-   SEÇÃO 2 E VÍDEOS GERAIS
+   SEÇÃO 2
 ========================================================================= */
+
 .secao2 {
     display: flex;
     justify-content: center;
@@ -115,6 +750,11 @@ section {
     width: 20%;
 }
 
+
+/* =========================================================================
+   COF VÍDEOS
+========================================================================= */
+
 .secao3,
 .secao5 {
     will-change: transform, filter, opacity;
@@ -124,11 +764,14 @@ video {
     width: 100%;
     height: 100vh;
     object-fit: cover;
+    display: block;
 }
 
+
 /* =========================================================================
-   ESTRUTURAS COMPARTILHADAS (Seção 4 e Seção 6)
+   SEÇÃO 4 E 6
 ========================================================================= */
+
 .secao4,
 .secao6 {
     display: flex;
@@ -148,7 +791,11 @@ video {
     padding-right: 8rem;
 }
 
-/* Colunas do Grid */
+
+/* =========================================================================
+   COLUNAS DE TEXTO SCROLL
+========================================================================= */
+
 .coluna {
     max-width: 100%;
     display: flex;
@@ -156,7 +803,11 @@ video {
     gap: 2rem;
 }
 
-/* Fundos radiantes e containers */
+
+/* =========================================================================
+   CONTEÚDO S
+========================================================================= */
+
 .jason-content,
 .lucia-content,
 .card-texto,
@@ -165,24 +816,28 @@ video {
 .post-card-wrapper {
     position: relative;
     z-index: 2;
-    transform: translateZ(0);
-    backface-visibility: hidden;
 }
 
 .jason-content,
 .lucia-content {
-    background: radial-gradient(ellipse, #111117 20%, transparent 70%);
+    background: radial-gradient(
+        ellipse,
+        #111117 20%,
+        transparent 70%
+    );
 }
 
 .coluna-parallax,
 .coluna-parallax2 {
     margin-top: 0;
-    will-change: transform; /* Otimização de performance para o Parallax */
+    will-change: transform;
 }
 
+
 /* =========================================================================
-   TEXTOS GERAIS (Cards)
+   TEXTOS
 ========================================================================= */
+
 .card-texto {
     max-width: 38rem;
     color: #fff;
@@ -193,74 +848,94 @@ video {
 }
 
 .card-texto h1 {
+    font-family: var(--font-long);
     font-size: 6rem;
     line-height: 1;
-    color: #ff0055;
-    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    color: var(--color-yellow);
+    margin-bottom: 5rem;
 }
 
-.card-texto h2 {
+
+.txts h2 {
     font-size: 3rem;
     line-height: 1;
-    margin-bottom: 1rem;
-    color: #e0e0e0;
-    padding-inline-end: 8rem;
+    margin-bottom: 2rem;
+    color: var(--color-pink);
+    padding-inline-end: 12rem;
 }
 
 .lucia-content .card-texto h2 {
-    padding: 0; /* Override para a Seção 6 */
+    padding: 0;
 }
 
-.card-texto p {
+.txts p {
     color: #a0a0ab;
     font-size: 1.5rem;
     line-height: calc(2 / 1.5);
-    margin-bottom: 1.5rem;
+    margin-bottom: 6rem;
+    padding-inline-end: 12rem;
 }
 
+
 /* =========================================================================
-   GALERIA DE IMAGENS JASON (Seção 4)
+   PARTE DA SEC JASON
 ========================================================================= */
+
 .jason-1,
 .jason-3 {
+    background: var(--color-yellow);
     width: 100%;
     overflow: hidden;
     position: relative;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.443);
 }
 
 .jason-1 img,
 .jason-3 img {
+   transition: transform 300ms ease-in-out;
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
 }
 
+
 .jason-2 {
     position: relative;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+     background: var(--color-yellow);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.443);
     height: 90vh;
     width: 100%;
 }
 
 .jason-2 img {
+
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: 80% center;
     display: block;
+    transition: transform 300ms ease-in-out;
+
 }
 
+
+
+
 /* =========================================================================
-   GALERIA DE IMAGENS LUCIA (Seção 6)
+   PARTE DA SEC LUCIA
 ========================================================================= */
+
 .lucia-1 {
     width: 100%;
     overflow: hidden;
+         background: var(--color-yellow);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.443);
     position: relative;
 }
 
@@ -269,11 +944,15 @@ video {
     height: 100%;
     object-fit: cover;
     display: block;
+     transition: transform 300ms ease-in-out;
 }
 
 .lucia-2 {
     display: flex;
     position: relative;
+         background: var(--color-yellow);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.443);
     overflow: hidden;
     height: 45vh;
     width: 100%;
@@ -285,12 +964,15 @@ video {
     object-fit: cover;
     object-position: 65% center;
     display: block;
+    margin-bottom: 3rem;
+     transition: transform 300ms ease-in-out;
 }
 
 .lucia-3 {
     display: flex;
     align-items: center;
     justify-content: right;
+
     position: relative;
     overflow: hidden;
     height: 65vh;
@@ -300,25 +982,51 @@ video {
 .lucia-3 img {
     width: 60%;
     height: 100%;
+        background: var(--color-yellow);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.443);
     object-fit: cover;
     display: block;
     object-position: 62% center;
+     transition: transform 300ms ease-in-out;
 }
 
-/* Classes utilitárias de formato */
+.lucia-txts p {
+    padding-inline-end: 0rem;
+}
+
+/* =========================================================================
+   FORMATOS DAS IMGS
+========================================================================= */
+
 .img-quadrada {
     width: 100%;
     height: 100%;
 }
 
 .img-retangular {
+
     height: 100%;
     width: 60%;
 }
 
+
+@media (hover: hover) and (pointer: fine) {
+  .jason-1 img:hover,
+  .jason-2 img:hover, .lucia-1 img:hover, .lucia-2 img:hover, .lucia-3 img:hover {
+    transform: scale(0.98);
+  }
+
+  .jason-3 img:hover {
+    transform: scale(0.97);
+  }
+}
+
+
 /* =========================================================================
    SEÇÃO 7
 ========================================================================= */
+
 .secao7 {
     display: flex;
     justify-content: center;
@@ -345,8 +1053,18 @@ video {
     z-index: 10;
 }
 
+.post-card-wrapper video {
+    position: relative;
+    z-index: 5;
+}
+
+
+
+
+
+
 /* =========================================================================
-   SEÇÃO 8 (GRADIENTE ANIMADO)
+   SEÇÃO 8
 ========================================================================= */
 
 .secao8 {
@@ -356,11 +1074,22 @@ video {
 .content-secao8 {
     opacity: 0;
     overflow: hidden;
+    width: 100%;
+    height: 100%;
 }
 
 .animated-gradient-bg {
-    background: linear-gradient(135deg, #1e2a52 0%, #6e4b91 100%);
+    background: linear-gradient(
+        135deg,
+        #1e2a52 0%,
+        #6e4b91 100%
+    );
 }
+
+
+/* =========================================================================
+   SEÇÃO 9
+========================================================================= */
 
 .secao9 {
     position: absolute;
@@ -368,6 +1097,8 @@ video {
     z-index: 16;
     height: 100vh;
     width: 100%;
+        background-color: var(--cor-fundo-solida); 
+    background-image: var(--gradiente-escuro); 
 }
 
 .footer {
@@ -378,6 +1109,7 @@ video {
     flex-direction: column;
     justify-content: center;
     gap: 2rem;
+    padding: 2rem;
 }
 
 #logo-p {
@@ -405,16 +1137,27 @@ video {
     text-transform: uppercase;
     line-height: 4.5rem;
     text-align: center;
-    background-image: linear-gradient(to right, #f472b6, #f87171, #fb923c);
+
+    background-image: linear-gradient(
+        to right,
+        #f472b6,
+        #f87171,
+        #fb923c
+    );
+
     -webkit-background-clip: text;
     background-clip: text;
+
     color: transparent;
 }
 
+
 /* =========================================================================
-   RESPONSIVIDADE
+   ATÉ 1400PX
 ========================================================================= */
+
 @media (max-width: 1400px) {
+
     .secao4 {
         padding-left: 8rem;
     }
@@ -442,7 +1185,13 @@ video {
     }
 }
 
+
+/* =========================================================================
+   TABLET
+========================================================================= */
+
 @media (max-width: 1024px) {
+
     .secao4,
     .secao6 {
         flex-direction: column;
@@ -474,16 +1223,29 @@ video {
     }
 
     .card-texto h1 {
-        font-size: clamp(3rem, 5.2vw, 3.8rem);
+        font-size: clamp(
+            3rem,
+            5.2vw,
+            3.8rem
+        );
     }
 
     .card-texto h2 {
-        font-size: clamp(1.5rem, 3vw, 2rem);
+        font-size: clamp(
+            1.5rem,
+            3vw,
+            2rem
+        );
+
         padding-inline-end: 0;
     }
 
     .card-texto p {
-        font-size: clamp(1rem, 1.8vw, 1.25rem);
+        font-size: clamp(
+            1rem,
+            1.8vw,
+            1.25rem
+        );
     }
 
     .jason-2 {
@@ -505,7 +1267,6 @@ video {
 
     .footer {
         gap: 1.5rem;
-        padding: 2rem 1rem;
     }
 
     #logo-p {
@@ -521,41 +1282,57 @@ video {
     }
 
     .gradient-title {
-        font-size: clamp(2.8rem, 5vw, 3.8rem);
+        font-size: clamp(
+            2.8rem,
+            5vw,
+            3.8rem
+        );
+
         line-height: 1.08;
     }
 }
 
+/* =========================================================================
+   MOBILE MAIS FORTE
+========================================================================= */
+
 @media (max-width: 768px) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
     body {
         overflow-x: hidden;
+            background-color: var(--cor-fundo-solida); 
+    background-image: var(--gradiente-escuro); 
     }
 
     .containerPai {
+        width: 100%;
+        height: 100dvh;
         position: relative;
-        height: auto;
+        overflow: hidden;
     }
 
     section {
-        position: relative;
-        top: auto;
-        left: auto;
-        height: auto;
-        min-height: 100svh;
-        overflow: visible;
+        width: 100%;
+        height: 100svh;
+
+        position: absolute;
+
+        top: 0;
+        left: 0;
+
+        overflow: hidden;
+
+        transform: translateZ(0);
+        backface-visibility: hidden;
     }
 
-    .secao1,
-    .secao2,
-    .secao3,
-    .secao4,
-    .secao5,
-    .secao6,
-    .secao7,
-    .secao8,
-    .secao9 {
-        min-height: 100svh;
-    }
+    /* ---------------------------------------------------------
+       HERO
+    --------------------------------------------------------- */
 
     .secao1 {
         mask-image: none;
@@ -563,6 +1340,10 @@ video {
 
     .secao1 .bg1,
     .secao1 .LogoBg {
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
         object-position: center;
     }
 
@@ -570,124 +1351,545 @@ video {
         top: 0;
     }
 
+    /* ---------------------------------------------------------
+       SECTION 2
+    --------------------------------------------------------- */
+
     .secao2 {
-        padding: 2rem 1rem;
+        padding: 1.5rem;
+
         display: flex;
+
         align-items: center;
         justify-content: center;
     }
 
     .secao2 img {
-        width: min(55vw, 220px);
+        width: min(65vw, 230px);
     }
+
+    /* ---------------------------------------------------------
+       VÍDEOS
+    --------------------------------------------------------- */
 
     video {
+        width: 100%;
         height: 100svh;
-        min-height: 100svh;
+
+        object-fit: cover;
+
+        display: block;
     }
 
-    .secao4,
-    .secao6 {
-        padding: 2.2rem 1rem;
+    /* ---------------------------------------------------------
+       SECTION 4 / JASON
+    --------------------------------------------------------- */
+
+    .secao4 {
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: stretch;
+        justify-content: center;
+
         gap: 1rem;
+
+        padding: 1.5rem 1rem;
     }
+
+    /* ---------------------------------------------------------
+       SECTION 6 / LUCIA
+    --------------------------------------------------------- */
+
+    .secao6 {
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: stretch;
+        justify-content: center;
+
+        gap: 1rem;
+
+        padding: 1.5rem 1rem;
+    }
+
+    /* ---------------------------------------------------------
+       PARTE DA SEC JASON
+    --------------------------------------------------------- */
 
     .jason-content,
     .lucia-content {
-        background: none;
+        width: 100%;
+
+        background:
+            radial-gradient(
+                ellipse at center,
+                rgba(17, 17, 23, 0.95) 0%,
+                rgba(17, 17, 23, 0.65) 35%,
+                transparent 75%
+            );
     }
 
-    .jason-1,
-    .jason-2,
-    .jason-3,
-    .lucia-1,
-    .lucia-2,
-    .lucia-3 {
-        height: auto;
-        min-height: 14rem;
+    .card-texto {
+        width: 100%;
+        max-width: 100%;
+
+        padding: 0 !important;
     }
 
-    .jason-2 {
-        height: 45vh;
-    }
-
-    .lucia-3 {
-        height: 40vh;
-    }
-
-    .lucia-2 {
-        height: 40vh;
-    }
-
-    .secao7 {
-        padding: 1rem;
-    }
-
-    .post-card-wrapper {
-        height: 70svh;
-        min-height: 24rem;
-        margin: 0;
-    }
-
-    .content-secao8 {
-        opacity: 1;
-    }
-
-    .logos {
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
-
-    #logo-p {
-        width: 10rem;
-    }
-
-    #logo-ps {
-        width: 5rem;
-    }
-
-    #logo-xbox {
-        width: 7rem;
-    }
-
-    .gradient-title {
-        font-size: clamp(2.3rem, 8vw, 3rem);
-        line-height: 1;
-    }
-}
-
-@media (max-width: 480px) {
-    .secao4,
-    .secao6 {
-        padding: 1.5rem 0.8rem;
-    }
+    /* ---------------------------------------------------------
+       TEXTOS
+    --------------------------------------------------------- */
 
     .card-texto h1 {
-        font-size: 2.4rem;
+        font-size: clamp(2.5rem, 11vw, 4rem);
+
+        line-height: 0.95;
+
+        margin-bottom: 0.4rem;
     }
 
     .card-texto h2 {
-        font-size: 1.35rem;
+        font-size: clamp(1.3rem, 5.5vw, 2rem);
+
+        line-height: 1.05;
+
+        padding: 0 !important;
+
+        margin-bottom: 0.7rem;
     }
 
     .card-texto p {
-        font-size: 1rem;
-        line-height: 1.7;
+        font-size: clamp(0.9rem, 3.8vw, 1.2rem);
+
+        line-height: 1.55;
+
+        margin-bottom: 1rem;
     }
 
-    .jason-2,
-    .lucia-3,
-    .lucia-2 {
-        height: 16rem;
+    /* ---------------------------------------------------------
+       COLUNAS
+    --------------------------------------------------------- */
+
+    .coluna {
+        width: 100%;
+        max-width: 100%;
+
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 1rem;
     }
+
+    /* ---------------------------------------------------------
+       IMGS JASON
+    --------------------------------------------------------- */
+
+    .jason-1,
+    .jason-3,
+    .jason-2 {
+        width: 100%;
+
+        overflow: hidden;
+
+        box-shadow:
+            0 8px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .jason-1,
+    .jason-3 {
+        height: 22vh;
+    }
+
+    .jason-2 {
+        height: 38vh;
+    }
+
+    .jason-1 img,
+    .jason-2 img,
+    .jason-3 img {
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+
+        display: block;
+    }
+
+    /* ---------------------------------------------------------
+       IMGS LUCIA
+    --------------------------------------------------------- */
+
+    .lucia-1 {
+        width: 100%;
+        height: 22vh;
+    }
+
+    .lucia-2 {
+        width: 100%;
+        height: 25vh;
+    }
+
+    .lucia-3 {
+        width: 100%;
+        height: 30vh;
+
+        justify-content: center;
+    }
+
+    .lucia-1 img,
+    .lucia-2 img,
+    .lucia-3 img {
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+
+        display: block;
+    }
+
+    .lucia-3 img {
+        width: 80%;
+    }
+
+    /* ---------------------------------------------------------
+       SECTION 7
+    --------------------------------------------------------- */
 
     .secao7 {
-        padding: 0.75rem;
+        padding: 0.8rem;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
     }
 
     .post-card-wrapper {
-        height: 60svh;
-        min-height: 20rem;
+        width: 100%;
+        height: 82svh;
+
+        margin: 0;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        overflow: hidden;
+    }
+
+    .post-card-wrapper .overlay {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 10;
+        object-fit: contain;
+    }
+
+        .post-card-wrapper #scroll-frame3 {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        z-index: 5;
+        object-fit: cover;
+    }
+
+    /* ---------------------------------------------------------
+       SECTION 8
+    --------------------------------------------------------- */
+
+    .secao8 {
+        background-color: #4a3c75;
+    }
+
+    .content-secao8 {
+        width: 100%;
+        height: 100%;
+    }
+
+    /* ---------------------------------------------------------
+       SECTION 9
+    --------------------------------------------------------- */
+
+    .secao9 {
+        height: 100svh;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        padding: 1.5rem;
+    }
+
+    .footer {
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        flex-direction: column;
+
+        gap: 1.5rem;
+
+        text-align: center;
+    }
+
+    #logo-p {
+        width: min(55vw, 10rem);
+    }
+
+    #logo-ps {
+        width: min(28vw, 5rem);
+    }
+
+    #logo-xbox {
+        width: min(38vw, 7rem);
+    }
+
+    .logos {
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        flex-wrap: wrap;
+
+        gap: 0.8rem;
+    }
+
+    .gradient-title {
+        font-size: clamp(2rem, 9vw, 3rem);
+
+        line-height: 1;
+
+        text-align: center;
+    }
+}
+
+
+/* =========================================================================
+   CELULARES MENORES(FRACOS)
+========================================================================= */
+
+
+
+@media (max-width: 480px) {
+
+
+    /* Remove o fundo/contorno azul ao tocar em elementos interativos no mobile */
+button, 
+a, 
+input, 
+select, 
+textarea,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent; /* Remove a cor azul de toque */
+  outline: none; /* Garante que o contorno de foco também seja removido */
+}
+
+
+    
+    #scroll-video,
+    #scroll-video2,
+    #scroll-video3,
+    #scroll-video4 {
+    display: none;
+}
+
+/* =========================================================================
+   FRAMES-VIDEO
+========================================================================= */
+
+    .site-nav {
+        height: 64px;
+    }
+
+    .nav-bar {
+        height: 64px;
+
+        padding: 0 16px;
+    }
+
+    .nav-logo {
+        width: 67px;
+    }
+
+    .nav-logo svg {
+
+    width: 2.3rem;
+    height: auto;
+}
+
+    .nav-toggle {
+        width: 12px;
+        height: 12px;
+
+    
+    }
+
+    .nav-toggle span {
+        width: 26px;
+    }
+
+    .site-nav.menu-open .nav-toggle span:last-child {
+    transform: translateY(-1px) rotate(-45deg);
+}
+
+    .nav-menu {
+        display: flex;
+
+        flex-direction: column;
+        justify-content: space-between;
+        height: 80vh;
+        padding: 100px 25px 30px;
+    }
+
+    .nav-menu-title {
+        font-size: 9px;
+
+        letter-spacing: 2px;
+    }
+
+    .nav-links {
+        gap: 7px;
+    }
+
+    .nav-link {
+        font-size: clamp(35px, 11vw, 52px);
+
+        gap: 12px;
+
+        letter-spacing: -1px;
+    }
+
+    .nav-number {
+        width: 20px;
+
+        font-size: 9px;
+    }
+
+    .nav-link::after {
+        left: 32px;
+    }
+
+    .nav-link:hover {
+        transform: translateX(5px);
+    }
+
+    .nav-footer {
+        font-size: 8px;
+
+        letter-spacing: 3px;
+    }
+
+
+    #scroll-frame1, #scroll-frame2, #scroll-frame3, #scroll-frame4 {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    -webkit-touch-callout: none;
+    -webkit-user-drag: none;
+    pointer-events: none; 
+
+}
+    #scroll-frame1{
+    object-position: 72% center;
+}
+    /* #scroll-frame2{
+    object-position: 20% center;
+} */
+
+    .secao4,
+    .secao6 {
+        height: fit-content;
+        padding: 1rem 1rem;
+    }
+
+    .card-texto h1 {
+        font-size: 5rem;
+        margin-bottom: 3rem;
+    }
+
+    .txts h2 {
+        margin-bottom: 2rem;
+        font-size: 1.875rem;
+    }
+
+
+    .txts p {
+    color: #a0a0ab;
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    padding-inline-end: 4rem;
+}
+
+    .jason-1,
+    .jason-3 {
+        height: 20vh;
+    }
+
+    .jason-2 {
+        height: 34vh;
+    }
+
+    .lucia-1 {
+        height: 30vh;
+    }
+
+    .lucia-2 {
+        height: 22vh;
+    }
+
+    .lucia-3 {
+        width: 58vh;
+        height: 30vh;
+        transform: translateX(calc(.68rem * -5));
+    }
+
+        .secao7 {
+        padding: 0.8rem;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+    }
+
+    .post-card-wrapper {
+        width: 100%;
+        height: 82svh;
+
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        overflow: hidden;
+    }
+
+    .post-card-wrapper .overlay {
+        display: none;
+    }
+
+        .post-card-wrapper #scroll-frame3 {
+        width: 100%;
+        height: 100%;
+        border: 12px solid #fff;
+        position: relative;
+        z-index: 5;
+        object-fit: cover;
+        object-position: 42% center;
+
     }
 
     #logo-p {
@@ -695,38 +1897,44 @@ video {
     }
 
     #logo-ps {
-        width: 4.2rem;
+        width: 4rem;
     }
 
     #logo-xbox {
-        width: 6rem;
+        width: 5.5rem;
     }
+
+    .jason-1 img:active,
+    .jason-2 img:active, .lucia-3 img:active,
+    .lucia-2 img:active, .lucia-1 img:active {
+        transform: scale(0.95);
+        transition: transform 0.1s ease;
+    }
+
+    .jason-3 img:active {
+        transform: scale(0.94);
+        transition: transform 0.1s ease;
+    }
+
+    
 }
 
-@media (min-width: 1600px) {
-    .secao4,
-    .secao6 {
-        padding-inline: 12rem;
+/* =========================================================================
+   ACESSIBILIDADE CASO O CELULAR SEJA FRACO DEMIAS
+========================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
     }
 
-    .card-texto {
-        max-width: 46rem;
-    }
-
-    .card-texto h1 {
-        font-size: 7rem;
-    }
-
-    .card-texto h2 {
-        font-size: 3.3rem;
-    }
-
-    .card-texto p {
-        font-size: 1.7rem;
-    }
-
-    .gradient-title {
-        font-size: 6.5rem;
-        line-height: 5.5rem;
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }
